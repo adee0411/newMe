@@ -1,17 +1,26 @@
+import { Provider } from "react-redux";
+import store from "./store/store";
+import { Sheet } from "@mui/joy";
 import "./App.css";
 
-import { ButtonGroup, NextUIProvider } from "@nextui-org/react";
-
-import { Button } from "@nextui-org/react";
+import ParameterForm from "./components/CalorieCalculator/Parameters/ParameterForm";
 
 function App() {
   return (
-    <NextUIProvider>
-      <Button isDisabled color="primary">
-        Test button
-      </Button>
-      <ButtonGroup></ButtonGroup>
-    </NextUIProvider>
+    //App container
+    <Provider store={store}>
+      <Sheet
+        color="neutral"
+        variant="plain"
+        sx={{
+          p: 4,
+          height: "100vh",
+          boxSizing: "border-box",
+        }}
+      >
+        <ParameterForm />
+      </Sheet>
+    </Provider>
   );
 }
 
