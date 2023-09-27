@@ -41,7 +41,7 @@ const CalculatedValues = () => {
       bulk: { name: "bulk", value: bulk },
     };
     dispatch(setCalculatedCalories(updatedCalculatedValues));
-  }, [dispatch, palValue, parameters]);
+  });
 
   return (
     <Stack direction="row" justifyContent="space-between" flexWrap="wrap">

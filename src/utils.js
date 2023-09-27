@@ -30,24 +30,35 @@ export const calculateDefaultDailyCalorie = (tdee, dietType) => {
 
 /**************************************** */
 
-// Returns the macroRatios-like object with the actual calories based on dailyCalories
-export const calculateMacroValues = (dailyCalories, macroRatios) => {
-  const calculatedMacros = { ...macroRatios };
-  for (let carbQuantity in calculatedMacros) {
-    for (let macro in calculatedMacros[carbQuantity]) {
+export const calculateMacroValues = (dailyCalories) => {
+  const macroRatios = {
+    moderateCarb: {
+      protein: 0.3,
+      fats: 0.35,
+      carbs: 0.35,
+    },
+    lowCarb: {
+      protein: 0.4,
+      fats: 0.4,
+      carbs: 0.2,
+    },
+    highCarb: { protein: 0.3, fats: 0.2, carbs: 0.5 },
+  };
+  for (let carbQuantity in macroRatios) {
+    for (let macro in macroRatios[carbQuantity]) {
       if (macro === "carbs" || macro === "protein") {
-        calculatedMacros[carbQuantity][macro] = (
-          (calculatedMacros[carbQuantity][macro] * dailyCalories) /
+        macroRatios[carbQuantity][macro] = (
+          (macroRatios[carbQuantity][macro] * dailyCalories) /
           4
         ).toFixed(0);
       }
       if (macro === "fats") {
-        calculatedMacros[carbQuantity][macro] = (
-          (calculatedMacros[carbQuantity][macro] * dailyCalories) /
+        macroRatios[carbQuantity][macro] = (
+          (macroRatios[carbQuantity][macro] * dailyCalories) /
           9
         ).toFixed(0);
       }
     }
   }
-  return calculatedMacros;
+  return macroRatios;
 };

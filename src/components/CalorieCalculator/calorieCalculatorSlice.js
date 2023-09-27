@@ -34,7 +34,7 @@ const initialDefaultDailyBulkCalorie = calculateDefaultDailyCalorie(
   "bulk"
 );
 
-/****************************************************** */
+/*******************************************************/
 
 const initialState = {
   parameters: initialParameters,
