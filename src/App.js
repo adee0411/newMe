@@ -4,6 +4,7 @@ import { Sheet } from "@mui/joy";
 import "./App.css";
 
 import CalorieCalculatorPage from "./pages/calorieCalculator/CalorieCalkulatorPage";
+import CalorieCustomizer from "./pages/calorieCalculator/CalorieCustomizer";
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
           boxSizing: "border-box",
         }}
       >
-        <CalorieCalculatorPage />
+        {/*<CalorieCalculatorPage />*/}
+        <CalorieCustomizer />
       </Sheet>
     </Provider>
   );

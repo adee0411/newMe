@@ -1,18 +1,4 @@
-import {
-  Sheet,
-  Tab,
-  TabList,
-  TabPanel,
-  Tabs,
-  Card,
-  List,
-  ListItem,
-  ListDivider,
-  Stack,
-  Typography,
-} from "@mui/joy";
-
-import { useMemo } from "react";
+import { Sheet, Tab, TabList, Tabs } from "@mui/joy";
 
 import { calculateMacroValues } from "../../../utils";
 
@@ -38,9 +24,9 @@ const DefaultCaloriePlan = () => {
     <Sheet>
       <Tabs>
         <TabList tabFlex={1}>
-          <Tab value={0}>Cut</Tab>
+          <Tab value={0}>Cutting</Tab>
           <Tab value={1}>Maintenance</Tab>
-          <Tab value={2}>Bulk</Tab>
+          <Tab value={2}>Bulking</Tab>
         </TabList>
         {/* Loop through 'calculatedMacros' and render <TabPanel> components */}
         {Object.values(calculatedMacros).map((macroGoals, index) => {

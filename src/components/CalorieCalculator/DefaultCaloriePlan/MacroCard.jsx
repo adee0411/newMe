@@ -1,11 +1,20 @@
-import { Card, ListItem, List, Typography, ListDivider } from "@mui/joy";
+import { Card, List, Typography } from "@mui/joy";
 
 import MacroItem from "./MacroItem";
 
-const MacroCard = ({ macroDatas }) => {
+const MacroCard = ({ macroDatas, carbQuantity }) => {
   return (
     <Card>
-      <List>
+      <Typography textAlign="center" level="title-md">
+        {carbQuantity} carb
+      </Typography>
+      <List
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
         {/* Loop through 'macroData' and return <MacroItem> components for each macro value*/}
         {Object.entries(macroDatas).map((el) => {
           return <MacroItem macroData={el} key={el[0]} />;
