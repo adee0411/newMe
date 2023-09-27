@@ -6,7 +6,7 @@ import CalculatorInputGroup from "../../UI/CalculatorInputGroup";
 
 import WcIcon from "@mui/icons-material/Wc";
 
-import { setGender } from "../calorieCalculatorSlice";
+import { setParameters } from "../calorieCalculatorSlice";
 
 const GenderRadio = () => {
   const gender = useSelector(
@@ -15,7 +15,7 @@ const GenderRadio = () => {
   const dispatch = useDispatch();
 
   const handleGenderChange = (event) => {
-    dispatch(setGender({ name: "gender", value: event.target.value }));
+    dispatch(setParameters({ name: "gender", value: event.target.value }));
   };
   return (
     <CalculatorInputGroup labelName="Gender" icon={<WcIcon />}>

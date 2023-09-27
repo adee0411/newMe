@@ -9,7 +9,6 @@ const CalculatorInputGroup = ({ children, labelName, icon }) => {
           level="title-lg"
           component="h2"
           color="primary"
-          mb={2}
           startDecorator={icon}
         >
           {labelName}

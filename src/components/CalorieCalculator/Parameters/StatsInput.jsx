@@ -4,9 +4,10 @@ import EqualizerIcon from "@mui/icons-material/Equalizer";
 import MonitorWeightOutlinedIcon from "@mui/icons-material/MonitorWeightOutlined";
 import HeightOutlinedIcon from "@mui/icons-material/HeightOutlined";
 import CakeOutlinedIcon from "@mui/icons-material/CakeOutlined";
+
 import CalculatorInputGroup from "../../UI/CalculatorInputGroup";
 
-import { setStats } from "../calorieCalculatorSlice";
+import { setParameters } from "../calorieCalculatorSlice";
 
 const StatsInput = () => {
   // Be careful with the property names and input names - MUST be the same!
@@ -20,7 +21,7 @@ const StatsInput = () => {
     const inputName = event.target.name; // Must be the same as state property names!
     const inputValue = +event.target.value; // converted to Number!
 
-    dispatch(setStats({ name: inputName, value: inputValue }));
+    dispatch(setParameters({ name: inputName, value: inputValue }));
   };
   return (
     <CalculatorInputGroup labelName="Stats" icon={<EqualizerIcon />}>

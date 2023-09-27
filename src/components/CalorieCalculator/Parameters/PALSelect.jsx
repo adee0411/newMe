@@ -1,20 +1,27 @@
 import { Select, Option } from "@mui/joy";
 import { useSelector, useDispatch } from "react-redux";
-import { setPal } from "../calorieCalculatorSlice";
+import { setParameters } from "../calorieCalculatorSlice";
 
 import CalculatorInputGroup from "../../UI/CalculatorInputGroup";
 
 import DirectionsRunOutlinedIcon from "@mui/icons-material/DirectionsRunOutlined";
 import MonitorHeartOutlinedIcon from "@mui/icons-material/MonitorHeartOutlined";
 
-import { PAL } from "../../../utils";
+import { PAL } from "../calorieCalculatorSlice";
 
 const PalSelect = () => {
-  const pal = useSelector((state) => state.calorieCalculator.pal.value);
+  const palValue = useSelector(
+    (state) => state.calorieCalculator.parameters.pal.value
+  );
   const dispatch = useDispatch();
 
   const handlePalChange = (_, newValue) => {
-    dispatch(setPal({ name: "pal", value: newValue }));
+    dispatch(
+      setParameters({
+        name: "pal",
+        value: newValue,
+      })
+    );
   };
   return (
     <CalculatorInputGroup
@@ -22,7 +29,7 @@ const PalSelect = () => {
       icon={<MonitorHeartOutlinedIcon />}
     >
       <Select
-        value={pal}
+        value={palValue}
         placeholder="Select activity level"
         onChange={handlePalChange}
         startDecorator={<DirectionsRunOutlinedIcon />}

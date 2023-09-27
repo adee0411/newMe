@@ -3,7 +3,7 @@ import store from "./store/store";
 import { Sheet } from "@mui/joy";
 import "./App.css";
 
-import ParameterForm from "./components/CalorieCalculator/Parameters/ParameterForm";
+import CalorieCalculatorPage from "./pages/calorieCalculator/CalorieCalkulatorPage";
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
           boxSizing: "border-box",
         }}
       >
-        <ParameterForm />
+        <CalorieCalculatorPage />
       </Sheet>
     </Provider>
   );
