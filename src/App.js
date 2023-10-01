@@ -3,8 +3,8 @@ import store from "./store/store";
 import { Sheet } from "@mui/joy";
 import "./App.css";
 
-import CalorieCalculatorPage from "./pages/calorieCalculator/CalorieCalkulatorPage";
-import CalorieCustomizer from "./pages/calorieCalculator/CalorieCustomizer";
+//import CalorieCalculatorPage from "./pages/calorieCalculator/CalorieCalkulatorPage";
+import CalorieCustomizer from "./components/CalorieCustomizer/CalorieCustomizer";
 
 function App() {
   return (
