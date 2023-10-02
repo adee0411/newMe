@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 import {
   Sheet,
   Typography,
@@ -12,7 +10,12 @@ import {
   Table,
 } from "@mui/joy";
 
+import { useSelector, useDispatch } from "react-redux";
+
+import { setDeficit, showDeficitWarning } from "./calorieCustomizerSlice";
+
 import CalculatorInputGroup from "../UI/CalculatorInputGroup";
+import InputGroup from "./InputGroup";
 
 import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
 
@@ -92,73 +95,28 @@ function calculatePaceByGoal(currentWeight, goalWeight) {
 
 /* COMPONENT */
 const CalorieCustomizer = () => {
-  const [deficitValue, setDeficitValue] = useState(500);
-  const [warning, setWarning] = useState(false);
-
-  const [dietLength, setDietLength] = useState(4);
-  const [weightGoal, setWeightGoal] = useState(80);
-
-  const [labelChecked, setLabelChecked] = useState({
-    deficit: true,
-    length: false,
-    goal: false,
-  });
-
-  const [disabledCheckboxName, setDisabledCheckboxName] = useState("");
-
-  const [checkboxWarning, setCheckboxWarning] = useState(false);
+  const dispatch = useDispatch();
+  const { deficit, dietLength, weightGoal } = useSelector(
+    (state) => state.calorieCustomizer.customInputs
+  );
+  const { labelChecked } = useSelector(
+    (state) => state.calorieCustomizer.checkboxState
+  );
+  const { deficitWarning } = useSelector((state) => state.calorieCustomizer.UI);
 
   /** Handle Value Changes */
-  const handleDietPaceChange = (e) => {
-    setDeficitValue(+e.target.value);
+  const handleDeficitChange = (e) => {
+    dispatch(setDeficit(+e.target.value));
     if (e.target.value > 1000) {
-      setWarning(true);
+      dispatch(showDeficitWarning(true));
     } else {
-      setWarning(false);
+      dispatch(showDeficitWarning(false));
     }
-  };
-
-  const handleDietLengthChange = (e) => {
-    setDietLength(+e.target.value);
-  };
-
-  const handleWeightGoalChange = (e) => {
-    setWeightGoal(+e.target.value);
   };
 
   /** Handle Checkbox Changes */
-  const handleInputVisibilityCheckboxChange = (e) => {
-    const checkboxName = e.target.name;
-    if (
-      e.target.checked &&
-      Object.values(labelChecked).find((el) => el === true)
-    ) {
-      const checkToDisable = Object.entries(labelChecked).find(
-        (el) => el[1] === false && el[0] !== e.target.name
-      );
-      setDisabledCheckboxName(checkToDisable[0]);
-    }
-    if (!e.target.checked) {
-      if (
-        Object.values(labelChecked).filter((el) => el === false).length === 2
-      ) {
-        setCheckboxWarning(true);
-        setTimeout(() => {
-          setCheckboxWarning(false);
-        }, 4000);
-        return;
-      }
-      setDisabledCheckboxName("");
-    }
-    setLabelChecked((prevState) => {
-      return { ...prevState, [checkboxName]: !prevState[checkboxName] };
-    });
-    setCheckboxWarning(false);
-  };
 
-  const renderDietPlan = (checkedLabels) => {};
-
-  const weeklyWeightLoss = calculateWeightLossByWeeks(deficitValue);
+  const weeklyWeightLoss = calculateWeightLossByWeeks(deficit);
   const weightLossByPace = calculateWeightLossByPace(dietLength);
   const lengthByGoalWeight = calculateLengthByGoal(100, weightGoal);
   const paceByGoal = calculatePaceByGoal(100, weightGoal);
@@ -170,6 +128,37 @@ const CalorieCustomizer = () => {
         labelName="Diet Customizer"
         icon={<TuneOutlinedIcon />}
       >
+        <InputGroup>
+          <FormControl>
+            <Slider
+              type="range"
+              size="sm"
+              valueLabelDisplay="auto"
+              value={deficit}
+              min={100}
+              max={1500}
+              step={100}
+              onChange={handleDeficitChange}
+              getAriaValueText={valueText}
+              marks={marks}
+              disabled={!labelChecked.deficit}
+              name="deficit"
+            />
+            {deficitWarning ? (
+              <Alert color="warning" sx={{ marginTop: 3 }} size="sm">
+                Deficit is getting too high!
+              </Alert>
+            ) : (
+              ""
+            )}
+          </FormControl>
+        </InputGroup>
+      </CalculatorInputGroup>
+    </Sheet>
+  );
+};
+{
+  /*
         <Sheet sx={{ my: 3 }}>
           <FormControl orientation="horizontal" sx={{ gap: 1, my: 1 }}>
             <Checkbox
@@ -191,7 +180,7 @@ const CalorieCustomizer = () => {
               min={100}
               max={1500}
               step={100}
-              onChange={handleDietPaceChange}
+              onChange={handleDeficitChange}
               getAriaValueText={valueText}
               marks={marks}
               disabled={!labelChecked.deficit}
@@ -257,7 +246,8 @@ const CalorieCustomizer = () => {
               name="goal"
             />
           </FormControl>
-        </Sheet>
+            </Sheet>
+            
         {checkboxWarning ? (
           <Alert color="danger">
             You're not allowed to uncheck all options!
@@ -311,11 +301,10 @@ const CalorieCustomizer = () => {
                 );
               })}
             </tbody>
-          </Table>
+            </Table>
         </Sheet>
-      )}
-    </Sheet>
-  );
-};
+            )}
+            </Sheet>*/
+}
 
 export default CalorieCustomizer;
