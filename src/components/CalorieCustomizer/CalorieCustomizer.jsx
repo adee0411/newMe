@@ -12,7 +12,15 @@ import {
 
 import { useSelector, useDispatch } from "react-redux";
 
-import { setDeficit, showDeficitWarning } from "./calorieCustomizerSlice";
+import {
+  setDeficit,
+  setLabelChecked,
+  showDeficitWarning,
+  setDisabledCheckboxName,
+  showCheckboxWarning,
+  setDietLength,
+  setWeightGoal,
+} from "./calorieCustomizerSlice";
 
 import CalculatorInputGroup from "../UI/CalculatorInputGroup";
 import InputGroup from "./InputGroup";
@@ -104,6 +112,10 @@ const CalorieCustomizer = () => {
   );
   const { deficitWarning } = useSelector((state) => state.calorieCustomizer.UI);
 
+  const { disabledCheckboxName } = useSelector(
+    (state) => state.calorieCustomizer.checkboxState
+  );
+
   /** Handle Value Changes */
   const handleDeficitChange = (e) => {
     dispatch(setDeficit(+e.target.value));
@@ -112,6 +124,41 @@ const CalorieCustomizer = () => {
     } else {
       dispatch(showDeficitWarning(false));
     }
+  };
+
+  const handleInputVisibilityCheckboxChange = (e) => {
+    const checkboxName = e.target.name;
+    if (
+      e.target.checked &&
+      Object.values(labelChecked).find((el) => el === true)
+    ) {
+      const checkboxToDisable = Object.entries(labelChecked).find(
+        (el) => el[1] === false && el[0] !== e.target.name
+      );
+      dispatch(setDisabledCheckboxName(checkboxToDisable[0]));
+    }
+    if (!e.target.checked) {
+      if (
+        Object.values(labelChecked).filter((el) => el === false).length === 2
+      ) {
+        dispatch(showCheckboxWarning(true));
+        setTimeout(() => {
+          dispatch(showCheckboxWarning(false));
+        }, 4000);
+        return;
+      }
+      dispatch(setDisabledCheckboxName(""));
+    }
+    dispatch(setLabelChecked(checkboxName));
+    dispatch(showCheckboxWarning(false));
+  };
+
+  const handleDietLengthChange = (e) => {
+    dispatch(setDietLength(e.target.value));
+  };
+
+  const handleWeightGoalChange = (e) => {
+    dispatch(setWeightGoal(e.target.value));
   };
 
   /** Handle Checkbox Changes */
@@ -128,7 +175,13 @@ const CalorieCustomizer = () => {
         labelName="Diet Customizer"
         icon={<TuneOutlinedIcon />}
       >
-        <InputGroup>
+        <InputGroup
+          onChange={handleInputVisibilityCheckboxChange}
+          checked={labelChecked.deficit}
+          name="deficit"
+          disabled={disabledCheckboxName === "deficit"}
+          label="Calorie deficit pace (daily)"
+        >
           <FormControl>
             <Slider
               type="range"
@@ -153,74 +206,49 @@ const CalorieCustomizer = () => {
             )}
           </FormControl>
         </InputGroup>
+        <InputGroup
+          onChange={handleInputVisibilityCheckboxChange}
+          checked={labelChecked.dietLength}
+          name="dietLength"
+          disabled={disabledCheckboxName === "dietLength"}
+          label="Diet length"
+        >
+          {" "}
+          <Input
+            type="number"
+            endDecorator="weeks"
+            value={dietLength}
+            onChange={handleDietLengthChange}
+            slotProps={{ input: { min: 4 } }}
+            disabled={!labelChecked.length}
+            name="dietLength"
+          />
+        </InputGroup>
+        <InputGroup
+          onChange={handleInputVisibilityCheckboxChange}
+          checked={labelChecked.weightGoal}
+          name="weightGoal"
+          disabled={disabledCheckboxName === "weightGoal"}
+          label="Weight goal"
+        >
+          <Input
+            type="number"
+            endDecorator="kg"
+            value={weightGoal}
+            onChange={handleWeightGoalChange}
+            slotProps={{ input: { min: 60 } }}
+            disabled={!labelChecked.goal}
+            name="weightGoal"
+          />
+        </InputGroup>
       </CalculatorInputGroup>
     </Sheet>
   );
 };
+
+/** IMPORTANT!!! If there are only 2 InputGroups, the checkbox validity doesn't work! Need to be more reusable for any number of InputGroups! */
 {
   /*
-        <Sheet sx={{ my: 3 }}>
-          <FormControl orientation="horizontal" sx={{ gap: 1, my: 1 }}>
-            <Checkbox
-              onChange={handleInputVisibilityCheckboxChange}
-              checked={labelChecked.deficit}
-              name="deficit"
-              disabled={disabledCheckboxName === "deficit"}
-            />
-            <FormLabel sx={{ opacity: `${!labelChecked.deficit ? 0.5 : 1}` }}>
-              Calorie deficit pace (daily)
-            </FormLabel>
-          </FormControl>
-          <FormControl>
-            <Slider
-              type="range"
-              size="sm"
-              valueLabelDisplay="auto"
-              value={deficitValue}
-              min={100}
-              max={1500}
-              step={100}
-              onChange={handleDeficitChange}
-              getAriaValueText={valueText}
-              marks={marks}
-              disabled={!labelChecked.deficit}
-              name="deficit"
-            />
-            {warning ? (
-              <Alert color="warning" sx={{ marginTop: 3 }} size="sm">
-                Deficit is getting too high!
-              </Alert>
-            ) : (
-              ""
-            )}
-          </FormControl>
-        </Sheet>
-
-        <Sheet sx={{ my: 3 }}>
-          <FormControl orientation="horizontal" sx={{ gap: 1, my: 1 }}>
-            <Checkbox
-              onChange={handleInputVisibilityCheckboxChange}
-              checked={labelChecked.length}
-              name="length"
-              disabled={disabledCheckboxName === "length"}
-            />
-            <FormLabel sx={{ opacity: `${!labelChecked.length ? 0.5 : 1}` }}>
-              Diet length
-            </FormLabel>
-          </FormControl>
-          <FormControl>
-            {" "}
-            <Input
-              type="number"
-              endDecorator="weeks"
-              value={dietLength}
-              onChange={handleDietLengthChange}
-              slotProps={{ input: { min: 4 } }}
-              disabled={!labelChecked.length}
-              name="length"
-            />
-          </FormControl>
-        </Sheet>
 
         <Sheet sx={{ my: 3 }}>
           <FormControl orientation="horizontal" sx={{ gap: 1, my: 1 }}>
