@@ -1,14 +1,4 @@
-import {
-  Sheet,
-  Typography,
-  FormControl,
-  FormLabel,
-  Slider,
-  Alert,
-  Input,
-  Checkbox,
-  Table,
-} from "@mui/joy";
+import { Sheet, Typography, FormControl, Slider, Alert, Input } from "@mui/joy";
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -111,6 +101,9 @@ const CalorieCustomizer = () => {
     (state) => state.calorieCustomizer.checkboxState
   );
   const { deficitWarning } = useSelector((state) => state.calorieCustomizer.UI);
+  const { checkBoxWarning } = useSelector(
+    (state) => state.calorieCustomizer.UI
+  );
 
   const { disabledCheckboxName } = useSelector(
     (state) => state.calorieCustomizer.checkboxState
@@ -242,97 +235,13 @@ const CalorieCustomizer = () => {
           />
         </InputGroup>
       </CalculatorInputGroup>
+      {checkBoxWarning ? (
+        <Alert color="danger">You're not allowed to uncheck all options!</Alert>
+      ) : (
+        ""
+      )}
     </Sheet>
   );
 };
-
-/** IMPORTANT!!! If there are only 2 InputGroups, the checkbox validity doesn't work! Need to be more reusable for any number of InputGroups! */
-{
-  /*
-
-        <Sheet sx={{ my: 3 }}>
-          <FormControl orientation="horizontal" sx={{ gap: 1, my: 1 }}>
-            <Checkbox
-              onChange={handleInputVisibilityCheckboxChange}
-              checked={labelChecked.goal}
-              name="goal"
-              disabled={disabledCheckboxName === "goal"}
-            />
-            <FormLabel sx={{ opacity: `${!labelChecked.goal ? 0.5 : 1}` }}>
-              Weight goal
-            </FormLabel>
-          </FormControl>
-          <FormControl>
-            {" "}
-            <Input
-              type="number"
-              endDecorator="kg"
-              value={weightGoal}
-              onChange={handleWeightGoalChange}
-              slotProps={{ input: { min: 60 } }}
-              disabled={!labelChecked.goal}
-              name="goal"
-            />
-          </FormControl>
-            </Sheet>
-            
-        {checkboxWarning ? (
-          <Alert color="danger">
-            You're not allowed to uncheck all options!
-          </Alert>
-        ) : (
-          ""
-        )}
-      </CalculatorInputGroup>
-      <Sheet color="neutral" variant="soft" sx={{ p: 2, borderRadius: 5 }}>
-        Based on your settings,your diet plan will look like the following:
-      </Sheet>
-      {labelChecked.deficit && (
-        <Sheet>
-          <Table size="sm">
-            <thead>
-              <tr>
-                <th>Week</th>
-                <th>Weight loss</th>
-              </tr>
-            </thead>
-            <tbody>
-              {weeklyWeightLoss.map((el) => {
-                return (
-                  <tr key={el[0]}>
-                    <td>{el[0]}</td>
-                    <td>{el[1]} kg</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </Table>
-        </Sheet>
-      )}
-
-      {labelChecked.length && (
-        <Sheet>
-          <Table size="sm">
-            <thead>
-              <tr>
-                <th>Average deficit/day</th>
-                <th>Total weight loss</th>
-              </tr>
-            </thead>
-            <tbody>
-              {weightLossByPace.map((el) => {
-                return (
-                  <tr key={el[0]}>
-                    <td>{el[0]} kcal/day</td>
-                    <td>{el[1]} kg</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-            </Table>
-        </Sheet>
-            )}
-            </Sheet>*/
-}
 
 export default CalorieCustomizer;
