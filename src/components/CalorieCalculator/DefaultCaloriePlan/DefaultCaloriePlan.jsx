@@ -12,11 +12,9 @@ const DefaultCaloriePlan = () => {
   );
 
   const cutMacros = calculateMacroValues(calculatedCalories.cut.value);
-  const bulkMacros = calculateMacroValues(calculatedCalories.bulk.value);
   const maintenanceMacros = calculateMacroValues(calculatedCalories.tdee.value);
   const calculatedMacros = {
     cutMacros,
-    bulkMacros,
     maintenanceMacros,
   };
 
@@ -26,7 +24,6 @@ const DefaultCaloriePlan = () => {
         <TabList tabFlex={1}>
           <Tab value={0}>Cutting</Tab>
           <Tab value={1}>Maintenance</Tab>
-          <Tab value={2}>Bulking</Tab>
         </TabList>
         {/* Loop through 'calculatedMacros' and render <TabPanel> components */}
         {Object.values(calculatedMacros).map((macroGoals, index) => {

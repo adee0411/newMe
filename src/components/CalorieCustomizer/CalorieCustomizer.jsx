@@ -1,6 +1,9 @@
 import { Sheet, Typography, FormControl, Slider, Alert, Input } from "@mui/joy";
+import { LineChart } from "@mui/x-charts";
 
 import { useSelector, useDispatch } from "react-redux";
+
+import { useState } from "react";
 
 import {
   setDeficit,
@@ -12,11 +15,14 @@ import {
   setWeightGoal,
 } from "./calorieCustomizerSlice";
 
+import * as utils from "../../utils";
+
 import CalculatorInputGroup from "../UI/CalculatorInputGroup";
 import InputGroup from "./InputGroup";
 
 import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
 
+/** Property settings for <Slider /> Component */
 const marks = [
   { value: 100, label: "100 kcal" },
   { value: 500, label: "500 kcal" },
@@ -28,72 +34,13 @@ function valueText(value) {
   return `${value} kcal`;
 }
 
-function calculateWeightLossByWeeks(pace) {
-  const weeklyCalorieDeficit = pace * 7;
-  const weeklyWeightLoss = (weeklyCalorieDeficit / 7000).toFixed(2);
-
-  let weeklyWeights = [];
-
-  for (let i = 2; i <= 20; i += 2) {
-    weeklyWeights.push([i, i * weeklyWeightLoss]);
-  }
-
-  return weeklyWeights;
-}
-
-function calculateWeightLossByPace(length) {
-  const paceIndexes = [200, 400, 600, 800, 1000];
-
-  function calculateWeightLossPerWeek(pace) {
-    return (7 * pace) / 7000;
-  }
-
-  const totalWeightLossForLength = paceIndexes.map((deficit) => {
-    return [deficit, calculateWeightLossPerWeek(deficit) * length];
-  });
-
-  return totalWeightLossForLength;
-}
-
-function calculateLengthByGoal(currentWeight, goalWeight) {
-  function calculateWeightLossPerWeek(pace) {
-    return (7 * pace) / 7000;
-  }
-  const paceIndexes = [200, 400, 600, 800, 1000];
-
-  const weightToLose = currentWeight - goalWeight;
-
-  const lengthByPace = paceIndexes
-    .map((deficit) => {
-      return calculateWeightLossPerWeek(deficit);
-    })
-    .map((weightLoss) => {
-      return weightToLose / weightLoss;
-    });
-
-  return lengthByPace;
-}
-
-function calculatePaceByGoal(currentWeight, goalWeight) {
-  const weightToLose = currentWeight - goalWeight;
-
-  let paceArray = [];
-
-  for (let i = 8; i <= 30; i += 2) {
-    const weightToLosePerWeek = weightToLose / i;
-    const dailyDeficit = (7000 * weightToLosePerWeek) / 7;
-
-    /**** If goal weight to lose is too high, the minimum diet length (in weeks) must be the number that allows 1000 or less daily deficit!!!!  */
-    if (dailyDeficit >= 1000) continue;
-    paceArray.push([dailyDeficit, i]);
-  }
-
-  return paceArray;
-}
-
 /* COMPONENT */
 const CalorieCustomizer = () => {
   const dispatch = useDispatch();
+
+  const personalData = useSelector(
+    (state) => state.calorieCalculator.parameters
+  );
   const { deficit, dietLength, weightGoal } = useSelector(
     (state) => state.calorieCustomizer.customInputs
   );
@@ -109,7 +56,7 @@ const CalorieCustomizer = () => {
     (state) => state.calorieCustomizer.checkboxState
   );
 
-  /** Handle Value Changes */
+  /** Handle State Value Changes */
   const handleDeficitChange = (e) => {
     dispatch(setDeficit(+e.target.value));
     if (e.target.value > 1000) {
@@ -117,6 +64,14 @@ const CalorieCustomizer = () => {
     } else {
       dispatch(showDeficitWarning(false));
     }
+  };
+
+  const handleDietLengthChange = (e) => {
+    dispatch(setDietLength(e.target.value));
+  };
+
+  const handleWeightGoalChange = (e) => {
+    dispatch(setWeightGoal(e.target.value));
   };
 
   const handleInputVisibilityCheckboxChange = (e) => {
@@ -146,20 +101,73 @@ const CalorieCustomizer = () => {
     dispatch(showCheckboxWarning(false));
   };
 
-  const handleDietLengthChange = (e) => {
-    dispatch(setDietLength(e.target.value));
+  /* Calculator functions */
+
+  const initialDietParameters = {
+    startWeight: personalData.weight.value,
+    deficit,
+    dietLength: 12,
+    weightGoal: null,
   };
 
-  const handleWeightGoalChange = (e) => {
-    dispatch(setWeightGoal(e.target.value));
+  const defineTableToRender = (checkedLabelsStatus) => {
+    // Filter the label's name to be rendered
+    const tableToRender = Object.entries(checkedLabelsStatus)
+      .filter((labelEntry) => labelEntry[1] === true)
+      .map((label) => label[0]);
+
+    if (tableToRender.length === 1) {
+      if (tableToRender.includes("deficit")) {
+        console.log(
+          utils.calculateWeightLossWeekByWeek(
+            personalData.weight.value,
+            12,
+            deficit
+          )
+        );
+      }
+      if (tableToRender.includes("dietLength")) {
+        console.log(
+          utils.calculateWeightLossWeekByWeek(
+            personalData.weight.value,
+            dietLength
+          )
+        );
+      }
+      if (tableToRender.includes("weightGoal")) {
+        console.log(
+          utils.calculateWeightLossWeekByWeek(
+            personalData.weight.value,
+            12,
+            500,
+            weightGoal
+          )
+        );
+      }
+    } else {
+      if (
+        tableToRender.includes("deficit") &&
+        tableToRender.includes("dietLength")
+      ) {
+        console.log(
+          utils.calculateWeightLossWeekByWeek(
+            personalData.weight.value,
+            dietLength,
+            deficit
+          )
+        );
+      } else if (
+        tableToRender.includes("deficit") &&
+        tableToRender.includes("weightGoal")
+      ) {
+        // different function
+      } else {
+        // different function
+      }
+    }
   };
 
-  /** Handle Checkbox Changes */
-
-  const weeklyWeightLoss = calculateWeightLossByWeeks(deficit);
-  const weightLossByPace = calculateWeightLossByPace(dietLength);
-  const lengthByGoalWeight = calculateLengthByGoal(100, weightGoal);
-  const paceByGoal = calculatePaceByGoal(100, weightGoal);
+  // defineTableToRender(labelChecked);
 
   return (
     <Sheet>
@@ -173,7 +181,7 @@ const CalorieCustomizer = () => {
           checked={labelChecked.deficit}
           name="deficit"
           disabled={disabledCheckboxName === "deficit"}
-          label="Calorie deficit pace (daily)"
+          label="Calorie deficit (daily)"
         >
           <FormControl>
             <Slider
@@ -213,7 +221,7 @@ const CalorieCustomizer = () => {
             value={dietLength}
             onChange={handleDietLengthChange}
             slotProps={{ input: { min: 4 } }}
-            disabled={!labelChecked.length}
+            disabled={!labelChecked.dietLength}
             name="dietLength"
           />
         </InputGroup>
@@ -230,7 +238,7 @@ const CalorieCustomizer = () => {
             value={weightGoal}
             onChange={handleWeightGoalChange}
             slotProps={{ input: { min: 60 } }}
-            disabled={!labelChecked.goal}
+            disabled={!labelChecked.weightGoal}
             name="weightGoal"
           />
         </InputGroup>

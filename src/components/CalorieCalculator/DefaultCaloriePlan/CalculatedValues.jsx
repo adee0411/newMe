@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   calculateBMR,
   calculateTDEE,
-  calculateDefaultDailyCalorie,
+  calculateDailyCalorie,
 } from "../../../utils";
 
 import { PAL } from "../calorieCalculatorSlice";
@@ -20,9 +20,7 @@ const CalculatedValues = () => {
   );
   const parameters = useSelector((state) => state.calorieCalculator.parameters);
 
-  const palValue = useSelector(
-    (state) => state.calorieCalculator.parameters.pal.value
-  );
+  const palValue = parameters.pal.value;
   const palMultiplier = PAL[palValue];
 
   const dispatch = useDispatch();
@@ -31,14 +29,12 @@ const CalculatedValues = () => {
   useEffect(() => {
     const bmr = calculateBMR(parameters);
     const tdee = calculateTDEE(bmr, palMultiplier);
-    const cut = calculateDefaultDailyCalorie(tdee, "cut");
-    const bulk = calculateDefaultDailyCalorie(tdee, "bulk");
+    const cut = calculateDailyCalorie(tdee);
 
     const updatedCalculatedValues = {
       bmr: { name: "bmr", value: bmr },
       tdee: { name: "tdee", value: tdee },
       cut: { name: "cut", value: cut },
-      bulk: { name: "bulk", value: bulk },
     };
     dispatch(setCalculatedCalories(updatedCalculatedValues));
   });

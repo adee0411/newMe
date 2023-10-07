@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   calculateBMR,
   calculateTDEE,
-  calculateDefaultDailyCalorie,
+  calculateDailyCalorie,
 } from "../../utils";
 
 export const PAL = {
@@ -25,15 +25,7 @@ const initialParameters = {
 
 const initialBMR = calculateBMR(initialParameters);
 const initialTDEE = calculateTDEE(initialBMR, PAL[initialParameters.pal.value]);
-const initialDefaultDailyCutCalorie = calculateDefaultDailyCalorie(
-  initialTDEE,
-  "cut"
-);
-const initialDefaultDailyBulkCalorie = calculateDefaultDailyCalorie(
-  initialTDEE,
-  "bulk"
-);
-
+const initialCutCalorie = calculateDailyCalorie(initialTDEE);
 /*******************************************************/
 
 const initialState = {
@@ -53,14 +45,8 @@ const initialState = {
     },
     cut: {
       title: "Weight loss energy intake",
-      abbr: "Cut",
-      value: initialDefaultDailyCutCalorie,
-      unit: "kcal",
-    },
-    bulk: {
-      title: "Weight gain energy intake",
-      abbr: "Bulk",
-      value: initialDefaultDailyBulkCalorie,
+      abbr: "cut",
+      value: initialCutCalorie,
       unit: "kcal",
     },
   },

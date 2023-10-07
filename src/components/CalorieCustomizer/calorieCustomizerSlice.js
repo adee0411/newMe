@@ -3,8 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialCalorieCustomizerState = {
   customInputs: {
     deficit: 500,
-    dietLength: 4,
-    weightGoal: 70,
+    dietLength: 12,
+    weightGoal: 60,
   },
   UI: {
     deficitWarning: false,
