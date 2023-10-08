@@ -3,7 +3,7 @@ import { LineChart } from "@mui/x-charts";
 
 import { useSelector, useDispatch } from "react-redux";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   setDeficit,
@@ -56,6 +56,14 @@ const CalorieCustomizer = () => {
     (state) => state.calorieCustomizer.checkboxState
   );
 
+  const initialDietParameters = {
+    deficit,
+    dietLength: 12,
+    weightGoal: null,
+  };
+
+  const [dietParams, setDietParams] = useState(initialDietParameters);
+
   /** Handle State Value Changes */
   const handleDeficitChange = (e) => {
     dispatch(setDeficit(+e.target.value));
@@ -103,71 +111,51 @@ const CalorieCustomizer = () => {
 
   /* Calculator functions */
 
-  const initialDietParameters = {
-    startWeight: personalData.weight.value,
-    deficit,
-    dietLength: 12,
-    weightGoal: null,
-  };
-
   const defineTableToRender = (checkedLabelsStatus) => {
     // Filter the label's name to be rendered
-    const tableToRender = Object.entries(checkedLabelsStatus)
+    /*const tableToRender = Object.entries(checkedLabelsStatus)
       .filter((labelEntry) => labelEntry[1] === true)
       .map((label) => label[0]);
 
     if (tableToRender.length === 1) {
       if (tableToRender.includes("deficit")) {
-        console.log(
-          utils.calculateWeightLossWeekByWeek(
-            personalData.weight.value,
-            12,
-            deficit
-          )
-        );
+        setDietParams({ ...initialDietParameters, deficit });
       }
       if (tableToRender.includes("dietLength")) {
-        console.log(
-          utils.calculateWeightLossWeekByWeek(
-            personalData.weight.value,
-            dietLength
-          )
-        );
+        setDietParams({ ...initialDietParameters, dietLength });
       }
       if (tableToRender.includes("weightGoal")) {
-        console.log(
-          utils.calculateWeightLossWeekByWeek(
-            personalData.weight.value,
-            12,
-            500,
-            weightGoal
-          )
-        );
+        setDietParams({ ...initialDietParameters, weightGoal });
       }
     } else {
       if (
         tableToRender.includes("deficit") &&
         tableToRender.includes("dietLength")
       ) {
-        console.log(
-          utils.calculateWeightLossWeekByWeek(
-            personalData.weight.value,
-            dietLength,
-            deficit
-          )
-        );
+        setDietParams({ ...initialDietParameters, deficit, dietLength });
       } else if (
         tableToRender.includes("deficit") &&
         tableToRender.includes("weightGoal")
       ) {
-        // different function
+        setDietParams({ ...initialDietParameters, deficit, weightGoal });
       } else {
-        // different function
+        setDietParams({ ...initialDietParameters, dietLength, weightGoal });
       }
+    }*/
+    const tableToRender = Object.entries(checkedLabelsStatus)
+      .filter((labelEntry) => labelEntry[1] === true)
+      .map((label) => label[0]);
+
+    if (tableToRender.includes("deficit")) {
+      setDietParams({ ...initialDietParameters, deficit });
     }
+
+    console.log(
+      utils.calculateWeightLossWeekByWeek(personalData.weight.value, dietParams)
+    );
   };
 
-  // defineTableToRender(labelChecked);
+  defineTableToRender(labelChecked);
 
   return (
     <Sheet>
