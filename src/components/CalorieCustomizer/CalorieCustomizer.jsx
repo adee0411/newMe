@@ -56,7 +56,7 @@ const CalorieCustomizer = () => {
     (state) => state.calorieCustomizer.checkboxState
   );
 
-  const initialDietParameters = {
+  let initialDietParameters = {
     deficit,
     dietLength: 12,
     weightGoal: null,
@@ -147,13 +147,17 @@ const CalorieCustomizer = () => {
       .map((label) => label[0]);
 
     if (tableToRender.includes("deficit")) {
-      setDietParams({ ...initialDietParameters, deficit });
+      initialDietParameters = { ...initialDietParameters, deficit };
     }
 
     console.log(
       utils.calculateWeightLossWeekByWeek(personalData.weight.value, dietParams)
     );
   };
+
+  useEffect(() => {
+    setDietParams(initialDietParameters);
+  }, [deficit, dietLength, weightGoal]);
 
   defineTableToRender(labelChecked);
 
