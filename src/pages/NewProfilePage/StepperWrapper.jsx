@@ -18,20 +18,24 @@ const StepperWrapper = ({ activeFormIndex, onSetFormIndex }) => {
             key={index}
             indicator={
               <StepIndicator
-                variant={index <= activeFormIndex ? "solid" : "outlined"}
+                variant={
+                  index === activeFormIndex
+                    ? "solid"
+                    : index < activeFormIndex
+                    ? "soft"
+                    : "outlined"
+                }
                 color="primary"
               >
                 {index <= activeFormIndex ? <IoCheckmark /> : index + 1}
               </StepIndicator>
             }
-            sx={{
-              "&::after": {
-                ...(activeFormIndex > index &&
-                  index !== 2 && { bgcolor: "primary.solidBg" }),
-              },
-            }}
           >
-            <StepButton value={index} onClick={handleFormIndexChange}>
+            <StepButton
+              value={index}
+              onClick={handleFormIndexChange}
+              disabled={index > activeFormIndex}
+            >
               {step}
             </StepButton>
           </Step>

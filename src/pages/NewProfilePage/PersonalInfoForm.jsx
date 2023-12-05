@@ -12,7 +12,22 @@ import {
 
 import classes from "./PersonalInfoForm.module.scss";
 
+import { useDispatch, useSelector } from "react-redux";
+
+import { setProfileData } from "../../store/profileSlice";
+
 const PersonalInfoForm = ({ onSubmitForm }) => {
+  const { name, age, gender, weight, height } = useSelector(
+    (state) => state.profileData
+  );
+  const dispatch = useDispatch();
+
+  const handleInputChange = (e) => {
+    const inputName = e.target.name;
+    const inputValue = e.target.value;
+
+    dispatch(setProfileData({ inputName, inputValue }));
+  };
   return (
     <div className={classes["new-profile-content__personal-info"]}>
       <Typography textAlign="center" level="h3" color="neutral">
@@ -24,16 +39,25 @@ const PersonalInfoForm = ({ onSubmitForm }) => {
             {" "}
             <FormControl>
               <FormLabel>Keresztnév</FormLabel>
-              <Input sx={{ width: "100%" }} />
+              <Input
+                sx={{ width: "100%" }}
+                name="name"
+                value={name}
+                onChange={handleInputChange}
+              />
             </FormControl>
           </Grid>
           <Grid flex={1}>
             {" "}
             <FormControl>
               <FormLabel>Nem</FormLabel>
-              <RadioGroup name="gender" orientation="horizontal">
-                <Radio value="male" label="Férfi" />
-                <Radio value="female" label="Nő" />
+              <RadioGroup name="gender" orientation="horizontal" value={gender}>
+                <Radio
+                  value="male"
+                  label="Férfi"
+                  onChange={handleInputChange}
+                />
+                <Radio value="female" label="Nő" onChange={handleInputChange} />
               </RadioGroup>
             </FormControl>
           </Grid>
@@ -44,21 +68,42 @@ const PersonalInfoForm = ({ onSubmitForm }) => {
             {" "}
             <FormControl>
               <FormLabel>Kor</FormLabel>
-              <Input type="number" sx={{ width: "100%" }} endDecorator="év" />
+              <Input
+                type="number"
+                sx={{ width: "100%" }}
+                endDecorator="év"
+                name="age"
+                onChange={handleInputChange}
+                value={age}
+              />
             </FormControl>
           </Grid>
           <Grid flex={1}>
             {" "}
             <FormControl>
               <FormLabel>Testsúly</FormLabel>
-              <Input type="number" sx={{ width: "100%" }} endDecorator="kg" />
+              <Input
+                type="number"
+                sx={{ width: "100%" }}
+                endDecorator="kg"
+                name="weight"
+                onChange={handleInputChange}
+                value={weight}
+              />
             </FormControl>
           </Grid>
           <Grid flex={1}>
             {" "}
             <FormControl>
               <FormLabel>Magasság</FormLabel>
-              <Input type="number" sx={{ width: "100%" }} endDecorator="cm" />
+              <Input
+                type="number"
+                sx={{ width: "100%" }}
+                endDecorator="cm"
+                name="height"
+                onChange={handleInputChange}
+                value={height}
+              />
             </FormControl>
           </Grid>
         </Grid>
