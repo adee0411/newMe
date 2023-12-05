@@ -69,6 +69,18 @@ const WelcomePage = () => {
         display: "flex",
       }}
     >
+      <header>
+        <div>
+          <span>Logo</span>
+        </div>
+        <nav>
+          <ul>
+            <li>Kalória kalkulátor</li>
+            <li>Diéta tervező</li>
+            <li>Étrend tervező</li>
+          </ul>
+        </nav>
+      </header>
       {/** LEFT SIDE - FIXED */}
       <Sheet
         sx={{
@@ -77,12 +89,17 @@ const WelcomePage = () => {
       >
         <div
           style={{
-            padding: "6rem 4rem",
             position: "relative",
+            padding: "6rem 4rem",
             height: "100%",
           }}
         >
-          <div>
+          <div
+            style={{
+              position: "relative",
+              zIndex: 1,
+            }}
+          >
             <Typography level="h1" color="primary" fontSize={44} mb={1}>
               newMe
             </Typography>
@@ -94,14 +111,21 @@ const WelcomePage = () => {
               nyomon a változásod!{" "}
             </Typography>
           </div>
-          <div style={{ position: "absolute", right: 0, bottom: 0 }}>
+          <div
+            style={{
+              position: "absolute",
+              right: "10%",
+              bottom: "10%",
+              zIndex: "0",
+            }}
+          >
             <img
               src={Image}
               style={{
-                width: "100%",
-                maxWidth: "800px",
+                width: "90%",
                 margin: "0 auto",
                 opacity: 0.8,
+                display: "block",
               }}
             />
           </div>

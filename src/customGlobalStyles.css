@@ -1,0 +1,4 @@
+:root {
+  --headerHeight: 100px;
+  --mainContentTopMargin: var(var(--headerHeight));
+}

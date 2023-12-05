@@ -6,30 +6,25 @@ import { Sheet, Typography } from "@mui/joy";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import RootLayout from "./components/UI/RootLayout";
 import WelcomePage from "./pages/welcomePage/WelcomePage";
 import CalorieCalculatorPage from "./pages/calorieCalculator/CalorieCalculatorPage";
 import CalorieCustomizer from "./components/CalorieCustomizer/CalorieCustomizer";
 
-import DashboardPage from "./pages/dashboardPage/DashboardPage";
+import DashboardRoot from "./components/UI/DashboardRoot";
+import Dashboard from "./components/Dashboard/Dashboard";
+import Home from "./components/Dashboard/Home/Home";
+
+import RootLayout from "./pages/RootLayout";
+import LandingPage from "./pages/LandingPage/LandingPage";
+import NewProfilePage from "./pages/NewProfilePage/NewProfilePage";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <WelcomePage />,
-  },
-  {
-    path: "/dashboard",
-    element: <DashboardPage />,
+    element: <RootLayout />,
     children: [
-      {
-        path: "/dashboard/calorie-calculator",
-        element: (
-          <Sheet>
-            <Typography>Calorie Calculator</Typography>
-          </Sheet>
-        ),
-      },
+      { path: "/", element: <LandingPage /> },
+      { path: "/new-profile", element: <NewProfilePage /> },
     ],
   },
 ]);

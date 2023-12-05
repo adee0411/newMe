@@ -149,10 +149,6 @@ const CalorieCustomizer = () => {
     if (tableToRender.includes("deficit")) {
       initialDietParameters = { ...initialDietParameters, deficit };
     }
-
-    console.log(
-      utils.calculateWeightLossWeekByWeek(personalData.weight.value, dietParams)
-    );
   };
 
   useEffect(() => {
@@ -162,10 +158,9 @@ const CalorieCustomizer = () => {
   defineTableToRender(labelChecked);
 
   return (
-    <Sheet>
-      <Typography level="title-lg">Calorie Customizer Page</Typography>
+    <Sheet sx={{ width: "50%", mx: "auto" }}>
       <CalculatorInputGroup
-        labelName="Diet Customizer"
+        labelName="Diéta tervező"
         icon={<TuneOutlinedIcon />}
       >
         <InputGroup
@@ -173,7 +168,7 @@ const CalorieCustomizer = () => {
           checked={labelChecked.deficit}
           name="deficit"
           disabled={disabledCheckboxName === "deficit"}
-          label="Calorie deficit (daily)"
+          label="Napi kalória-deficit"
         >
           <FormControl>
             <Slider
@@ -191,8 +186,8 @@ const CalorieCustomizer = () => {
               name="deficit"
             />
             {deficitWarning ? (
-              <Alert color="warning" sx={{ marginTop: 3 }} size="sm">
-                Deficit is getting too high!
+              <Alert color="danger" sx={{ marginTop: 3 }} size="sm">
+                Túl magas napi kalória-deficit!
               </Alert>
             ) : (
               ""
@@ -204,12 +199,12 @@ const CalorieCustomizer = () => {
           checked={labelChecked.dietLength}
           name="dietLength"
           disabled={disabledCheckboxName === "dietLength"}
-          label="Diet length"
+          label="Diéta hossza (hét)"
         >
           {" "}
           <Input
             type="number"
-            endDecorator="weeks"
+            endDecorator="hét"
             value={dietLength}
             onChange={handleDietLengthChange}
             slotProps={{ input: { min: 4 } }}
@@ -222,7 +217,7 @@ const CalorieCustomizer = () => {
           checked={labelChecked.weightGoal}
           name="weightGoal"
           disabled={disabledCheckboxName === "weightGoal"}
-          label="Weight goal"
+          label="Cél súly"
         >
           <Input
             type="number"

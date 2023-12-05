@@ -24,13 +24,13 @@ const StatsInput = () => {
     dispatch(setParameters({ name: inputName, value: inputValue }));
   };
   return (
-    <CalculatorInputGroup labelName="Stats" icon={<EqualizerIcon />}>
-      <Grid spacing={2} container columns={{ xs: 6 }}>
-        <Grid xs>
+    <CalculatorInputGroup labelName="Alapadatok" icon={<EqualizerIcon />}>
+      <Grid spacing={2} container columns={12}>
+        <Grid md={4}>
           <FormControl>
             <FormLabel>
               <MonitorWeightOutlinedIcon />
-              Weight
+              Súly
             </FormLabel>
             <Input
               type="number"
@@ -43,11 +43,11 @@ const StatsInput = () => {
             />
           </FormControl>
         </Grid>
-        <Grid xs>
+        <Grid md={4}>
           <FormControl>
             <FormLabel>
               <HeightOutlinedIcon />
-              Height
+              Magasság
             </FormLabel>
             <Input
               type="number"
@@ -60,11 +60,11 @@ const StatsInput = () => {
             />
           </FormControl>
         </Grid>
-        <Grid xs>
+        <Grid md={4}>
           <FormControl>
             <FormLabel>
               <CakeOutlinedIcon />
-              Age
+              Életkor
             </FormLabel>
             <Input
               type="number"

@@ -2,12 +2,13 @@ import { Sheet, Typography } from "@mui/joy";
 
 const CalculatorInputGroup = ({ children, labelName, icon }) => {
   return (
-    <Sheet>
+    <Sheet color="neutral" variant="outlined" sx={{ p: 8, borderRadius: 8 }}>
       <Typography
-        level="title-lg"
         component="h2"
-        color="primary"
+        level="h2"
         startDecorator={icon}
+        fontWeight={900}
+        color="neutral"
       >
         {labelName}
       </Typography>

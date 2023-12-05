@@ -25,7 +25,7 @@ const PalSelect = () => {
   };
   return (
     <CalculatorInputGroup
-      labelName="Physical Activity Level"
+      labelName="Heti aktivitási szint"
       icon={<MonitorHeartOutlinedIcon />}
     >
       <Select

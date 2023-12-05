@@ -6,10 +6,10 @@ import DefaultCaloriePlan from "../../components/CalorieCalculator/DefaultCalori
 
 const CalorieCalculatorPage = () => {
   return (
-    <Sheet>
+    <Sheet sx={{ maxWidth: "800px", mx: "auto" }}>
       <ParameterForm />
-      <CalculatedValues />
-      <DefaultCaloriePlan />
+      {/*<CalculatedValues />
+      <DefaultCaloriePlan />*/}
     </Sheet>
   );
 };

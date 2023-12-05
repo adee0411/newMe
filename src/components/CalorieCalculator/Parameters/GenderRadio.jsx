@@ -18,17 +18,17 @@ const GenderRadio = () => {
     dispatch(setParameters({ name: "gender", value: event.target.value }));
   };
   return (
-    <CalculatorInputGroup labelName="Gender" icon={<WcIcon />}>
+    <CalculatorInputGroup labelName="Nem" icon={<WcIcon />}>
       <RadioGroup orientation="horizontal" size="sm">
         <Radio
-          label="Male"
+          label="Férfi"
           value="male"
           name="gender"
           checked={gender === "male"}
           onChange={handleGenderChange}
         />
         <Radio
-          label="Female"
+          label="Nő"
           value="female"
           name="gender"
           checked={gender === "female"}
