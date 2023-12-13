@@ -3,20 +3,19 @@ export const calculateBMR = (stats) => {
   let bmr;
 
   // For men
-  if (gender.value === "male") {
-    bmr = 66.5 + 13.75 * weight.value + 5.003 * height.value - 6.75 * age.value;
+  if (gender === "male") {
+    bmr = 66.5 + 13.75 * weight + 5.003 * height - 6.75 * age;
   }
   // For women
-  if (gender.value === "female") {
-    bmr =
-      655.1 + 9.563 * weight.value + 1.85 * height.value - 4.676 * age.value;
+  if (gender === "female") {
+    bmr = 655.1 + 9.563 * weight + 1.85 * height - 4.676 * age;
   }
 
-  return +bmr.toFixed(0);
+  return bmr.toFixed(0);
 };
 
 export const calculateTDEE = (bmr, palMultiplier) => {
-  return +(bmr * palMultiplier).toFixed(0);
+  return (bmr * palMultiplier).toFixed(0);
 };
 
 export const calculateDailyCalorie = (tdee, deficit = 500) => {
@@ -97,3 +96,16 @@ export function calculateWeightLossWeekByWeek(
 
   return weeklyWeights;
 }
+
+export const formatDate = (dateObj) => {
+  const year = dateObj.getFullYear();
+  const month = dateObj.getMonth() + 1;
+  const day = dateObj.getDate();
+
+  const formattedTodaysDate = `${year}-${String(month).padStart(
+    2,
+    "0"
+  )}-${String(day).padStart(2, "0")}`;
+
+  return formattedTodaysDate;
+};

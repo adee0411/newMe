@@ -2,7 +2,7 @@ import { Sheet, Typography } from "@mui/joy";
 
 const CalculatorInputGroup = ({ children, labelName, icon }) => {
   return (
-    <Sheet color="neutral" variant="outlined" sx={{ p: 8, borderRadius: 8 }}>
+    <div color="neutral" variant="outlined" sx={{ p: 8, borderRadius: 8 }}>
       <Typography
         component="h2"
         level="h2"
@@ -13,7 +13,7 @@ const CalculatorInputGroup = ({ children, labelName, icon }) => {
         {labelName}
       </Typography>
       {children}
-    </Sheet>
+    </div>
   );
 };
 

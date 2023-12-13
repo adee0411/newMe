@@ -2,7 +2,7 @@ import { Grid, Button } from "@mui/joy";
 
 const AuthActions = () => {
   return (
-    <Grid container justifyContent="flex-end" columnSpacing={2}>
+    <Grid container justifyContent="flex-end">
       <Grid>
         <Button>Bejelentkezés</Button>
       </Grid>

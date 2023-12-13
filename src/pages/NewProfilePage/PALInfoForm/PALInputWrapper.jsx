@@ -1,12 +1,16 @@
 import {
   FormControl,
-  FormLabel,
   List,
   ListItem,
   RadioGroup,
   Radio,
   Typography,
 } from "@mui/joy";
+
+import { useDispatch, useSelector } from "react-redux";
+
+import { setPersonalData, setTDEE } from "../../../store/profileSlice";
+import { calculateTDEE } from "../../../utils";
 
 const PAL = {
   Sedentary: {
@@ -42,9 +46,21 @@ const PAL = {
 };
 
 const PALInputWrapper = () => {
+  const { pal } = useSelector((state) => state.profileData.personalData);
+  const { bmr } = useSelector((state) => state.profileData.calculatedData);
+
+  const dispatch = useDispatch();
+
+  const handlePalChange = (e) => {
+    const inputValue = +e.target.value;
+    const tdee = calculateTDEE(bmr, inputValue);
+
+    dispatch(setPersonalData({ inputName: "pal", inputValue }));
+    dispatch(setTDEE(tdee));
+  };
   return (
     <FormControl>
-      <RadioGroup>
+      <RadioGroup name="pal" value={pal} overlay>
         <List
           sx={{
             "--List-gap": "12px",
@@ -68,10 +84,10 @@ const PALInputWrapper = () => {
                   overlay
                   value={pal[1].multiplier}
                   label={pal[1].label}
-                  checked={pal[1].multiplier === 1.2}
+                  onChange={handlePalChange}
                 ></Radio>
                 <Typography fontSize="sm" color="neutral">
-                  {pal[1].description}
+                  ({pal[1].description})
                 </Typography>
               </ListItem>
             );

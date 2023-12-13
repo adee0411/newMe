@@ -1,12 +1,22 @@
 import { Stepper, Step, StepButton, StepIndicator } from "@mui/joy";
 import { IoCheckmark } from "react-icons/io5";
 
+import { useDispatch, useSelector } from "react-redux";
+
+import { setActiveFormIndex } from "../../store/profileSlice";
+
 const steps = ["Személyes adatok", "Fizikai aktivitás", "Diéta adatai"];
 
-const StepperWrapper = ({ activeFormIndex, onSetFormIndex }) => {
+const StepperWrapper = () => {
+  const activeFormIndex = useSelector(
+    (state) => state.profileData.UI.activeFormIndex
+  );
+  const dispatch = useDispatch();
+
   const handleFormIndexChange = (e) => {
     e.preventDefault();
-    onSetFormIndex(+e.target.value);
+    const buttonValue = +e.target.value;
+    dispatch(setActiveFormIndex(buttonValue));
   };
 
   return (

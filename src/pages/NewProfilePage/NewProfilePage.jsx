@@ -1,24 +1,28 @@
-import { useState } from "react";
-
 import classes from "./NewProfilePage.module.scss";
 
 import { Typography, Grid } from "@mui/joy";
 
 import StepperWrapper from "./StepperWrapper";
-import PersonalInfoForm from "./PersonalInfoForm";
-import PALForm from "./PALForm";
+import PersonalInfoForm from "./PersonalInfoForm/PersonalInfoForm";
+import PALForm from "./PALInfoForm/PALForm";
+import DietInfoForm from "./DietInfoForm/DietInfoForm";
+import ProfileSummary from "./ProfileSummary/ProfileSummary";
+
+import { useSelector, useDispatch } from "react-redux";
+
+import { setActiveFormIndex } from "../../store/profileSlice";
 
 const NewProfilePage = () => {
-  const [activeFormIndex, setActiveFormIndex] = useState(0);
+  const dispatch = useDispatch();
 
-  const renderPALInfoForm = (e) => {
-    e.preventDefault();
-    setActiveFormIndex(1);
+  const { activeFormIndex } = useSelector((state) => state.profileData.UI);
+
+  const renderPALInfoForm = () => {
+    dispatch(setActiveFormIndex(1));
   };
 
-  const renderDietInfoForm = (e) => {
-    e.preventDefault();
-    setActiveFormIndex(2);
+  const renderDietInfoForm = () => {
+    dispatch(setActiveFormIndex(2));
   };
   return (
     <div className={classes["new-profile-container"]}>
@@ -27,7 +31,7 @@ const NewProfilePage = () => {
           <div className={classes["new-profile-content"]}>
             <div className={classes["new-profile-content__header"]}>
               <Typography level="h1" fontSize={32} mb="1rem" textAlign="center">
-                Készítsd el profilodat!
+                Készítsd el a profilodat!
               </Typography>
               <Typography textAlign="center" fontSize="sm" color="neutral">
                 Néhány egyszerű lépésben add meg adataid, céljaid, hogy a lehető
@@ -41,10 +45,7 @@ const NewProfilePage = () => {
                 ! A beállításaid alapértelmezettek lesznek, amelyeket bármikor
                 módosíthatsz.
               </Typography>
-              <StepperWrapper
-                activeFormIndex={activeFormIndex}
-                onSetFormIndex={setActiveFormIndex}
-              />
+              <StepperWrapper />
             </div>
             <div className={classes["new-profile-content__body"]}>
               {activeFormIndex === 0 && (
@@ -53,10 +54,13 @@ const NewProfilePage = () => {
               {activeFormIndex === 1 && (
                 <PALForm onSubmitForm={renderDietInfoForm} />
               )}
+              {activeFormIndex === 2 && <DietInfoForm />}
             </div>
           </div>
         </Grid>
-        <Grid flex={1}>Some content on the right side</Grid>
+        <Grid flex={1}>
+          <ProfileSummary />
+        </Grid>
       </Grid>
     </div>
   );
