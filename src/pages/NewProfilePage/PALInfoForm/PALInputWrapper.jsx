@@ -9,54 +9,19 @@ import {
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { setPersonalData, setTDEE } from "../../../store/profileSlice";
-import { calculateTDEE } from "../../../utils";
+import { setPersonalData } from "../../../store/profileSlice";
 
-const PAL = {
-  Sedentary: {
-    multiplier: 1.2,
-    label: "Ülő munka",
-    description: "Tudatos edzés nélküli, leginkább ülő életmód",
-  },
-  "Light exercise": {
-    multiplier: 1.375,
-    label: "Alkalmi edzés",
-    description: "Fizikai edzés, heti 1-3 alkalommal",
-  },
-  "Moderate exercise": {
-    multiplier: 1.55,
-    label: "Rendszeres edzés",
-    description: "Rendszeres edzés, heti 4-5 alkalommal",
-  },
-  "Heavy exercise": {
-    multiplier: 1.725,
-    label: "Napi szintű edzés",
-    description: "Napi rendszerességű edzés",
-  },
-  "Physical job": {
-    multiplier: 1.9,
-    label: "Fizikai munka",
-    description: "Megterhelő fizikai munka és aktivitás",
-  },
-  Athlete: {
-    multiplier: 2.5,
-    label: "Atléta",
-    description: "Hivatásos sportoló, atléta",
-  },
-};
+import { PAL } from "../../../utils";
 
 const PALInputWrapper = () => {
   const { pal } = useSelector((state) => state.profileData.personalData);
-  const { bmr } = useSelector((state) => state.profileData.calculatedData);
 
   const dispatch = useDispatch();
 
   const handlePalChange = (e) => {
     const inputValue = +e.target.value;
-    const tdee = calculateTDEE(bmr, inputValue);
 
     dispatch(setPersonalData({ inputName: "pal", inputValue }));
-    dispatch(setTDEE(tdee));
   };
   return (
     <FormControl>

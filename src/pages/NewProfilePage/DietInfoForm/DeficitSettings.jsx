@@ -13,7 +13,7 @@ import { useState } from "react";
 
 import {
   setPresetDeficit,
-  setFinetuneDeficit,
+  setFinetunedDeficit,
   toggleFineTuneDeficitCheck,
 } from "../../../store/profileSlice";
 
@@ -39,11 +39,11 @@ const DeficitAlert = () => {
 };
 
 const DeficitSettings = () => {
-  const { presetDeficit, finetunedDeficit } = useSelector(
+  const { presetDeficitInput, finetunedDeficitInput } = useSelector(
     (state) => state.profileData.dietData
   );
 
-  const { isFineTuneDeficitChecked, disableDeficitSettings } = useSelector(
+  const { isFineTuneDeficitChecked, isDeficitSettingsDisabled } = useSelector(
     (state) => state.profileData.UI
   );
   const dispatch = useDispatch();
@@ -57,15 +57,15 @@ const DeficitSettings = () => {
     dispatch(toggleFineTuneDeficitCheck());
   };
 
-  const handlePresetDeficitChange = (e) => {
+  const handlepresetDeficitInputChange = (e) => {
     const deficitValue = e.target.value;
     dispatch(setPresetDeficit(deficitValue));
-    dispatch(setFinetuneDeficit(deficitValue));
+    dispatch(setFinetunedDeficit(deficitValue));
   };
 
   const handleDeficitFinetuneChange = (e) => {
     const deficitValue = e.target.value;
-    dispatch(setFinetuneDeficit(deficitValue));
+    dispatch(setFinetunedDeficit(deficitValue));
     if (deficitValue > 1000) {
       setDeficitAlert(true);
     } else {
@@ -76,37 +76,38 @@ const DeficitSettings = () => {
     <div>
       <FormControl>
         <FormLabel>Fogyás üteme</FormLabel>
-        {disableDeficitSettings && (
-          <Alert color="warning" variant="soft">
+        {isDeficitSettingsDisabled && (
+          <Alert color="warning" variant="soft" size="sm">
             Már megadtad a diéta hosszát és a célsúlyt, így a napi
-            kalória-deficit értéke ezekből automatikusan számolódik.
+            kalória-deficit értéke ezekből automatikusan számolódik. Ha
+            szeretnéd testreszabni a kalória-deficitet, töröld az egyik adatot!
           </Alert>
         )}
         <RadioGroup
           size="sm"
           orientation="horizontal"
           sx={{ justifyContent: "space-between" }}
-          value={presetDeficit}
-          name="presetDeficit"
-          onChange={handlePresetDeficitChange}
+          value={+presetDeficitInput}
+          name="presetDeficitInput"
+          onChange={handlepresetDeficitInputChange}
         >
           <Radio
             label="Lassú"
-            name="presetDeficit"
+            name="presetDeficitInput"
             value={200}
-            disabled={isFineTuneDeficitChecked || disableDeficitSettings}
+            disabled={isFineTuneDeficitChecked || isDeficitSettingsDisabled}
           />
           <Radio
             label="Normál"
-            name="presetDeficit"
+            name="presetDeficitInput"
             value={500}
-            disabled={isFineTuneDeficitChecked || disableDeficitSettings}
+            disabled={isFineTuneDeficitChecked || isDeficitSettingsDisabled}
           />
           <Radio
             label="Gyors"
-            name="presetDeficit"
+            name="presetDeficitInput"
             value={1000}
-            disabled={isFineTuneDeficitChecked || disableDeficitSettings}
+            disabled={isFineTuneDeficitChecked || isDeficitSettingsDisabled}
           />
         </RadioGroup>
       </FormControl>
@@ -117,7 +118,7 @@ const DeficitSettings = () => {
           name="finetuneDeficit"
           onChange={handleFinetuneDeficitCheck}
           size="sm"
-          disabled={disableDeficitSettings}
+          disabled={isDeficitSettingsDisabled}
         />
       </FormControl>
       <FormControl>
@@ -125,14 +126,14 @@ const DeficitSettings = () => {
           type="range"
           size="sm"
           valueLabelDisplay="auto"
-          value={finetunedDeficit}
+          value={+finetunedDeficitInput}
           min={100}
           max={1500}
           step={100}
           onChange={handleDeficitFinetuneChange}
           getAriaValueText={valueText}
           marks={marks}
-          name="fineTunedDeficit"
+          name="finetunedDeficitInput"
           sx={{ width: "80%", mx: "auto", mb: 2 }}
           disabled={!isFineTuneDeficitChecked}
         />

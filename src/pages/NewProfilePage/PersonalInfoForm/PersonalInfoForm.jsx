@@ -24,20 +24,13 @@ import classes from "./PersonalInfoForm.module.scss";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  setPersonalData,
-  setBMR,
-  setTDEE,
-  startProfile,
-} from "../../../store/profileSlice";
-
-import { calculateBMR, calculateTDEE } from "../../../utils";
+import { setPersonalData, startProfile } from "../../../store/profileSlice";
 
 const PersonalInfoForm = ({ onSubmitForm }) => {
-  const personalData = useSelector((state) => state.profileData.personalData);
-  const { name, age, gender, weight, height, pal } = personalData;
-
   const dispatch = useDispatch();
+
+  const personalData = useSelector((state) => state.profileData.personalData);
+  const { name, age, gender, weight, height } = personalData;
 
   const handleNameChange = (e) => {
     let inputValue = e.target.value.trim();
@@ -55,30 +48,20 @@ const PersonalInfoForm = ({ onSubmitForm }) => {
   };
 
   const handleAgeChange = (e) => {
-    let inputValue = +e.target.value;
+    let inputValue = e.target.value;
     dispatch(setPersonalData({ inputName: "age", inputValue }));
   };
 
   const handleWeightChange = (e) => {
-    let inputValue = +e.target.value;
+    let inputValue = e.target.value;
 
     dispatch(setPersonalData({ inputName: "weight", inputValue }));
   };
 
   const handleHeightChange = (e) => {
-    let inputValue = +e.target.value;
+    let inputValue = e.target.value;
 
     dispatch(setPersonalData({ inputName: "height", inputValue }));
-  };
-
-  const submitData = (e) => {
-    e.preventDefault();
-    const bmr = calculateBMR(personalData);
-    const tdee = calculateTDEE(bmr, pal);
-    dispatch(setBMR(bmr));
-    dispatch(setTDEE(tdee));
-    dispatch(startProfile());
-    onSubmitForm();
   };
 
   return (
@@ -86,7 +69,7 @@ const PersonalInfoForm = ({ onSubmitForm }) => {
       <Typography textAlign="center" level="h3" color="neutral">
         Személyes adatok
       </Typography>
-      <Form onSubmit={submitData}>
+      <div>
         <Grid container gap={2} justifyContent="space-between" my={4}>
           <Grid>
             <FormControl>
@@ -190,15 +173,7 @@ const PersonalInfoForm = ({ onSubmitForm }) => {
             </FormControl>
           </Grid>
         </Grid>
-
-        <Button
-          type="submit"
-          size="md"
-          sx={{ margin: "1rem 0", width: "100%" }}
-        >
-          Tovább
-        </Button>
-      </Form>
+      </div>
     </div>
   );
 };

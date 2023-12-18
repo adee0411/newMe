@@ -8,12 +8,15 @@ import EmptyProfile from "./EmptyProfile";
 import ProfileSummaryContent from "./ProfileSummaryContent";
 
 const ProfileSummary = () => {
-  const { isProfileEmpty } = useSelector((state) => state.profileData.UI);
+  const { personalData } = useSelector((state) => state.profileData);
+  const isPersonalDataFormFilled = Object.values(personalData).every(
+    (val) => val !== ""
+  );
 
-  const profileSummaryContent = isProfileEmpty ? (
-    <EmptyProfile />
-  ) : (
+  const profileSummaryContent = isPersonalDataFormFilled ? (
     <ProfileSummaryContent />
+  ) : (
+    <EmptyProfile />
   );
 
   return (

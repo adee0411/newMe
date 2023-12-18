@@ -1,4 +1,12 @@
-import { FormControl, FormLabel, Input } from "@mui/joy";
+import {
+  IconButton,
+  FormControl,
+  FormLabel,
+  Input,
+  Stack,
+  Typography,
+  Divider,
+} from "@mui/joy";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -6,26 +14,30 @@ import {
   setWeightGoal,
   setTotalWeightloss,
   toggleDeficitSettings,
+  setCalculatedWeightGoal,
+  setCalculatedDietLength,
+  setDietEndDate,
 } from "../../../store/profileSlice";
 
-const WeightGoalSettings = () => {
-  const dietData = useSelector((state) => state.profileData.dietData);
-  const { weightGoal, dietLength } = dietData;
-  const { weight } = useSelector((state) => state.profileData.personalData);
+import { formatDate } from "../../../utils";
 
+import { GrPowerReset } from "react-icons/gr";
+
+const WeightGoalSettings = () => {
   const dispatch = useDispatch();
+
+  const { weightGoalInput } = useSelector(
+    (state) => state.profileData.dietData
+  );
 
   const handleWeightGoalChange = (e) => {
     const weightGoalValue = e.target.value;
-    const totalWeightloss = weight - weightGoalValue;
-    dispatch(setWeightGoal(weightGoalValue));
-    dispatch(setTotalWeightloss(totalWeightloss));
 
-    if (dietLength && e.target.value !== "") {
-      dispatch(toggleDeficitSettings(true));
-    } else {
-      dispatch(toggleDeficitSettings(false));
-    }
+    dispatch(setWeightGoal(weightGoalValue));
+  };
+
+  const resetWeightGoal = () => {
+    dispatch(setWeightGoal(""));
   };
 
   return (
@@ -34,10 +46,23 @@ const WeightGoalSettings = () => {
         <FormLabel>Célsúly</FormLabel>
         <Input
           type="number"
-          value={weightGoal}
+          value={weightGoalInput}
           name="weightGoal"
           onChange={handleWeightGoalChange}
-          endDecorator="kg"
+          endDecorator={
+            <Stack direction="row" spacing={1}>
+              <Typography>kg</Typography>
+              <Divider color="neutral" orientation="vertical" />
+              <IconButton
+                color="primary"
+                variant="plain"
+                title="Visszaállítás"
+                onClick={resetWeightGoal}
+              >
+                <GrPowerReset />
+              </IconButton>
+            </Stack>
+          }
         />
       </FormControl>
     </div>

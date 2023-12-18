@@ -13,20 +13,13 @@ const DietInfoForm = () => {
       <Typography textAlign="center" level="h3" color="neutral">
         Diéta paraméterek
       </Typography>
-      <Form>
+      <div>
         <div>
           <DateSettings />
           <WeightGoalSettings />
           <DeficitSettings />
         </div>
-        <Button
-          type="submit"
-          size="md"
-          sx={{ margin: "1rem 0", width: "100%" }}
-        >
-          Mentés
-        </Button>
-      </Form>
+      </div>
     </div>
   );
 };

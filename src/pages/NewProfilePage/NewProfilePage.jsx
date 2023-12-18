@@ -1,6 +1,6 @@
 import classes from "./NewProfilePage.module.scss";
 
-import { Typography, Grid } from "@mui/joy";
+import { Typography, Grid, Button } from "@mui/joy";
 
 import StepperWrapper from "./StepperWrapper";
 import PersonalInfoForm from "./PersonalInfoForm/PersonalInfoForm";
@@ -9,21 +9,26 @@ import DietInfoForm from "./DietInfoForm/DietInfoForm";
 import ProfileSummary from "./ProfileSummary/ProfileSummary";
 
 import { useSelector, useDispatch } from "react-redux";
+import { Form } from "react-router-dom";
 
-import { setActiveFormIndex } from "../../store/profileSlice";
+import { incrementActiveFormIndex } from "../../store/profileSlice";
+
+const forms = {
+  0: <PersonalInfoForm />,
+  1: <PALForm />,
+  2: <DietInfoForm />,
+};
 
 const NewProfilePage = () => {
   const dispatch = useDispatch();
 
   const { activeFormIndex } = useSelector((state) => state.profileData.UI);
 
-  const renderPALInfoForm = () => {
-    dispatch(setActiveFormIndex(1));
+  const handleIncrementActiveFormIndex = (e) => {
+    e.preventDefault();
+    dispatch(incrementActiveFormIndex());
   };
 
-  const renderDietInfoForm = () => {
-    dispatch(setActiveFormIndex(2));
-  };
   return (
     <div className={classes["new-profile-container"]}>
       <Grid container columns={2} height="100%" gap="2rem">
@@ -48,13 +53,24 @@ const NewProfilePage = () => {
               <StepperWrapper />
             </div>
             <div className={classes["new-profile-content__body"]}>
-              {activeFormIndex === 0 && (
-                <PersonalInfoForm onSubmitForm={renderPALInfoForm} />
-              )}
-              {activeFormIndex === 1 && (
-                <PALForm onSubmitForm={renderDietInfoForm} />
-              )}
-              {activeFormIndex === 2 && <DietInfoForm />}
+              <Form>
+                {forms[activeFormIndex]}
+                {activeFormIndex !== 2 && (
+                  <Button
+                    type="button"
+                    onClick={handleIncrementActiveFormIndex}
+                    size="md"
+                    fullWidth
+                  >
+                    Tovább
+                  </Button>
+                )}
+                {activeFormIndex === 2 && (
+                  <Button type="submit" size="md" fullWidth>
+                    Profil elkészítése
+                  </Button>
+                )}
+              </Form>
             </div>
           </div>
         </Grid>

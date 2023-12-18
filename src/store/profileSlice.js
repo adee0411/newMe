@@ -8,30 +8,36 @@ const profileSlice = createSlice({
     personalData: {
       name: "Ádám",
       gender: "male",
-      age: "33",
-      weight: "101",
-      height: "176",
+      age: "",
+      weight: "",
+      height: "",
       pal: 1.2,
     },
     dietData: {
-      dietStart: formatDate(new Date()),
-      dietEnd: "",
-      dietLength: "",
-      weightGoal: "",
-      totalWeightloss: "",
-      dailyCalorieIntake: "",
-      presetDeficit: 500,
-      finetunedDeficit: 500,
+      dietStartInput: formatDate(new Date()),
+      dietLengthInput: "",
+      weightGoalInput: "",
+      dailyCalorieIntakeInput: "",
+      presetDeficitInput: 1000,
+      finetunedDeficitInput: 1000,
     },
     calculatedData: {
       bmr: "",
       tdee: "",
+      calculatedDietStartDate: "",
+      calculatedDietEndDate: "",
+      calculatedDietLength: "",
+      calculatedWeightloss: "",
+      calculatedDailyDeficit: "",
+      calculatedWeightGoal: "",
+      calculatedCalorieIntake: "",
     },
     UI: {
       activeFormIndex: 0,
       isProfileEmpty: true,
       isFineTuneDeficitChecked: false,
-      disableDeficitSettings: false,
+      isDeficitSettingsDisabled: false,
+      isPersonalDataFormFilled: false,
     },
   },
   reducers: {
@@ -39,31 +45,28 @@ const profileSlice = createSlice({
       state.personalData[action.payload.inputName] = action.payload.inputValue;
     },
     setDietStartDate(state, action) {
-      state.dietData.dietStart = action.payload;
+      state.dietData.dietStartInput = action.payload;
     },
-    setDietEndDate(state, action) {
-      state.dietData.dietEnd = action.payload;
+    setCalculatedDietEndDate(state, action) {
+      state.calculatedData.calculatedDietEndDate = action.payload;
     },
-    setDietLengthDate(state, action) {
-      state.dietData.dietLength = action.payload;
+    setDietLength(state, action) {
+      state.dietData.dietLengthInput = action.payload;
     },
     setWeightGoal(state, action) {
-      state.dietData.weightGoal = action.payload;
+      state.dietData.weightGoalInput = action.payload;
     },
     setPresetDeficit(state, action) {
-      state.dietData.presetDeficit = action.payload;
+      state.dietData.presetDeficitInput = action.payload;
     },
-    setFinetuneDeficit(state, action) {
-      state.dietData.finetunedDeficit = action.payload;
-    },
-    setBMR(state, action) {
-      state.calculatedData.bmr = action.payload;
-    },
-    setTDEE(state, action) {
-      state.calculatedData.tdee = action.payload;
+    setFinetunedDeficit(state, action) {
+      state.dietData.finetunedDeficitInput = action.payload;
     },
     setActiveFormIndex(state, action) {
       state.UI.activeFormIndex = action.payload;
+    },
+    incrementActiveFormIndex(state) {
+      state.UI.activeFormIndex++;
     },
     startProfile(state) {
       state.UI.isProfileEmpty = false;
@@ -72,10 +75,10 @@ const profileSlice = createSlice({
       state.UI.isFineTuneDeficitChecked = !state.UI.isFineTuneDeficitChecked;
     },
     toggleDeficitSettings(state, action) {
-      state.UI.disableDeficitSettings = action.payload;
+      state.UI.isDeficitSettingsDisabled = action.payload;
     },
-    setTotalWeightloss(state, action) {
-      state.dietData.totalWeightloss = action.payload;
+    setCalculatedData(state, action) {
+      state.calculatedData[action.payload.dataName] = action.payload.dataValue;
     },
   },
 });
@@ -86,15 +89,14 @@ export const {
   setPersonalData,
   setDietStartDate,
   setDietEndDate,
-  setDietLengthDate,
+  setDietLength,
   setWeightGoal,
   setPresetDeficit,
-  setFinetuneDeficit,
-  setBMR,
-  setTDEE,
+  setFinetunedDeficit,
   setActiveFormIndex,
+  incrementActiveFormIndex,
   startProfile,
   toggleFineTuneDeficitCheck,
   toggleDeficitSettings,
-  setTotalWeightloss,
+  setCalculatedData,
 } = profileSlice.actions;

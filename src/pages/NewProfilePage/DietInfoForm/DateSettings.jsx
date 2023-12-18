@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import {
   setDietStartDate,
-  setDietLengthDate,
+  setDietLength,
   setDietEndDate,
   toggleDeficitSettings,
 } from "../../../store/profileSlice";
@@ -12,33 +12,39 @@ import {
 import { formatDate } from "../../../utils";
 
 const DateSettings = () => {
-  const dietData = useSelector((state) => state.profileData.dietData);
-  const { dietStart, dietLength, weightGoal } = dietData;
+  const { weight } = useSelector((state) => state.profileData.personalData);
+  const {
+    dietStartInput,
+    dietLengthInput,
+    weightGoalInput,
+    presetDeficitInput,
+    finetunedDeficitInput,
+  } = useSelector((state) => state.profileData.dietData);
+  const { totalWeightloss } = useSelector(
+    (state) => state.profileData.calculatedData
+  );
+  const { disableDeficitSettings, isFineTuneDeficitChecked } = useSelector(
+    (state) => state.profileData.UI
+  );
 
   const dispatch = useDispatch();
 
+  // Handle diet START change
   const handleDietStartDateChange = (e) => {
     const startDateValue = e.target.value;
     dispatch(setDietStartDate(startDateValue));
   };
 
+  // Handle diet LENGTH change
   const handleDietLengthChange = (e) => {
     const lengthValue = e.target.value;
-    const dietEnd = formatDate(
-      new Date(
-        new Date(dietStart).setDate(
-          new Date(dietStart).getDate() + lengthValue * 7
-        )
-      )
-    );
-    dispatch(setDietEndDate(dietEnd));
 
-    dispatch(setDietLengthDate(lengthValue));
-    if (weightGoal && e.target.value !== "") {
-      dispatch(toggleDeficitSettings(true));
-    } else {
-      dispatch(toggleDeficitSettings(false));
-    }
+    // Function to Calculate DIET LENGTH based on weight goal and deficit
+
+    // Set daily deficit
+    const dailyDeficit = isFineTuneDeficitChecked
+      ? finetunedDeficitInput
+      : presetDeficitInput;
   };
 
   return (
@@ -52,7 +58,7 @@ const DateSettings = () => {
                 type="date"
                 name="dietStart"
                 onChange={handleDietStartDateChange}
-                value={dietStart}
+                value={dietStartInput}
                 slotProps={{ input: { min: formatDate(new Date()) } }}
               />
             </FormControl>
@@ -65,7 +71,7 @@ const DateSettings = () => {
               <Input
                 type="number"
                 name="dietLength"
-                value={dietLength}
+                value={dietLengthInput}
                 onChange={handleDietLengthChange}
                 endDecorator="hét"
               />
