@@ -1,20 +1,9 @@
 import { Card, CardContent, Typography } from "@mui/joy";
 
-import { useSelector, useDispatch } from "react-redux";
-
-import { setCalculatedData } from "../../../../store/profileSlice";
-
-import { calculateTDEE } from "../../../../utils";
+import { useSelector } from "react-redux";
 
 const TDEECard = () => {
-  const dispatch = useDispatch();
-  const { personalData } = useSelector((state) => state.profileData);
-  const { bmr } = useSelector((state) => state.profileData.calculatedData);
-  const { pal } = useSelector((state) => state.profileData.personalData);
-
-  const tdee = calculateTDEE(bmr, pal);
-
-  dispatch(setCalculatedData({ dataName: "tdee", dataValue: tdee }));
+  const { tdee } = useSelector((state) => state.profileData.calculatedData);
 
   return (
     <Card color="neutral" variant="outlined">

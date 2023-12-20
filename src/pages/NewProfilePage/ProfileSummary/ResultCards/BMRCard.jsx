@@ -1,18 +1,9 @@
 import { Card, CardContent, Typography } from "@mui/joy";
 
-import { useSelector, useDispatch } from "react-redux";
-
-import { setCalculatedData } from "../../../../store/profileSlice";
-
-import { calculateBMR } from "../../../../utils";
+import { useSelector } from "react-redux";
 
 const BMRCard = () => {
-  const dispatch = useDispatch();
-  const { personalData } = useSelector((state) => state.profileData);
-
-  const bmr = calculateBMR(personalData);
-
-  dispatch(setCalculatedData({ dataName: "bmr", dataValue: bmr }));
+  const { bmr } = useSelector((state) => state.profileData.calculatedData);
 
   return (
     <Card color="neutral" variant="outlined">

@@ -5,18 +5,15 @@ import { useSelector } from "react-redux";
 import classes from "./ProfileSummary.module.scss";
 
 import EmptyProfile from "./EmptyProfile";
-import ProfileSummaryContent from "./ProfileSummaryContent";
+import ProfileSummaryData from "./ProfileSummaryData";
 
 const ProfileSummary = () => {
-  const { personalData } = useSelector((state) => state.profileData);
-  const isPersonalDataFormFilled = Object.values(personalData).every(
-    (val) => val !== ""
-  );
+  const { isProfileEmpty } = useSelector((state) => state.profileData.UI);
 
-  const profileSummaryContent = isPersonalDataFormFilled ? (
-    <ProfileSummaryContent />
-  ) : (
+  const profileSummaryContent = isProfileEmpty ? (
     <EmptyProfile />
+  ) : (
+    <ProfileSummaryData />
   );
 
   return (
@@ -35,7 +32,6 @@ const ProfileSummary = () => {
         <Typography level="h1" textAlign="center">
           Profil összesítő
         </Typography>
-
         {profileSummaryContent}
       </Sheet>
     </div>

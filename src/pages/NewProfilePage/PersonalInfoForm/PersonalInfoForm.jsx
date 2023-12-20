@@ -24,9 +24,9 @@ import classes from "./PersonalInfoForm.module.scss";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { setPersonalData, startProfile } from "../../../store/profileSlice";
+import { setPersonalData } from "../../../store/profileSlice";
 
-const PersonalInfoForm = ({ onSubmitForm }) => {
+const PersonalInfoForm = () => {
   const dispatch = useDispatch();
 
   const personalData = useSelector((state) => state.profileData.personalData);

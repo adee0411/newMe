@@ -11,22 +11,49 @@ import ProfileSummary from "./ProfileSummary/ProfileSummary";
 import { useSelector, useDispatch } from "react-redux";
 import { Form } from "react-router-dom";
 
-import { incrementActiveFormIndex } from "../../store/profileSlice";
+import {
+  incrementActiveFormIndex,
+  setCalculatedData,
+  startProfile,
+} from "../../store/profileSlice";
 
-const forms = {
-  0: <PersonalInfoForm />,
-  1: <PALForm />,
-  2: <DietInfoForm />,
-};
+import { calculateBMR, calculateTDEE } from "../../utils";
 
 const NewProfilePage = () => {
   const dispatch = useDispatch();
 
   const { activeFormIndex } = useSelector((state) => state.profileData.UI);
+  const { personalData } = useSelector((state) => state.profileData);
 
-  const handleIncrementActiveFormIndex = (e) => {
-    e.preventDefault();
+  const isPersonalDataFormFilled = Object.values(personalData).every(
+    (data) => data !== ""
+  );
+
+  const handlePersonalDataSubmit = () => {
+    const bmr = calculateBMR(personalData);
+    const tdee = calculateTDEE(bmr, personalData.pal);
+
+    dispatch(setCalculatedData({ dataName: "bmr", dataValue: bmr }));
+    dispatch(setCalculatedData({ dataName: "tdee", dataValue: tdee }));
     dispatch(incrementActiveFormIndex());
+    dispatch(startProfile());
+  };
+
+  const handlePALSubmit = () => {
+    dispatch(incrementActiveFormIndex());
+  };
+
+  const handleCreateProfile = () => {
+    console.log("creating");
+  };
+
+  const forms = {
+    0: { component: <PersonalInfoForm />, handler: handlePersonalDataSubmit },
+    1: {
+      component: <PALForm />,
+      handler: handlePALSubmit,
+    },
+    2: { component: <DietInfoForm />, handler: handleCreateProfile },
   };
 
   return (
@@ -54,22 +81,16 @@ const NewProfilePage = () => {
             </div>
             <div className={classes["new-profile-content__body"]}>
               <Form>
-                {forms[activeFormIndex]}
-                {activeFormIndex !== 2 && (
-                  <Button
-                    type="button"
-                    onClick={handleIncrementActiveFormIndex}
-                    size="md"
-                    fullWidth
-                  >
-                    Tovább
-                  </Button>
-                )}
-                {activeFormIndex === 2 && (
-                  <Button type="submit" size="md" fullWidth>
-                    Profil elkészítése
-                  </Button>
-                )}
+                {forms[activeFormIndex].component}
+                <Button
+                  type={`${activeFormIndex === 2 ? "submit" : "button"}`}
+                  onClick={forms[activeFormIndex].handler}
+                  size="md"
+                  fullWidth
+                  disabled={!isPersonalDataFormFilled}
+                >
+                  Tovább
+                </Button>
               </Form>
             </div>
           </div>

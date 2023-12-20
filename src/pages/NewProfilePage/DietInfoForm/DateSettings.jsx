@@ -5,29 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setDietStartDate,
   setDietLength,
-  setDietEndDate,
-  toggleDeficitSettings,
+  setCalculatedData,
 } from "../../../store/profileSlice";
 
-import { formatDate } from "../../../utils";
+import { formatDate, calculateDietEnd } from "../../../utils";
 
 const DateSettings = () => {
-  const { weight } = useSelector((state) => state.profileData.personalData);
-  const {
-    dietStartInput,
-    dietLengthInput,
-    weightGoalInput,
-    presetDeficitInput,
-    finetunedDeficitInput,
-  } = useSelector((state) => state.profileData.dietData);
-  const { totalWeightloss } = useSelector(
-    (state) => state.profileData.calculatedData
-  );
-  const { disableDeficitSettings, isFineTuneDeficitChecked } = useSelector(
-    (state) => state.profileData.UI
-  );
-
   const dispatch = useDispatch();
+  const { dietStartInput, dietLengthInput } = useSelector(
+    (state) => state.profileData.dietData
+  );
 
   // Handle diet START change
   const handleDietStartDateChange = (e) => {
@@ -38,13 +25,26 @@ const DateSettings = () => {
   // Handle diet LENGTH change
   const handleDietLengthChange = (e) => {
     const lengthValue = e.target.value;
+    dispatch(setDietLength(lengthValue));
 
-    // Function to Calculate DIET LENGTH based on weight goal and deficit
+    let calculatedDietLength;
+    calculatedDietLength = lengthValue;
 
-    // Set daily deficit
-    const dailyDeficit = isFineTuneDeficitChecked
-      ? finetunedDeficitInput
-      : presetDeficitInput;
+    const calculatedDietEndDate =
+      lengthValue !== "" ? calculateDietEnd(dietStartInput, lengthValue) : "";
+    dispatch(
+      setCalculatedData({
+        dataName: "calculatedDietEndDate",
+        dataValue: calculatedDietEndDate,
+      })
+    );
+
+    dispatch(
+      setCalculatedData({
+        dataName: "calculatedDietLength",
+        dataValue: calculatedDietLength,
+      })
+    );
   };
 
   return (

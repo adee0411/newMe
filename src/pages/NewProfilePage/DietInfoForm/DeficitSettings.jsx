@@ -135,7 +135,7 @@ const DeficitSettings = () => {
           marks={marks}
           name="finetunedDeficitInput"
           sx={{ width: "80%", mx: "auto", mb: 2 }}
-          disabled={!isFineTuneDeficitChecked}
+          disabled={!isFineTuneDeficitChecked || isDeficitSettingsDisabled}
         />
         {deficitAlert && <DeficitAlert />}
       </FormControl>

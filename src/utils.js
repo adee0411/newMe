@@ -1,5 +1,4 @@
 export const calculateBMR = (stats) => {
-  console.log(stats);
   const { gender, weight, height, age } = stats;
   let bmr;
 
@@ -123,10 +122,32 @@ export const calculateWeightGoal = (
   return parseInt(currentWeight - ((dailyDeficit * 7) / 7000) * dietLength);
 };
 
+export const calculateDailyDeficit = (dietLength, totalWeightLoss) => {
+  return ((totalWeightLoss * 7000) / dietLength / 7).toFixed(0);
+};
+
+export const calculateDietEnd = (dietStart, dietLength) => {
+  const dietStartDate = new Date(dietStart);
+  const days = dietStartDate.getDate();
+  const newDays = days + +dietLength * 7;
+  const dietEndDate = dietStartDate.setDate(newDays);
+  const formattedDietEndDate = formatDate(new Date(dietEndDate));
+
+  return formattedDietEndDate;
+};
+
+export const calculateTotalWeightloss = (startWeight, weightGoal) => {
+  return weightGoal !== "" ? startWeight - +weightGoal : "";
+};
+
+export const calculateDailyCalorieIntake = (tdee, dailyDeficit) => {
+  return tdee - dailyDeficit;
+};
+
 export const PAL = {
   Sedentary: {
     multiplier: 1.2,
-    label: "Ülő munka",
+    label: "Ülőmunka",
     description: "Tudatos edzés nélküli, leginkább ülő életmód",
   },
   "Light exercise": {

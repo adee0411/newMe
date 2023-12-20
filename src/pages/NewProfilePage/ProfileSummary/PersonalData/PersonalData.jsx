@@ -1,4 +1,4 @@
-import { Card, CardContent, Stack, Grid, Typography } from "@mui/joy";
+import { Card, CardContent, Stack, Typography } from "@mui/joy";
 
 import { useSelector } from "react-redux";
 
@@ -28,7 +28,7 @@ const genders = {
 const PersonalData = () => {
   const { personalData } = useSelector((state) => state.profileData);
   return (
-    <Grid container gap={1}>
+    <Stack direction="row" gap={2} flexWrap="wrap">
       {Object.entries(personalData).map((data) => {
         let palLabel;
         if (data[0] === "pal") {
@@ -38,24 +38,28 @@ const PersonalData = () => {
         }
 
         return (
-          <Grid flex={1}>
-            <Card>
-              <CardContent>
-                {labels[data[0]].icon}
-                <Typography>{labels[data[0]].label}</Typography>
-                <Typography>
-                  {data[0] === "gender"
-                    ? genders[data[1]]
-                    : data[0] === "pal"
-                    ? palLabel
-                    : data[1]}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
+          <Card sx={{ width: "calc(33% - 9px)" }} key={data[0]}>
+            <CardContent>
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Typography color="neutral">{labels[data[0]].icon}</Typography>
+                <Typography color="neutral">{labels[data[0]].label}</Typography>
+              </Stack>
+              <Typography level="body-lg" fontWeight={800}>
+                {data[0] === "gender"
+                  ? genders[data[1]]
+                  : data[0] === "pal"
+                  ? palLabel
+                  : data[1]}
+              </Typography>
+            </CardContent>
+          </Card>
         );
       })}
-    </Grid>
+    </Stack>
   );
 };
 

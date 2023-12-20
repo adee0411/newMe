@@ -9,18 +9,23 @@ import {
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { setPersonalData } from "../../../store/profileSlice";
+import {
+  setCalculatedData,
+  setPersonalData,
+} from "../../../store/profileSlice";
 
-import { PAL } from "../../../utils";
+import { PAL, calculateTDEE } from "../../../utils";
 
 const PALInputWrapper = () => {
-  const { pal } = useSelector((state) => state.profileData.personalData);
-
   const dispatch = useDispatch();
+
+  const { pal } = useSelector((state) => state.profileData.personalData);
+  const { bmr } = useSelector((state) => state.profileData.calculatedData);
 
   const handlePalChange = (e) => {
     const inputValue = +e.target.value;
-
+    const tdee = calculateTDEE(bmr, inputValue);
+    dispatch(setCalculatedData({ dataName: "tdee", dataValue: tdee }));
     dispatch(setPersonalData({ inputName: "pal", inputValue }));
   };
   return (

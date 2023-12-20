@@ -10,29 +10,24 @@ import {
 
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  setWeightGoal,
-  setTotalWeightloss,
-  toggleDeficitSettings,
-  setCalculatedWeightGoal,
-  setCalculatedDietLength,
-  setDietEndDate,
-} from "../../../store/profileSlice";
-
-import { formatDate } from "../../../utils";
+import { setWeightGoal } from "../../../store/profileSlice";
 
 import { GrPowerReset } from "react-icons/gr";
+import { calculateDietLength } from "../../../utils";
 
 const WeightGoalSettings = () => {
   const dispatch = useDispatch();
 
-  const { weightGoalInput } = useSelector(
+  const { weightGoalInput, dietLengthInput } = useSelector(
     (state) => state.profileData.dietData
+  );
+
+  const { calculatedWeightGoal } = useSelector(
+    (state) => state.profileData.calculatedData
   );
 
   const handleWeightGoalChange = (e) => {
     const weightGoalValue = e.target.value;
-
     dispatch(setWeightGoal(weightGoalValue));
   };
 
