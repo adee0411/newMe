@@ -9,7 +9,6 @@ import {
 } from "@mui/joy";
 
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
 
 import {
   setPresetDeficit,
@@ -39,6 +38,7 @@ const DeficitAlert = () => {
 };
 
 const DeficitSettings = () => {
+  const dispatch = useDispatch();
   const { presetDeficitInput, finetunedDeficitInput } = useSelector(
     (state) => state.profileData.dietData
   );
@@ -46,14 +46,12 @@ const DeficitSettings = () => {
   const { isFineTuneDeficitChecked, isDeficitSettingsDisabled } = useSelector(
     (state) => state.profileData.UI
   );
-  const dispatch = useDispatch();
 
-  const [deficitAlert, setDeficitAlert] = useState(false);
+  const { calculatedDailyDeficit } = useSelector(
+    (state) => state.profileData.calculatedData
+  );
 
   const handleFinetuneDeficitCheck = (e) => {
-    if (isFineTuneDeficitChecked) {
-      setDeficitAlert(false);
-    }
     dispatch(toggleFineTuneDeficitCheck());
   };
 
@@ -63,14 +61,9 @@ const DeficitSettings = () => {
     dispatch(setFinetunedDeficit(deficitValue));
   };
 
-  const handleDeficitFinetuneChange = (e) => {
+  const handleFineTunedDeficitChange = (e) => {
     const deficitValue = e.target.value;
     dispatch(setFinetunedDeficit(deficitValue));
-    if (deficitValue > 1000) {
-      setDeficitAlert(true);
-    } else {
-      setDeficitAlert(false);
-    }
   };
   return (
     <div>
@@ -130,14 +123,14 @@ const DeficitSettings = () => {
           min={100}
           max={1500}
           step={100}
-          onChange={handleDeficitFinetuneChange}
+          onChange={handleFineTunedDeficitChange}
           getAriaValueText={valueText}
           marks={marks}
           name="finetunedDeficitInput"
           sx={{ width: "80%", mx: "auto", mb: 2 }}
           disabled={!isFineTuneDeficitChecked || isDeficitSettingsDisabled}
         />
-        {deficitAlert && <DeficitAlert />}
+        {calculatedDailyDeficit > 1000 && <DeficitAlert />}
       </FormControl>
     </div>
   );

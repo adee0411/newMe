@@ -13,22 +13,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { setWeightGoal } from "../../../store/profileSlice";
 
 import { GrPowerReset } from "react-icons/gr";
-import { calculateDietLength } from "../../../utils";
 
 const WeightGoalSettings = () => {
   const dispatch = useDispatch();
 
-  const { weightGoalInput, dietLengthInput } = useSelector(
+  const { weightGoalInput } = useSelector(
     (state) => state.profileData.dietData
   );
 
-  const { calculatedWeightGoal } = useSelector(
-    (state) => state.profileData.calculatedData
-  );
+  const { weight } = useSelector((state) => state.profileData.personalData);
 
   const handleWeightGoalChange = (e) => {
     const weightGoalValue = e.target.value;
-    dispatch(setWeightGoal(weightGoalValue));
+    if (+weightGoalValue > +weight) return;
+    dispatch(setWeightGoal(+weightGoalValue));
   };
 
   const resetWeightGoal = () => {

@@ -1,7 +1,5 @@
 import { Stack } from "@mui/joy";
 
-import { useSelector } from "react-redux";
-
 import BMRCard from "./ResultCards/BMRCard";
 import TDEECard from "./ResultCards/TDEECard";
 

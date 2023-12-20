@@ -6,7 +6,6 @@ import {
 } from "../../../store/profileSlice";
 
 import {
-  formatDate,
   calculateDietEnd,
   calculateTotalWeightloss,
   calculateDailyCalorieIntake,

@@ -49,17 +49,20 @@ const PersonalInfoForm = () => {
 
   const handleAgeChange = (e) => {
     let inputValue = e.target.value;
-    dispatch(setPersonalData({ inputName: "age", inputValue }));
+    if (inputValue < 16 || inputValue > 99) return;
+    dispatch(setPersonalData({ inputName: "age", inputValue: +inputValue }));
   };
 
   const handleWeightChange = (e) => {
     let inputValue = e.target.value;
+    if (inputValue < 30 || inputValue > 300) return;
 
     dispatch(setPersonalData({ inputName: "weight", inputValue }));
   };
 
   const handleHeightChange = (e) => {
     let inputValue = e.target.value;
+    if (inputValue < 60 || inputValue > 250) return;
 
     dispatch(setPersonalData({ inputName: "height", inputValue }));
   };
