@@ -1,8 +1,11 @@
 import classes from "./Hero.module.scss";
-import { Grid, Typography, Button } from "@mui/joy";
+import { Grid, Typography } from "@mui/joy";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setActiveFormIndex } from "../../../store/profileSlice";
 
 const Hero = () => {
+  const dispatch = useDispatch();
   return (
     <div className={classes["hero-container"]}>
       <Grid container columns={2} height="100%" gap="2rem">
@@ -40,7 +43,12 @@ const Hero = () => {
             <div>
               <Grid container gap={4}>
                 <Grid>
-                  <Link to="/new-profile">Máris kezdem!</Link>
+                  <Link
+                    to="/new-profile"
+                    onClick={() => dispatch(setActiveFormIndex(0))}
+                  >
+                    Máris kezdem!
+                  </Link>
                 </Grid>
                 <Grid>
                   <Link>Több info</Link>

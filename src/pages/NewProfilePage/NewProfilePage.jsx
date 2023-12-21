@@ -29,7 +29,8 @@ const NewProfilePage = () => {
     (data) => data !== ""
   );
 
-  const handlePersonalDataSubmit = () => {
+  const handlePersonalDataSubmit = (e) => {
+    e.preventDefault();
     const bmr = calculateBMR(personalData);
     const tdee = calculateTDEE(bmr, personalData.pal);
 
@@ -39,11 +40,13 @@ const NewProfilePage = () => {
     dispatch(startProfile());
   };
 
-  const handlePALSubmit = () => {
+  const handlePALSubmit = (e) => {
+    e.preventDefault();
     dispatch(incrementActiveFormIndex());
   };
 
-  const handleCreateProfile = () => {
+  const handleCreateProfile = (e) => {
+    e.preventDefault();
     console.log("creating");
   };
 

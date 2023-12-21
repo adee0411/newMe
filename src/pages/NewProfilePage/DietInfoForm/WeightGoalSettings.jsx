@@ -25,12 +25,12 @@ const WeightGoalSettings = () => {
 
   const handleWeightGoalChange = (e) => {
     const weightGoalValue = e.target.value;
-    if (+weightGoalValue > +weight) return;
-    dispatch(setWeightGoal(+weightGoalValue));
-  };
-
-  const resetWeightGoal = () => {
-    dispatch(setWeightGoal(""));
+    if (
+      (+weightGoalValue > +weight || +weightGoalValue < 1) &&
+      weightGoalValue !== ""
+    )
+      return;
+    dispatch(setWeightGoal(weightGoalValue));
   };
 
   return (
@@ -42,20 +42,7 @@ const WeightGoalSettings = () => {
           value={weightGoalInput}
           name="weightGoal"
           onChange={handleWeightGoalChange}
-          endDecorator={
-            <Stack direction="row" spacing={1}>
-              <Typography>kg</Typography>
-              <Divider color="neutral" orientation="vertical" />
-              <IconButton
-                color="primary"
-                variant="plain"
-                title="Visszaállítás"
-                onClick={resetWeightGoal}
-              >
-                <GrPowerReset />
-              </IconButton>
-            </Stack>
-          }
+          endDecorator="kg"
         />
       </FormControl>
     </div>

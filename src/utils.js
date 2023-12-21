@@ -119,7 +119,9 @@ export const calculateWeightGoal = (
   dietLength,
   currentWeight
 ) => {
-  return parseInt(currentWeight - ((dailyDeficit * 7) / 7000) * dietLength);
+  return parseInt(
+    currentWeight - ((dailyDeficit * 7) / 7000) * (dietLength ? dietLength : 0)
+  );
 };
 
 export const calculateDailyDeficit = (dietLength, totalWeightLoss) => {

@@ -1,39 +1,13 @@
-import { Typography } from "@mui/joy";
-import { useSelector } from "react-redux";
+import DateSummary from "./DateSummary/DateSummary";
+import CalorieSummary from "./CalorieSummary/CalorieSummary";
 
 const DietData = () => {
-  const { dietStartInput } = useSelector((state) => state.profileData.dietData);
-  const { calculatedData } = useSelector((state) => state.profileData);
   return (
     <div>
-      <Typography>
-        Diéta kezdete: {`${dietStartInput.replaceAll("-", ".")}.`}
-      </Typography>
-      <Typography>
-        Diéta vége:{" "}
-        {calculatedData.calculatedDietEndDate
-          ? `${calculatedData.calculatedDietEndDate.replaceAll("-", ".")}.`
-          : ""}
-      </Typography>
-      <Typography>
-        Diéta hossza:{" "}
-        {calculatedData.calculatedDietLength
-          ? `${calculatedData.calculatedDietLength} hét`
-          : ""}
-      </Typography>
+      <DateSummary />
+      <CalorieSummary />
+      {/** 
 
-      <Typography>
-        Napi kalóriadeficit:{" "}
-        {calculatedData.calculatedDailyDeficit
-          ? `${calculatedData.calculatedDailyDeficit} kcal`
-          : ""}
-      </Typography>
-      <Typography>
-        Napi kalóriabevitel:{" "}
-        {calculatedData.calculatedCalorieIntake
-          ? `${calculatedData.calculatedCalorieIntake} kcal`
-          : ""}
-      </Typography>
       <Typography>
         Célsúly:{" "}
         {calculatedData.calculatedWeightGoal
@@ -42,10 +16,10 @@ const DietData = () => {
       </Typography>
       <Typography>
         Összes súlyvesztés:{" "}
-        {calculatedData.calculatedWeightloss
+        {calculatedData.calculatedWeightloss !== ""
           ? `${calculatedData.calculatedWeightloss} kg`
           : ""}
-      </Typography>
+      </Typography>*/}
     </div>
   );
 };

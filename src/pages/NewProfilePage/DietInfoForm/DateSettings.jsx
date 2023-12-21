@@ -25,7 +25,7 @@ const DateSettings = () => {
   // Handle diet LENGTH change
   const handleDietLengthChange = (e) => {
     const lengthValue = e.target.value;
-    if (lengthValue < 1) return;
+    if (lengthValue < 1 && lengthValue !== "") return;
     dispatch(setDietLength(lengthValue));
 
     let calculatedDietLength;

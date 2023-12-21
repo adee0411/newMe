@@ -21,6 +21,7 @@ import classes from "./DietInfoForm.module.scss";
 import DateSettings from "./DateSettings";
 import WeightGoalSettings from "./WeightGoalSettings";
 import DeficitSettings from "./DeficitSettings";
+import { useEffect } from "react";
 
 const DietInfoForm = () => {
   const dispatch = useDispatch();
@@ -68,17 +69,22 @@ const DietInfoForm = () => {
     calculatedCalorieIntake: calculateDailyCalorieIntake(tdee, dailyDeficit),
   };
 
-  // Set Initial Calculated Data in Store
-  for (const data in initialCalculatedData) {
-    dispatch(
-      setCalculatedData({
-        dataName: data,
-        dataValue: initialCalculatedData[data],
-      })
-    );
-  }
+  // Prevent parallel component rendering with <StepperWrapper />
+  useEffect(() => {
+    // Set Initial Calculated Data in Store
+    for (const data in initialCalculatedData) {
+      dispatch(
+        setCalculatedData({
+          dataName: data,
+          dataValue: initialCalculatedData[data],
+        })
+      );
+    }
 
-  dispatch(toggleDeficitSettings(dietLengthInput && weightGoalInput));
+    dispatch(
+      toggleDeficitSettings(dietLengthInput !== "" && weightGoalInput !== "")
+    );
+  });
 
   return (
     <div className={classes["new-profile-content__diet-info"]}>

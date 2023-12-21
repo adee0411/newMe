@@ -88,19 +88,31 @@ const DeficitSettings = () => {
             label="Lassú"
             name="presetDeficitInput"
             value={200}
-            disabled={isFineTuneDeficitChecked || isDeficitSettingsDisabled}
+            disabled={
+              isDeficitSettingsDisabled
+                ? isDeficitSettingsDisabled
+                : isFineTuneDeficitChecked
+            }
           />
           <Radio
             label="Normál"
             name="presetDeficitInput"
             value={500}
-            disabled={isFineTuneDeficitChecked || isDeficitSettingsDisabled}
+            disabled={
+              isDeficitSettingsDisabled
+                ? isDeficitSettingsDisabled
+                : isFineTuneDeficitChecked
+            }
           />
           <Radio
             label="Gyors"
             name="presetDeficitInput"
             value={1000}
-            disabled={isFineTuneDeficitChecked || isDeficitSettingsDisabled}
+            disabled={
+              isDeficitSettingsDisabled
+                ? isDeficitSettingsDisabled
+                : isFineTuneDeficitChecked
+            }
           />
         </RadioGroup>
       </FormControl>
@@ -128,7 +140,7 @@ const DeficitSettings = () => {
           marks={marks}
           name="finetunedDeficitInput"
           sx={{ width: "80%", mx: "auto", mb: 2 }}
-          disabled={!isFineTuneDeficitChecked || isDeficitSettingsDisabled}
+          disabled={!isFineTuneDeficitChecked}
         />
         {calculatedDailyDeficit > 1000 && <DeficitAlert />}
       </FormControl>
