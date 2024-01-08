@@ -1,14 +1,22 @@
 import classes from "./Hero.module.scss";
-import { Grid, Typography } from "@mui/joy";
-import { Link } from "react-router-dom";
+import { Grid, Typography, Link } from "@mui/joy";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { setActiveFormIndex } from "../../../store/profileSlice";
 
 const Hero = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const createNewProfile = (e) => {
+    e.preventDefault();
+
+    navigate("/new-profile");
+    dispatch(setActiveFormIndex(0));
+  };
   return (
     <div className={classes["hero-container"]}>
-      <Grid container columns={2} height="100%" gap="2rem">
+      <Grid container columns={2} height="100%" gap="2rem" mt={12}>
         <Grid flex={1}>
           <div className={classes["hero-content"]}>
             <div className={classes["hero-content__title"]}>
@@ -18,7 +26,12 @@ const Hero = () => {
               <Typography level="h1" fontSize={72} fontWeight="xl" mb="2rem">
                 Újulj meg tudatosan!
               </Typography>
-              <Typography level="h2" color="neutral" lineHeight={1.5}>
+              <Typography
+                level="h2"
+                color="neutral"
+                lineHeight={1.5}
+                fontWeight={400}
+              >
                 Ha a céljaid már meg vannak, csak egy társ kell, hogy
                 megvalósíthasd!
               </Typography>
@@ -44,14 +57,30 @@ const Hero = () => {
               <Grid container gap={4}>
                 <Grid>
                   <Link
-                    to="/new-profile"
-                    onClick={() => dispatch(setActiveFormIndex(0))}
+                    onClick={createNewProfile}
+                    component="button"
+                    variant="solid"
+                    color="primary"
+                    borderRadius="sm"
+                    p={2}
+                    fontWeight={800}
+                    underline="none"
                   >
                     Máris kezdem!
                   </Link>
                 </Grid>
                 <Grid>
-                  <Link>Több info</Link>
+                  <Link
+                    component="button"
+                    variant="outlined"
+                    color="primary"
+                    borderRadius="sm"
+                    p={2}
+                    fontWeight={800}
+                    underline="none"
+                  >
+                    Több info{" "}
+                  </Link>
                 </Grid>
               </Grid>
             </div>

@@ -1,13 +1,24 @@
-import { Card, CardContent, Divider, Stack, Typography } from "@mui/joy";
+import {
+  List,
+  ListItem,
+  Divider,
+  Stack,
+  Typography,
+  ListDivider,
+} from "@mui/joy";
 import { useSelector } from "react-redux";
 
 const DateSummary = () => {
   const { dietStartInput } = useSelector((state) => state.profileData.dietData);
   const { calculatedData } = useSelector((state) => state.profileData);
   return (
-    <Stack direction="row" justifyContent="space-between">
-      <Card color="danger" variant="soft" invertedColors>
-        <CardContent>
+    <List
+      variant="outlined"
+      orientation="horizontal"
+      sx={{ borderRadius: "md", my: 2 }}
+    >
+      <ListItem sx={{ flex: 1 }}>
+        <Stack width="100%">
           <Typography level="body-sm" textAlign="center">
             Diéta kezdete
           </Typography>
@@ -16,27 +27,25 @@ const DateSummary = () => {
             fontWeight={800}
             textAlign="center"
           >{`${dietStartInput.replaceAll("-", ".")}.`}</Typography>
-        </CardContent>
-      </Card>
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-        }}
-      >
-        <Typography fontWeight={800} textAlign="center">
-          {" "}
-          {calculatedData.calculatedDietLength
-            ? `${calculatedData.calculatedDietLength} hét`
-            : ""}
-        </Typography>
-        <Divider />
-      </div>
-      <Card color="success" variant="soft" invertedColors>
-        {" "}
-        <CardContent>
+        </Stack>
+      </ListItem>
+      <ListDivider inset="gutter" />
+      <ListItem sx={{ flex: 1 }}>
+        <Stack width="100%">
+          <Typography level="body-sm" textAlign="center">
+            Diéta hossza
+          </Typography>
+          <Typography fontWeight={800} textAlign="center">
+            {" "}
+            {calculatedData.calculatedDietLength
+              ? `${calculatedData.calculatedDietLength} hét`
+              : ""}
+          </Typography>
+        </Stack>
+      </ListItem>
+      <ListDivider inset="gutter" />
+      <ListItem sx={{ flex: 1 }}>
+        <Stack width="100%">
           <Typography level="body-sm" textAlign="center">
             Diéta vége
           </Typography>
@@ -46,9 +55,9 @@ const DateSummary = () => {
               ? `${calculatedData.calculatedDietEndDate.replaceAll("-", ".")}.`
               : ""}
           </Typography>
-        </CardContent>
-      </Card>
-    </Stack>
+        </Stack>
+      </ListItem>
+    </List>
   );
 };
 

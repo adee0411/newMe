@@ -1,6 +1,6 @@
 import classes from "./NewProfilePage.module.scss";
 
-import { Typography, Grid, Button } from "@mui/joy";
+import { Typography, Grid, Button, Divider } from "@mui/joy";
 
 import StepperWrapper from "./StepperWrapper";
 import PersonalInfoForm from "./PersonalInfoForm/PersonalInfoForm";
@@ -23,11 +23,14 @@ const NewProfilePage = () => {
   const dispatch = useDispatch();
 
   const { activeFormIndex } = useSelector((state) => state.profileData.UI);
-  const { personalData } = useSelector((state) => state.profileData);
+  const { personalData, dietData } = useSelector((state) => state.profileData);
+  const { dietLengthInput, weightGoalInput } = dietData;
 
-  const isPersonalDataFormFilled = Object.values(personalData).every(
+  const isPersonalInfoFormFilled = Object.values(personalData).every(
     (data) => data !== ""
   );
+
+  const isDietFormFilled = dietLengthInput !== "" || weightGoalInput !== "";
 
   const handlePersonalDataSubmit = (e) => {
     e.preventDefault();
@@ -47,7 +50,6 @@ const NewProfilePage = () => {
 
   const handleCreateProfile = (e) => {
     e.preventDefault();
-    console.log("creating");
   };
 
   const forms = {
@@ -61,7 +63,7 @@ const NewProfilePage = () => {
 
   return (
     <div className={classes["new-profile-container"]}>
-      <Grid container columns={2} height="100%" gap="2rem">
+      <Grid container columns={2} height="100%" gap="6rem">
         <Grid flex={1} display="flex" justifyContent="center">
           <div className={classes["new-profile-content"]}>
             <div className={classes["new-profile-content__header"]}>
@@ -86,18 +88,22 @@ const NewProfilePage = () => {
               <Form>
                 {forms[activeFormIndex].component}
                 <Button
-                  type={`${activeFormIndex === 2 ? "submit" : "button"}`}
+                  type={activeFormIndex < 2 ? "button" : "submit"}
                   onClick={forms[activeFormIndex].handler}
                   size="md"
                   fullWidth
-                  disabled={!isPersonalDataFormFilled}
+                  disabled={
+                    (!isPersonalInfoFormFilled && activeFormIndex === 0) ||
+                    (activeFormIndex === 2 && !isDietFormFilled)
+                  }
                 >
-                  Tovább
+                  {activeFormIndex === 2 ? "Profil elkészítése" : "Tovább"}
                 </Button>
               </Form>
             </div>
           </div>
         </Grid>
+        <Divider orientation="vertical" />
         <Grid flex={1}>
           <ProfileSummary />
         </Grid>

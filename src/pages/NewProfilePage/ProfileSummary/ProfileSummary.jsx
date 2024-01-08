@@ -1,4 +1,4 @@
-import { Sheet, Typography } from "@mui/joy";
+import { Typography } from "@mui/joy";
 
 import { useSelector } from "react-redux";
 
@@ -18,22 +18,10 @@ const ProfileSummary = () => {
 
   return (
     <div className={classes["profile-sum-sontainer"]}>
-      <Sheet
-        color="neutral"
-        variant="plain"
-        sx={{
-          boxShadow: "md",
-          maxWidth: "600px",
-          mx: "auto",
-          p: 4,
-          height: "100%",
-        }}
-      >
-        <Typography level="h1" textAlign="center">
-          Profil összesítő
-        </Typography>
-        {profileSummaryContent}
-      </Sheet>
+      <Typography level="h1" fontSize={32} mb="1rem" textAlign="center">
+        Profil összesítő
+      </Typography>
+      {profileSummaryContent}
     </div>
   );
 };

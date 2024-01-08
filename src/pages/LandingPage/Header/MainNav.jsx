@@ -10,9 +10,7 @@ const MainNav = () => {
         <Grid lg={4} md={4} sm={4}>
           <Logo />
         </Grid>
-        <Grid flex={1}>
-          <NavLinks />
-        </Grid>
+        <Grid flex={1}>{/*<NavLinks />*/}</Grid>
       </Grid>
     </nav>
   );

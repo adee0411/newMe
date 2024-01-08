@@ -4,9 +4,12 @@ import "./App.css";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import RootLayout from "./pages/RootLayout";
+import RootLayout from "./UI/RootLayout";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import NewProfilePage from "./pages/NewProfilePage/NewProfilePage";
+
+import DashboardRoot from "./UI/DashboardRoot";
+import Home from "./components/Dashboard/Home/Home";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +19,11 @@ const router = createBrowserRouter([
       { path: "/", element: <LandingPage /> },
       { path: "/new-profile", element: <NewProfilePage /> },
     ],
+  },
+  {
+    path: "/dashboard",
+    element: <DashboardRoot />,
+    children: [{ path: "", element: <Home /> }],
   },
 ]);
 

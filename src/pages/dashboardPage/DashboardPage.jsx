@@ -1,7 +1,7 @@
 import { Sheet, Typography } from "@mui/joy";
 import { Outlet } from "react-router-dom";
 
-import Header from "../../components/Header/Header";
+import Header from "../../components/Dashboard/Header/Header";
 
 const DashboardPage = () => {
   return (

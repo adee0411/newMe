@@ -35,6 +35,8 @@ const profileSlice = createSlice({
       isProfileEmpty: true,
       isFineTuneDeficitChecked: false,
       isDeficitSettingsDisabled: false,
+      isPersonalInfoFormValid: false,
+      isDietInfoFormValid: false,
     },
   },
   reducers: {
@@ -76,6 +78,12 @@ const profileSlice = createSlice({
     },
     setCalculatedData(state, action) {
       state.calculatedData[action.payload.dataName] = action.payload.dataValue;
+    },
+    toggleIsPersonalInfoFormValid(state) {
+      state.UI.isPersonalInfoFormValid = !state.UI.isPersonalInfoFormValid;
+    },
+    toggleIsDietInfoFormValid(state) {
+      state.UI.isDietInfoFormValid = !state.UI.isDietInfoFormValid;
     },
   },
 });

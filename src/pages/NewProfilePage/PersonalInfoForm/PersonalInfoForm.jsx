@@ -1,4 +1,3 @@
-import { Form } from "react-router-dom";
 import {
   FormControl,
   FormLabel,
@@ -7,7 +6,6 @@ import {
   Radio,
   Grid,
   Typography,
-  Button,
   Sheet,
   Avatar,
 } from "@mui/joy";
@@ -71,8 +69,9 @@ const PersonalInfoForm = () => {
         Személyes adatok
       </Typography>
       <div>
-        <Grid container gap={2} justifyContent="space-between" my={4}>
-          <Grid>
+        <Grid container spacing={2} flexGrow={1} mb={4}>
+          <Grid lg={6}>
+            {" "}
             <FormControl>
               <FormLabel>Keresztnév</FormLabel>
               <Input
@@ -83,53 +82,17 @@ const PersonalInfoForm = () => {
                 startDecorator={<RxAvatar />}
               />
             </FormControl>{" "}
-            <FormControl>
-              <FormLabel>Kor</FormLabel>
-              <Input
-                type="number"
-                sx={{ width: "100%" }}
-                endDecorator="év"
-                name="age"
-                onChange={handleAgeChange}
-                value={age}
-                startDecorator={<LiaBirthdayCakeSolid />}
-              />
-            </FormControl>{" "}
-            <FormControl>
-              <FormLabel>Testsúly</FormLabel>
-              <Input
-                type="number"
-                sx={{ width: "100%" }}
-                endDecorator="kg"
-                name="weight"
-                onChange={handleWeightChange}
-                value={weight}
-                startDecorator={<LiaWeightSolid />}
-              />
-            </FormControl>{" "}
-            <FormControl>
-              <FormLabel>Magasság</FormLabel>
-              <Input
-                type="number"
-                sx={{ width: "100%" }}
-                endDecorator="cm"
-                name="height"
-                onChange={handleHeightChange}
-                value={height}
-                startDecorator={<GiBodyHeight />}
-              />
-            </FormControl>
           </Grid>
-          <Grid container justifyContent="space-between" gap={2} my={4}>
+          <Grid lg={6}>
             {" "}
-            <FormControl>
+            <FormControl sx={{ height: "100%" }}>
               <FormLabel>Nem</FormLabel>
               <RadioGroup
                 name="gender"
                 orientation="horizontal"
                 value={gender}
                 overlay
-                sx={{ gap: 1, p: 0, m: 0 }}
+                sx={{ gap: 1, p: 0, m: 0, height: "100%" }}
               >
                 <Sheet
                   component="label"
@@ -146,7 +109,11 @@ const PersonalInfoForm = () => {
                   }}
                 >
                   <Radio value="male" onChange={handleGenderChange} size="sm" />
-                  <Avatar src={MaleAvatar} size="sm" />
+                  <Avatar
+                    src={MaleAvatar}
+                    sx={{ width: "20px", height: "20px" }}
+                  />
+                  <Typography level="body-sm">Férfi</Typography>
                 </Sheet>
 
                 <Sheet
@@ -168,9 +135,59 @@ const PersonalInfoForm = () => {
                     onChange={handleGenderChange}
                     size="sm"
                   />
-                  <Avatar src={FemaleAvatar} size="sm" />
+                  <Avatar
+                    src={FemaleAvatar}
+                    size="sm"
+                    sx={{ width: "20px", height: "20px" }}
+                  />
+                  <Typography level="body-sm">Nő</Typography>
                 </Sheet>
               </RadioGroup>
+            </FormControl>
+          </Grid>
+          <Grid lg={4}>
+            {" "}
+            <FormControl>
+              <FormLabel>Kor</FormLabel>
+              <Input
+                type="number"
+                sx={{ width: "100%" }}
+                endDecorator="év"
+                name="age"
+                onChange={handleAgeChange}
+                value={age}
+                startDecorator={<LiaBirthdayCakeSolid />}
+              />
+            </FormControl>{" "}
+          </Grid>
+          <Grid lg={4}>
+            {" "}
+            <FormControl>
+              <FormLabel>Testsúly</FormLabel>
+              <Input
+                type="number"
+                sx={{ width: "100%" }}
+                endDecorator="kg"
+                name="weight"
+                onChange={handleWeightChange}
+                value={weight}
+                startDecorator={<LiaWeightSolid />}
+              />
+            </FormControl>{" "}
+          </Grid>
+          <Grid lg={4}>
+            {" "}
+            <FormControl>
+              <FormLabel>Magasság</FormLabel>
+              <Input
+                type="number"
+                sx={{ width: "100%" }}
+                endDecorator="cm"
+                name="height"
+                onChange={handleHeightChange}
+                value={height}
+                startDecorator={<GiBodyHeight />}
+              />
             </FormControl>
           </Grid>
         </Grid>

@@ -1,7 +1,6 @@
 import { Outlet } from "react-router-dom";
-import { Sheet } from "@mui/joy";
 
-import Header from "./LandingPage/Header/Header";
+import Header from "../pages/LandingPage/Header/Header";
 
 import classes from "./RootLayout.module.scss";
 
