@@ -33,9 +33,11 @@ const PALInputWrapper = () => {
       <RadioGroup name="pal" value={pal} overlay>
         <List
           sx={{
-            "--List-gap": "12px",
             "--ListItem-radius": "8px",
-            "--ListItem-paddingY": "1rem",
+            "--ListItem-paddingY": "0.5rem",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            gap: "6px",
           }}
           size="md"
         >
@@ -48,6 +50,7 @@ const PALInputWrapper = () => {
                   boxShadow: "sm",
                   flexDirection: "column",
                   alignItems: "flex-start",
+                  width: "calc(50% - 4px)",
                 }}
               >
                 <Radio

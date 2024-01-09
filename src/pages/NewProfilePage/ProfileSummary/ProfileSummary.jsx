@@ -8,13 +8,10 @@ import EmptyProfile from "./EmptyProfile";
 import ProfileSummaryData from "./ProfileSummaryData";
 
 const ProfileSummary = () => {
-  const { isProfileEmpty } = useSelector((state) => state.profileData.UI);
+  const { activeFormIndex } = useSelector((state) => state.profileData.UI);
 
-  const profileSummaryContent = isProfileEmpty ? (
-    <EmptyProfile />
-  ) : (
-    <ProfileSummaryData />
-  );
+  const profileSummaryContent =
+    activeFormIndex === 0 ? <EmptyProfile /> : <ProfileSummaryData />;
 
   return (
     <div className={classes["profile-sum-sontainer"]}>

@@ -9,7 +9,7 @@ import DietInfoForm from "./DietInfoForm/DietInfoForm";
 import ProfileSummary from "./ProfileSummary/ProfileSummary";
 
 import { useSelector, useDispatch } from "react-redux";
-import { Form } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
 
 import {
   incrementActiveFormIndex,
@@ -21,6 +21,7 @@ import { calculateBMR, calculateTDEE } from "../../utils";
 
 const NewProfilePage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { activeFormIndex } = useSelector((state) => state.profileData.UI);
   const { personalData, dietData } = useSelector((state) => state.profileData);
@@ -34,6 +35,7 @@ const NewProfilePage = () => {
 
   const handlePersonalDataSubmit = (e) => {
     e.preventDefault();
+
     const bmr = calculateBMR(personalData);
     const tdee = calculateTDEE(bmr, personalData.pal);
 
@@ -50,6 +52,7 @@ const NewProfilePage = () => {
 
   const handleCreateProfile = (e) => {
     e.preventDefault();
+    navigate("/dashboard");
   };
 
   const forms = {

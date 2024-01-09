@@ -16,8 +16,8 @@ const PALForm = () => {
         sx={{ width: "80%", margin: "0 auto" }}
       >
         Válaszd ki, hogy heti szinten milyen a fizikai aktivitásod. Az
-        aktivitási szint befolyásolja a napi kalória-felhasználás mértékét, így
-        ez egyénenként eltérő lehet.
+        aktivitási szint befolyásolja a napi kalória-felhasználás és
+        elfogyasztható kalória mértékét.
       </Typography>
       <div>
         <PALInputWrapper />

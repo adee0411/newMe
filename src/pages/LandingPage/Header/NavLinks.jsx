@@ -5,12 +5,13 @@ const NavLinks = () => {
   return (
     <List orientation="horizontal" sx={{ justifyContent: "space-around" }}>
       <ListItem>
-        <Link>
+        <Link to="/dashboard">
           <Typography component="span" color="primary">
-            Főoldal
+            Dashboard
           </Typography>
         </Link>
       </ListItem>
+      {/*}
       <ListItem>
         <Link to="/calorie-calculator">
           <Typography component="span" color="primary">
@@ -32,6 +33,7 @@ const NavLinks = () => {
           </Typography>
         </Link>
       </ListItem>
+  */}
     </List>
   );
 };
