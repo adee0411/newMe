@@ -48,11 +48,6 @@ const Sidebar = () => {
             <Typography>newMe</Typography>
           </Typography>
         </Link>
-        <Tooltip title="Menü nézet" size="sm">
-          <IconButton color="primary" variant="soft" size="sm">
-            <RxHamburgerMenu />
-          </IconButton>
-        </Tooltip>
       </header>
       <Divider />
       <div style={{ padding: "24px 0" }}>

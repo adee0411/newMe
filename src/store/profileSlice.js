@@ -14,21 +14,23 @@ const profileSlice = createSlice({
       pal: 1.2,
     },
     dietData: {
-      dietStartInput: formatDate(new Date()),
+      dietStartInput: "2024-01-08",
       dietLengthInput: "",
       weightGoalInput: "",
       presetDeficitInput: 1000,
       finetunedDeficitInput: 1000,
+      currentDate: formatDate(new Date()),
+      selectedDate: formatDate(new Date()),
     },
     calculatedData: {
       bmr: "",
-      tdee: "",
+      tdee: 2900,
       calculatedDietEndDate: "",
       calculatedDietLength: "",
       calculatedWeightloss: "",
-      calculatedDailyDeficit: "",
+      calculatedDailyDeficit: 500,
       calculatedWeightGoal: "",
-      calculatedCalorieIntake: "",
+      calculatedCalorieIntake: 2400,
     },
     UI: {
       activeFormIndex: 0,
@@ -85,6 +87,9 @@ const profileSlice = createSlice({
     toggleIsDietInfoFormValid(state) {
       state.UI.isDietInfoFormValid = !state.UI.isDietInfoFormValid;
     },
+    setSelectedDate(state, action) {
+      state.dietData.selectedDate = action.payload;
+    },
   },
 });
 
@@ -104,4 +109,5 @@ export const {
   toggleFineTuneDeficitCheck,
   toggleDeficitSettings,
   setCalculatedData,
+  setSelectedDate,
 } = profileSlice.actions;

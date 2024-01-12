@@ -1,6 +1,6 @@
 .home-grid {
   display: grid;
-  grid-template-columns: 1fr 400px;
+  grid-template-columns: 1fr 300px;
   gap: 24px;
   grid-template-areas: "content side";
 }
