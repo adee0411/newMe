@@ -11,88 +11,40 @@ import {
   Button,
   Divider,
   CircularProgress,
+  List,
+  ListItem,
 } from "@mui/joy";
 
-import LastSevenDaysData from "./LastSevenDaysData";
+import { formatDate } from "../../../../utils";
 
 import { useSelector } from "react-redux";
-import { Form, Link } from "react-router-dom";
-import { progress } from "framer-motion";
+
+import NewCalorieForm from "./NewCalorieForm";
+import DailyCalorieOverview from "./DailyCalorieOverview";
+import WeeklyCalorieOverview from "./WeeklyCalorieOverview";
 
 const CalorieOverview = () => {
-  const { selectedDate, currentDate } = useSelector(
-    (state) => state.profileData.dietData
-  );
-  const { calculatedCalorieIntake, calculatedDailyDeficit, tdee } = useSelector(
-    (state) => state.profileData.calculatedData
-  );
-  const { calorieData } = useSelector((state) => state.calorieTracker);
+  const currentDate = new Date();
+  const { selectedDate } = useSelector((state) => state.profileData.dietData);
 
-  const selectedDateData = calorieData[0].find(
-    (data) => data.date === selectedDate
-  );
+  const formattedCurrentDate =
+    formatDate(currentDate).replaceAll("-", ".") + ".";
 
-  const calorieIntake = selectedDateData?.calorieIntake || 0;
+  const isSelectedDateBiggerThanCurrentDate =
+    new Date(selectedDate).getTime() > currentDate.getTime();
 
-  const caloriesLeft = calculatedCalorieIntake - calorieIntake;
-
-  const calorieProgressRatio = +((calorieIntake / tdee) * 100).toFixed(0);
-
-  const formattedCurrentDate = currentDate.replaceAll("-", ".") + ".";
-
-  const progressColor =
-    calorieIntake > tdee
-      ? "danger"
-      : calorieIntake > calculatedCalorieIntake
-      ? "warning"
-      : "success";
   return (
     <>
       <Typography>{formattedCurrentDate}</Typography>
-      <Grid container spacing={2}>
+      <Typography>Kalória</Typography>
+      {!isSelectedDateBiggerThanCurrentDate && <NewCalorieForm />}
+      <Divider />
+      <Grid container>
         <Grid lg={6}>
-          <Card>
-            <Typography>Kalória</Typography>
-            <Form>
-              <FormControl orientation="horizontal" sx={{ gap: 2, my: 2 }}>
-                <Input
-                  type="number"
-                  sx={{ width: "120px" }}
-                  placeholder="Kalória"
-                />
-                <Button>Naplóz</Button>
-                <Divider orientation="vertical" sx={{ mx: 1 }}></Divider>
-                <Link to="/meal-planner">Étrend naplózása</Link>
-              </FormControl>
-            </Form>
-            <Divider />
-            <CardContent>
-              <CircularProgress
-                determinate
-                value={calorieProgressRatio > 100 ? 100 : calorieProgressRatio}
-                sx={{ "--CircularProgress-size": "180px" }}
-                variant="soft"
-                color={progressColor}
-              >
-                <Stack>
-                  <Typography
-                    textAlign="center"
-                    fontWeight={800}
-                    fontSize={40}
-                    color="neutral"
-                  >
-                    {calorieIntake}
-                  </Typography>
-                </Stack>
-              </CircularProgress>
-            </CardContent>
-          </Card>
+          <DailyCalorieOverview />
         </Grid>
-        <Grid lg={3}>
-          <Card></Card>
-        </Grid>
-        <Grid lg={3}>
-          <Card></Card>
+        <Grid lg={6}>
+          <WeeklyCalorieOverview />
         </Grid>
       </Grid>
     </>

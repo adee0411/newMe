@@ -19,7 +19,6 @@ const profileSlice = createSlice({
       weightGoalInput: "",
       presetDeficitInput: 1000,
       finetunedDeficitInput: 1000,
-      currentDate: formatDate(new Date()),
       selectedDate: formatDate(new Date()),
     },
     calculatedData: {

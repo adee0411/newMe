@@ -24,8 +24,8 @@ import { formatDate } from "../../../utils";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const dietStart = new Date(
-    useSelector((state) => state.profileData.dietData.dietStartInput)
+  const { dietStartInput: dietStart } = useSelector(
+    (state) => state.profileData.dietData
   );
 
   const handleDateChange = (value) => {
@@ -40,7 +40,7 @@ const Home = () => {
 
       <div className={classes["home-grid__side"]}>
         <div className="calendar-container">
-          <Calendar onChange={handleDateChange} minDate={dietStart} />
+          <Calendar onChange={handleDateChange} minDate={new Date(dietStart)} />
         </div>
       </div>
     </div>
