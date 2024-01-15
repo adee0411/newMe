@@ -1,56 +1,42 @@
-import {
-  Button,
-  Divider,
-  IconButton,
-  Stack,
-  Typography,
-  ButtonGroup,
-  LinearProgress,
-} from "@mui/joy";
+import { IconButton, Stack, Typography } from "@mui/joy";
 
 import { RiArrowLeftSLine } from "react-icons/ri";
 import { RiArrowRightSLine } from "react-icons/ri";
-import { useSelector } from "react-redux";
-import { useState } from "react";
-import { transform } from "framer-motion";
+import { useDispatch } from "react-redux";
 
-const WeekPagination = () => {
-  const { calorieData } = useSelector((state) => state.calorieTracker);
-  const [currentWeek, setCurrentWeek] = useState(0);
-  const numOfWeeks = calorieData.length;
+import { setCurrentWeek } from "../../../../store/calorieTrackerSlice";
 
-  const increaseWeek = (e) => {
-    setCurrentWeek(currentWeek + 1);
+const WeekPagination = ({ currentWeek, numOfWeeks }) => {
+  const dispatch = useDispatch();
+
+  const increaseWeek = () => {
+    dispatch(setCurrentWeek(1));
   };
 
-  const decreaseWeek = (e) => {
-    setCurrentWeek(currentWeek - 1);
+  const decreaseWeek = () => {
+    dispatch(setCurrentWeek(-1));
   };
 
   return (
     <>
-      <ButtonGroup sx={{ alignItems: "center" }}>
-        <IconButton onClick={decreaseWeek} disabled={currentWeek === 0}>
+      <Stack
+        direction="row"
+        justifyContent="flex-end"
+        alignItems="center"
+        mb={4}
+      >
+        <IconButton onClick={decreaseWeek} disabled={currentWeek === 1}>
           <RiArrowLeftSLine />
         </IconButton>
-        <Typography>{currentWeek + 1}. hét</Typography>
+        <Typography level="body-sm" px={2}>
+          {currentWeek}. hét
+        </Typography>
         <IconButton
           onClick={increaseWeek}
-          disabled={currentWeek === numOfWeeks - 1}
+          disabled={currentWeek === numOfWeeks}
         >
           <RiArrowRightSLine />
         </IconButton>
-      </ButtonGroup>
-      <Stack>
-        {calorieData[currentWeek].map((data) => {
-          return (
-            <Stack direction="row" spacing={2}>
-              <Typography>{data.date.replaceAll("-", ".")}.</Typography>
-              <LinearProgress determinate value={100} variant="plain" />
-              <Typography>{data.calorieIntake} kcal</Typography>
-            </Stack>
-          );
-        })}
       </Stack>
     </>
   );

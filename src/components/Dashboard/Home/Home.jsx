@@ -1,19 +1,11 @@
 import { useState } from "react";
-
 import classes from "./Home.module.css";
 import "react-calendar/dist/Calendar.css";
 import "./customCalendarStyles.css";
 
-import { Sheet, Typography } from "@mui/joy";
+import { Grid } from "@mui/joy";
 
 import Calendar from "react-calendar";
-
-import { IoHomeOutline } from "react-icons/io5";
-import { IoScaleOutline } from "react-icons/io5";
-import { BsGenderAmbiguous } from "react-icons/bs";
-import { GiBodyHeight } from "react-icons/gi";
-import { LiaBirthdayCakeSolid } from "react-icons/lia";
-import { FiActivity } from "react-icons/fi";
 
 import CalorieOverview from "./CalorieOverview/CalorieOverview";
 
@@ -33,17 +25,17 @@ const Home = () => {
     dispatch(setSelectedDate(formattedDateValue));
   };
   return (
-    <div className={classes["home-grid"]}>
-      <div>
+    <Grid container spacing={8}>
+      <Grid lg={9}>
         <CalorieOverview />
-      </div>
+      </Grid>
 
-      <div className={classes["home-grid__side"]}>
+      <Grid lg={3}>
         <div className="calendar-container">
           <Calendar onChange={handleDateChange} minDate={new Date(dietStart)} />
         </div>
-      </div>
-    </div>
+      </Grid>
+    </Grid>
   );
 };
 

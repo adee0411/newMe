@@ -17,14 +17,15 @@ const NewCalorieForm = () => {
 
   const { calorieData } = useSelector((state) => state.calorieTracker);
 
-  const selectedDateData = calorieData[0].find(
+  const selectedDateData = calorieData.find(
     (data) => data.date === selectedDate
   );
 
   const submitDailyCalorie = (e) => {
     e.preventDefault();
 
-    const calorieIntakeValue = calorieIntakeRef.current.value;
+    // Must convert to Number!
+    const calorieIntakeValue = +calorieIntakeRef.current.value;
 
     dispatch(
       setDailyCalorieIntake({

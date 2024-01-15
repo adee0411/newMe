@@ -1,19 +1,4 @@
-import {
-  Alert,
-  Card,
-  CardContent,
-  FormControl,
-  FormLabel,
-  Typography,
-  Input,
-  Grid,
-  Stack,
-  Button,
-  Divider,
-  CircularProgress,
-  List,
-  ListItem,
-} from "@mui/joy";
+import { Typography, Grid, Divider, Sheet } from "@mui/joy";
 
 import { formatDate } from "../../../../utils";
 
@@ -39,7 +24,7 @@ const CalorieOverview = () => {
       <Typography>Kalória</Typography>
       {!isSelectedDateBiggerThanCurrentDate && <NewCalorieForm />}
       <Divider />
-      <Grid container>
+      <Grid container spacing={4} my={1} justifyItems="stretch" direction="row">
         <Grid lg={6}>
           <DailyCalorieOverview />
         </Grid>
