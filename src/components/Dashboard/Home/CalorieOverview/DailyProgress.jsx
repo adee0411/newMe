@@ -1,4 +1,6 @@
 import { CircularProgress, Stack, Typography } from "@mui/joy";
+import { useEffect, useState } from "react";
+import { useCountUp } from "use-count-up";
 
 const DailyProgress = ({
   calorieIntake,
@@ -7,9 +9,22 @@ const DailyProgress = ({
   date,
   progressSize,
   thickness,
-  displayCaloriesLeft,
+  displayIntakeRatio,
 }) => {
-  const calorieProgressRatio = +((calorieIntake / tdee) * 100).toFixed(0);
+  // Ratio of daily allowed calories and calories taken
+  const calorieProgressRatio = +(
+    (calorieIntake / calculatedCalorieIntake) *
+    100
+  ).toFixed(0);
+
+  const { value, reset } = useCountUp({
+    isCounting: true,
+    duration: 1,
+    start: 0,
+    end: calorieProgressRatio,
+    easing: "easeOutCubic",
+  });
+
   const progressColor =
     calorieIntake > tdee
       ? "danger"
@@ -17,24 +32,25 @@ const DailyProgress = ({
       ? "warning"
       : "primary";
 
-  const caloriesLeft = calculatedCalorieIntake - calorieIntake;
   return (
     <div
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
       <CircularProgress
         determinate
-        value={calorieProgressRatio > 100 ? 100 : calorieProgressRatio}
-        sx={{ "--CircularProgress-size": progressSize, my: 2 }}
+        value={value > 100 ? 100 : value}
+        sx={{
+          "--CircularProgress-size": progressSize,
+          my: 2,
+        }}
         variant="soft"
         color={progressColor}
         thickness={thickness}
       >
-        {displayCaloriesLeft && (
+        {displayIntakeRatio && (
           <Stack textAlign="center">
-            <Typography>Maradt:</Typography>
-            <Typography fontWeight={800} fontSize={30} color="neutral">
-              {caloriesLeft}
+            <Typography fontWeight={800} fontSize={20} color="neutral">
+              {calorieProgressRatio}%
             </Typography>
           </Stack>
         )}

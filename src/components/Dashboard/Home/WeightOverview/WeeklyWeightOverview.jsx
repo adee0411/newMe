@@ -3,7 +3,7 @@ import WeekPagination from "./WeekPagination";
 import WeekStats from "./WeekStats";
 import { useSelector } from "react-redux";
 
-const WeeklyCalorieOverview = () => {
+const WeeklyWeightOverview = () => {
   const { currentWeek } = useSelector((state) => state.calorieTracker.UI);
   const { calorieData } = useSelector((state) => state.calorieTracker);
 
@@ -28,4 +28,4 @@ const WeeklyCalorieOverview = () => {
   );
 };
 
-export default WeeklyCalorieOverview;
+export default WeeklyWeightOverview;

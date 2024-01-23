@@ -1,4 +1,4 @@
-import { Typography, Grid, Divider, Sheet } from "@mui/joy";
+import { Typography, Grid, Divider, Sheet, Stack } from "@mui/joy";
 
 import { formatDate } from "../../../../utils";
 
@@ -20,20 +20,14 @@ const CalorieOverview = () => {
 
   return (
     <>
-      <Typography>{formattedCurrentDate}</Typography>
-      <Typography>Kalória</Typography>
-      {!isSelectedDateBiggerThanCurrentDate && <NewCalorieForm />}
-      <Divider />
-      <Grid container spacing={4} my={1} justifyItems="stretch" direction="row">
-        <Grid lg={6}>
-          <DailyCalorieOverview />
-        </Grid>
-        <Grid lg={6}>
-          <WeeklyCalorieOverview />
-        </Grid>
-      </Grid>
+      {/*!isSelectedDateBiggerThanCurrentDate && <NewCalorieForm />*/}
+      <Stack flex={1} spacing={2}>
+        <DailyCalorieOverview />
+
+        <WeeklyCalorieOverview />
+      </Stack>
     </>
   );
-};
+};    
 
 export default CalorieOverview;

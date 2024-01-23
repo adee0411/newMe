@@ -1,4 +1,4 @@
-import { Stack, Typography, CircularProgress } from "@mui/joy";
+import { Stack, Typography, Grid } from "@mui/joy";
 
 import { useSelector } from "react-redux";
 
@@ -20,33 +20,35 @@ const WeekStats = ({ currentWeek }) => {
   const dataToRender = calorieData.slice(weeklyPortion, weeklyPortion + 7);
 
   return (
-    <Stack direction="row" justifyContent="space-between">
+    <Grid columns={7} container>
       {dataToRender.map((data) => {
         return (
-          <Stack>
-            <Typography fontWeight={400} fontSize="lg">
-              {data.date
-                .split("-")
-                .filter((_, i) => i !== 0)
-                .join(".") + "."}
-            </Typography>
-            <DailyProgress
-              calorieIntake={data.calorieIntake}
-              tdee={tdee}
-              calculatedCalorieIntake={calculatedCalorieIntake}
-              date={data.date}
-              progressSize=""
-              thickness={3}
-              displayCaloriesLeft={false}
-              key={data.date}
-            />
-            <Typography fontWeight={400} fontSize="lg">
-              {data.calorieIntake}
-            </Typography>
-          </Stack>
+          <Grid lg={1}>
+            <Stack>
+              <Typography level="body-sm" textAlign="center">
+                {data.date
+                  .split("-")
+                  .filter((_, i) => i !== 0)
+                  .join(".") + "."}
+              </Typography>
+              <DailyProgress
+                calorieIntake={data.calorieIntake}
+                tdee={tdee}
+                calculatedCalorieIntake={calculatedCalorieIntake}
+                date={data.date}
+                progressSize=""
+                thickness={2}
+                displayCaloriesLeft={false}
+                key={data.date}
+              />
+              <Typography level="body-sm" textAlign="center">
+                {data.calorieIntake}
+              </Typography>
+            </Stack>
+          </Grid>
         );
       })}
-    </Stack>
+    </Grid>
   );
 };
 

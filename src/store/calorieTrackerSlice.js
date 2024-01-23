@@ -49,7 +49,6 @@ const calorieTrackerSlice = createSlice({
         calorieIntake: 2800,
       },
     ],
-    cumulatedCalorieDeficit: 10,
     UI: {
       currentWeek: 1,
     },

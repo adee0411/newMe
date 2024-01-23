@@ -19,17 +19,12 @@ const WeekPagination = ({ currentWeek, numOfWeeks }) => {
 
   return (
     <>
-      <Stack
-        direction="row"
-        justifyContent="flex-end"
-        alignItems="center"
-        mb={4}
-      >
+      <Stack direction="row" justifyContent="flex-end" alignItems="center">
         <IconButton onClick={decreaseWeek} disabled={currentWeek === 1}>
           <RiArrowLeftSLine />
         </IconButton>
         <Typography level="body-sm" px={2}>
-          {currentWeek}. hét
+          {currentWeek} / {numOfWeeks} blokk
         </Typography>
         <IconButton
           onClick={increaseWeek}
