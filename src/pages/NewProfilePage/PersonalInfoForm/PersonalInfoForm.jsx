@@ -22,45 +22,49 @@ import classes from "./PersonalInfoForm.module.scss";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { setPersonalData } from "../../../store/profileSlice";
+import { setPersonalDataInput } from "../../../store/profileSlice";
 
 const PersonalInfoForm = () => {
   const dispatch = useDispatch();
 
-  const personalData = useSelector((state) => state.profileData.personalData);
-  const { name, age, gender, weight, height } = personalData;
+  const { personalDataInput } = useSelector((state) => state.profileData);
+  const { name, age, gender, weight, height } = personalDataInput;
 
   const handleNameChange = (e) => {
+    const inputName = e.target.name;
     let inputValue = e.target.value.trim();
     if (inputValue.length !== 0) {
       inputValue = inputValue[0].toUpperCase() + inputValue.slice(1);
     }
 
-    dispatch(setPersonalData({ inputName: "name", inputValue }));
+    dispatch(setPersonalDataInput({ inputName, inputValue }));
   };
 
   const handleGenderChange = (e) => {
     const inputName = e.target.name;
     const inputValue = e.target.value;
-    dispatch(setPersonalData({ inputName, inputValue }));
+    dispatch(setPersonalDataInput({ inputName, inputValue }));
   };
 
   const handleAgeChange = (e) => {
+    const inputName = e.target.name;
     let inputValue = e.target.value;
     if (+inputValue < 1 && inputValue !== "") return;
-    dispatch(setPersonalData({ inputName: "age", inputValue: inputValue }));
+    dispatch(setPersonalDataInput({ inputName, inputValue: +inputValue }));
   };
 
   const handleWeightChange = (e) => {
+    const inputName = e.target.name;
     let inputValue = e.target.value;
     if (+inputValue < 1 && inputValue !== "") return;
-    dispatch(setPersonalData({ inputName: "weight", inputValue }));
+    dispatch(setPersonalDataInput({ inputName, inputValue: +inputValue }));
   };
 
   const handleHeightChange = (e) => {
+    const inputName = e.target.name;
     let inputValue = e.target.value;
     if (+inputValue < 1 && inputValue !== "") return;
-    dispatch(setPersonalData({ inputName: "height", inputValue }));
+    dispatch(setPersonalDataInput({ inputName, inputValue: +inputValue }));
   };
 
   return (

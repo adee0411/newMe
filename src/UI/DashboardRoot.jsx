@@ -1,3 +1,6 @@
+import db from "../backend/firebase";
+import { doc, getDoc } from "firebase/firestore";
+
 import { Outlet } from "react-router-dom";
 import { Sheet, Grid, Typography } from "@mui/joy";
 import Sidebar from "../components/Sidebar/Sidebar";
@@ -28,3 +31,9 @@ const DashboardRoot = () => {
 };
 
 export default DashboardRoot;
+
+export const personalLoader = async ({ request, params }) => {
+  const personalRef = doc(db, "profile", "personal");
+  const personalSnap = await getDoc(personalRef);
+  return personalSnap.data();
+};

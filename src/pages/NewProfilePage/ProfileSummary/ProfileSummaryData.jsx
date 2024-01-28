@@ -10,6 +10,7 @@ const ProfileSummaryData = () => {
   const { weightGoalInput, dietLengthInput } = useSelector(
     (state) => state.profileData.dietData
   );
+  const { personalDataInput } = useSelector((state) => state.profileData);
 
   const isDietDataEmpty = weightGoalInput === "" && dietLengthInput === "";
   const gridColumns = activeFormIndex === 1 ? 12 : 6;
@@ -18,7 +19,7 @@ const ProfileSummaryData = () => {
       {activeFormIndex > 0 && (
         <Grid container direction="row" spacing={2}>
           <Grid lg={gridColumns}>
-            <PersonalData />
+            <PersonalData variant="outlined" data={personalDataInput} />
           </Grid>
           {activeFormIndex > 1 && (
             <Grid lg={gridColumns}>

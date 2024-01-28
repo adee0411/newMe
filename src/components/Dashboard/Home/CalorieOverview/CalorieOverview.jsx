@@ -9,18 +9,8 @@ import DailyCalorieOverview from "./DailyCalorieOverview";
 import WeeklyCalorieOverview from "./WeeklyCalorieOverview";
 
 const CalorieOverview = () => {
-  const currentDate = new Date();
-  const { selectedDate } = useSelector((state) => state.profileData.dietData);
-
-  const formattedCurrentDate =
-    formatDate(currentDate).replaceAll("-", ".") + ".";
-
-  const isSelectedDateBiggerThanCurrentDate =
-    new Date(selectedDate).getTime() > currentDate.getTime();
-
   return (
     <>
-      {/*!isSelectedDateBiggerThanCurrentDate && <NewCalorieForm />*/}
       <Stack flex={1} spacing={2}>
         <DailyCalorieOverview />
 
@@ -28,6 +18,6 @@ const CalorieOverview = () => {
       </Stack>
     </>
   );
-};    
+};
 
 export default CalorieOverview;

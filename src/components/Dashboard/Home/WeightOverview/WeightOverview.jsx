@@ -68,7 +68,7 @@ const WeightOverview = () => {
         <Typography>
           Összes súlyvesztés eddig: {currentWeightLoss} kg
         </Typography>
-        <WeeklyWeightOverview />
+        {/*<WeeklyWeightOverview />*/}
       </CardContent>
     </Card>
   );

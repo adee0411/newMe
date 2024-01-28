@@ -57,7 +57,8 @@ const CalorieSummary = () => {
           startDecorator={<CiWarning />}
           size="sm"
         >
-          Túl alacsony napi kalóriabevitel, változtass a diéta paraméterein!
+          Túl alacsony napi kalóriabevitel! Csökkents a napi kalória-defcit
+          célodon vagy növeld a célsúly mértékét!
         </Alert>
       ) : (
         ""

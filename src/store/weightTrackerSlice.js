@@ -49,6 +49,9 @@ const weightTrackerSlice = createSlice({
         weight: 98.9,
       },
     ],
+    UI: {
+      currentWeek: 1,
+    },
   },
   reducers: {},
 });

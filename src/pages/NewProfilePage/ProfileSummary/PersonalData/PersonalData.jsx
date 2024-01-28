@@ -26,21 +26,17 @@ const genders = {
   female: "Nő",
 };
 
-const PersonalData = () => {
-  const { personalData } = useSelector((state) => state.profileData);
-  const personalDataArr = Object.entries(personalData);
+const PersonalData = ({ variant, data }) => {
+  const personalDataArr = Object.entries(data);
 
   return (
     <>
-      <Typography component="h2" color="neutral">
-        Személyes adatok
-      </Typography>
       <List
         orientation="vertical"
         gap={1}
         color="neutral"
-        variant="outlined"
-        sx={{ borderRadius: "md" }}
+        variant={variant}
+        sx={{ borderRadius: "md", width: "100%" }}
       >
         {personalDataArr.map((data, index) => {
           let palLabel;
@@ -68,7 +64,12 @@ const PersonalData = () => {
                       {labels[data[0]].label}
                     </Typography>
                   </Stack>
-                  <Typography level="body-sm" fontWeight={800} color="primary">
+                  <Typography
+                    level="body-sm"
+                    fontWeight={800}
+                    color="primary"
+                    textAlign="end"
+                  >
                     {`${
                       data[0] === "gender"
                         ? genders[data[1]]
@@ -79,9 +80,6 @@ const PersonalData = () => {
                   </Typography>
                 </Stack>
               </ListItem>
-              {index < Object.entries(personalData).length - 1 && (
-                <ListDivider inset="gutter"></ListDivider>
-              )}
             </Fragment>
           );
         })}

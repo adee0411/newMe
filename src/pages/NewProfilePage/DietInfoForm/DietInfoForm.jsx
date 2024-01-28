@@ -25,7 +25,9 @@ import { useEffect } from "react";
 
 const DietInfoForm = () => {
   const dispatch = useDispatch();
-  const { weight } = useSelector((state) => state.profileData.personalData);
+  const { weight } = useSelector(
+    (state) => state.profileData.personalDataInput
+  );
   const {
     dietStartInput,
     dietLengthInput,

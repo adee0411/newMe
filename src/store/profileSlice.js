@@ -5,16 +5,17 @@ import { formatDate } from "../utils";
 const profileSlice = createSlice({
   name: "profile",
   initialState: {
-    personalData: {
-      name: "Ádám",
-      gender: "male",
-      age: "33",
-      weight: "110",
-      height: "176",
+    personalDataInput: {
+      name: null,
+      gender: null,
+      age: null,
+      weight: null,
+      height: null,
       pal: 1.2,
     },
+    personalData: {},
     dietData: {
-      dietStartInput: "2024-01-08",
+      dietStartInput: "2024-01-24",
       dietLengthInput: "",
       weightGoalInput: "",
       presetDeficitInput: 1000,
@@ -22,14 +23,14 @@ const profileSlice = createSlice({
       selectedDate: formatDate(new Date()),
     },
     calculatedData: {
-      bmr: "",
-      tdee: 2900,
+      bmr: 0,
+      tdee: 0,
       calculatedDietEndDate: "",
-      calculatedDietLength: "",
-      calculatedWeightloss: 20,
-      calculatedDailyDeficit: 500,
-      calculatedWeightGoal: "",
-      calculatedCalorieIntake: 2400,
+      calculatedDietLength: 0,
+      calculatedWeightloss: 0,
+      calculatedDailyDeficit: 0,
+      calculatedWeightGoal: 0,
+      calculatedCalorieIntake: 0,
     },
     UI: {
       activeFormIndex: 0,
@@ -41,8 +42,12 @@ const profileSlice = createSlice({
     },
   },
   reducers: {
+    setPersonalDataInput(state, action) {
+      state.personalDataInput[action.payload.inputName] =
+        action.payload.inputValue;
+    },
     setPersonalData(state, action) {
-      state.personalData[action.payload.inputName] = action.payload.inputValue;
+      state.personalData = action.payload;
     },
     setDietStartDate(state, action) {
       state.dietData.dietStartInput = action.payload;
@@ -95,6 +100,7 @@ const profileSlice = createSlice({
 export default profileSlice.reducer;
 
 export const {
+  setPersonalDataInput,
   setPersonalData,
   setDietStartDate,
   setDietEndDate,

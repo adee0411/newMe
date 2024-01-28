@@ -11,6 +11,8 @@ import NewProfilePage from "./pages/NewProfilePage/NewProfilePage";
 import DashboardRoot from "./UI/DashboardRoot";
 import Home from "./components/Dashboard/Home/Home";
 
+import { personalLoader } from "./UI/DashboardRoot";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -24,6 +26,7 @@ const router = createBrowserRouter([
     path: "/dashboard",
     element: <DashboardRoot />,
     children: [{ path: "", element: <Home /> }],
+    loader: personalLoader,
   },
 ]);
 

@@ -1,3 +1,6 @@
+import { doc, setDoc } from "firebase/firestore";
+import db from "../../backend/firebase";
+
 import classes from "./NewProfilePage.module.scss";
 
 import { Typography, Grid, Button, Divider } from "@mui/joy";
@@ -24,20 +27,22 @@ const NewProfilePage = () => {
   const navigate = useNavigate();
 
   const { activeFormIndex } = useSelector((state) => state.profileData.UI);
-  const { personalData, dietData } = useSelector((state) => state.profileData);
+  const { personalDataInput, dietData } = useSelector(
+    (state) => state.profileData
+  );
   const { dietLengthInput, weightGoalInput } = dietData;
 
-  const isPersonalInfoFormFilled = Object.values(personalData).every(
-    (data) => data !== ""
+  const isPersonalInfoFormFilled = Object.values(personalDataInput).every(
+    (data) => data !== null
   );
 
   const isDietFormFilled = dietLengthInput !== "" || weightGoalInput !== "";
 
-  const handlePersonalDataSubmit = (e) => {
+  const handlepersonalDataInputSubmit = (e) => {
     e.preventDefault();
 
-    const bmr = calculateBMR(personalData);
-    const tdee = calculateTDEE(bmr, personalData.pal);
+    const bmr = calculateBMR(personalDataInput);
+    const tdee = calculateTDEE(bmr, personalDataInput.pal);
 
     dispatch(setCalculatedData({ dataName: "bmr", dataValue: bmr }));
     dispatch(setCalculatedData({ dataName: "tdee", dataValue: tdee }));
@@ -52,11 +57,27 @@ const NewProfilePage = () => {
 
   const handleCreateProfile = (e) => {
     e.preventDefault();
+
+    async function setFormData() {
+      await setDoc(doc(db, "profile", "personal"), {
+        name: "Ádám",
+        age: 33,
+        gender: "male",
+        weight: 100,
+        height: 176,
+        pal: 1.2,
+      });
+    }
+
+    setFormData();
     navigate("/dashboard");
   };
 
   const forms = {
-    0: { component: <PersonalInfoForm />, handler: handlePersonalDataSubmit },
+    0: {
+      component: <PersonalInfoForm />,
+      handler: handlepersonalDataInputSubmit,
+    },
     1: {
       component: <PALForm />,
       handler: handlePALSubmit,
@@ -88,7 +109,7 @@ const NewProfilePage = () => {
               <StepperWrapper />
             </div>
             <div className={classes["new-profile-content__body"]}>
-              <Form>
+              <Form action="/dashboard">
                 {forms[activeFormIndex].component}
                 <Button
                   type={activeFormIndex < 2 ? "button" : "submit"}

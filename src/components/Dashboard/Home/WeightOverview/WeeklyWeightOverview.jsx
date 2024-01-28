@@ -1,6 +1,6 @@
 import { Typography, Card, CardContent, Stack } from "@mui/joy";
-import WeekPagination from "./WeekPagination";
-import WeekStats from "./WeekStats";
+import WeekPagination from "../CalorieOverview/WeekPagination";
+import WeekStats from "../CalorieOverview/WeekStats";
 import { useSelector } from "react-redux";
 
 const WeeklyWeightOverview = () => {

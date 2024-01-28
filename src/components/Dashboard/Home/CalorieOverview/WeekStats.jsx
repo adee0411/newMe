@@ -1,27 +1,28 @@
 import { Stack, Typography, Grid } from "@mui/joy";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import DailyProgress from "./DailyProgress";
 
+import { formatDate } from "../../../../utils";
+
+import { setNewBlock } from "../../../../store/calorieTrackerSlice";
+import { useEffect } from "react";
+
 const WeekStats = ({ currentWeek }) => {
+  const dispatch = useDispatch();
+
+  const todayDate = new Date();
+  const formattedTodayDate = formatDate(new Date());
+  const { dietStartInput } = useSelector((state) => state.profileData.dietData);
+  const { calorieData } = useSelector((state) => state.calorieTracker);
   const { tdee, calculatedCalorieIntake } = useSelector(
     (state) => state.profileData.calculatedData
   );
-  const { calorieData } = useSelector((state) => state.calorieTracker);
-  /*const avgCalorieIntake = +(
-    calorieData[currentWeek].reduce((acc, el) => {
-      return (acc += el.calorieIntake);
-    }, 0) / calorieData[currentWeek].length
-  ).toFixed(0);*/
-
-  const weeklyPortion = (currentWeek - 1) * 7;
-
-  const dataToRender = calorieData.slice(weeklyPortion, weeklyPortion + 7);
 
   return (
     <Grid columns={7} container>
-      {dataToRender.map((data) => {
+      {calorieData[currentWeek].map((data) => {
         return (
           <Grid lg={1}>
             <Stack>

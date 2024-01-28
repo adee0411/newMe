@@ -3,11 +3,14 @@ import WeekPagination from "./WeekPagination";
 import WeekStats from "./WeekStats";
 import { useSelector } from "react-redux";
 
+import { setCurrentWeek } from "../../../../store/calorieTrackerSlice";
+
 const WeeklyCalorieOverview = () => {
   const { currentWeek } = useSelector((state) => state.calorieTracker.UI);
   const { calorieData } = useSelector((state) => state.calorieTracker);
 
-  const numOfWeeks = parseInt(calorieData.length / 7) + 1;
+  const numOfWeeks = calorieData.length;
+
   return (
     <Card
       variant="plain"
@@ -19,10 +22,22 @@ const WeeklyCalorieOverview = () => {
         <Typography color="neutral" component="h2" level="title-lg">
           Heti kalória-összesítő
         </Typography>
-        <WeekPagination currentWeek={currentWeek} numOfWeeks={numOfWeeks} />
+        {calorieData.length === 0 ? (
+          ""
+        ) : (
+          <WeekPagination
+            currentWeek={currentWeek}
+            numOfWeeks={numOfWeeks}
+            onSetCurrentWeek={setCurrentWeek}
+          />
+        )}
       </Stack>
       <CardContent>
-        <WeekStats currentWeek={currentWeek} />
+        {calorieData.length === 0 ? (
+          "Nincs még rögzített adat"
+        ) : (
+          <WeekStats currentWeek={currentWeek} />
+        )}
       </CardContent>
     </Card>
   );

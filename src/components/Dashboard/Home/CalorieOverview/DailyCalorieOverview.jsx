@@ -4,11 +4,16 @@ import { useSelector } from "react-redux";
 
 import DailyProgress from "./DailyProgress";
 import DailyStats from "./DailyStats";
+import NewCalorieForm from "./NewCalorieForm";
 
 import { IoCalendarOutline } from "react-icons/io5";
 
 const DailyCalorieOverview = () => {
+  const currentDate = new Date();
   const { selectedDate } = useSelector((state) => state.profileData.dietData);
+
+  const isSelectedDateBiggerThanCurrentDate =
+    new Date(selectedDate).getTime() > currentDate.getTime();
 
   const { calculatedCalorieIntake, tdee } = useSelector(
     (state) => state.profileData.calculatedData
@@ -21,7 +26,7 @@ const DailyCalorieOverview = () => {
     (data) => data.date === selectedDate
   );
 
-  const calorieIntake = selectedDateData?.calorieIntake || 0;
+  const calorieIntake = +selectedDateData?.calorieIntake || 0;
   return (
     <Card
       variant="plain"
@@ -50,6 +55,7 @@ const DailyCalorieOverview = () => {
       </Stack>
 
       <CardContent>
+        {!isSelectedDateBiggerThanCurrentDate && <NewCalorieForm />}
         <Grid container spacing={8}>
           <Grid lg={4} minWidth="180px">
             <DailyProgress

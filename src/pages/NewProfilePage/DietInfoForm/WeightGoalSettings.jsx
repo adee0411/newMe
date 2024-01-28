@@ -21,7 +21,9 @@ const WeightGoalSettings = () => {
     (state) => state.profileData.dietData
   );
 
-  const { weight } = useSelector((state) => state.profileData.personalData);
+  const { weight } = useSelector(
+    (state) => state.profileData.personalDataInput
+  );
 
   const handleWeightGoalChange = (e) => {
     const weightGoalValue = e.target.value;

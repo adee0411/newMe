@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import {
   setCalculatedData,
-  setPersonalData,
+  setPersonalDataInput,
 } from "../../../store/profileSlice";
 
 import { PAL, calculateTDEE } from "../../../utils";
@@ -19,14 +19,15 @@ import { PAL, calculateTDEE } from "../../../utils";
 const PALInputWrapper = () => {
   const dispatch = useDispatch();
 
-  const { pal } = useSelector((state) => state.profileData.personalData);
+  const { pal } = useSelector((state) => state.profileData.personalDataInput);
   const { bmr } = useSelector((state) => state.profileData.calculatedData);
 
   const handlePalChange = (e) => {
+    const inputName = e.target.name;
     const inputValue = +e.target.value;
     const tdee = calculateTDEE(bmr, inputValue);
     dispatch(setCalculatedData({ dataName: "tdee", dataValue: tdee }));
-    dispatch(setPersonalData({ inputName: "pal", inputValue }));
+    dispatch(setPersonalDataInput({ inputName, inputValue }));
   };
   return (
     <FormControl>
@@ -58,6 +59,7 @@ const PALInputWrapper = () => {
                   value={pal[1].multiplier}
                   label={pal[1].label}
                   onChange={handlePalChange}
+                  name="pal"
                 ></Radio>
                 <Typography fontSize="sm" color="neutral">
                   ({pal[1].description})

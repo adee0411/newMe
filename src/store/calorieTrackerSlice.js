@@ -1,69 +1,36 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import { formatDate } from "../utils";
+
 const calorieTrackerSlice = createSlice({
   name: "calorieTracker",
   initialState: {
-    calorieData: [
-      {
-        date: "2024-01-08",
-        calorieIntake: 3000,
-      },
-      {
-        date: "2024-01-09",
-        calorieIntake: 2200,
-      },
-      {
-        date: "2024-01-10",
-        calorieIntake: 2800,
-      },
-      {
-        date: "2024-01-11",
-        calorieIntake: 1800,
-      },
-      {
-        date: "2024-01-12",
-        calorieIntake: 1800,
-      },
-      {
-        date: "2024-01-13",
-        calorieIntake: 1800,
-      },
-      {
-        date: "2024-01-14",
-        calorieIntake: 1800,
-      },
-      {
-        date: "2024-01-15",
-        calorieIntake: 2200,
-      },
-      {
-        date: "2024-01-16",
-        calorieIntake: 2200,
-      },
-      {
-        date: "2024-01-17",
-        calorieIntake: 2800,
-      },
-      {
-        date: "2024-01-18",
-        calorieIntake: 2800,
-      },
-    ],
+    calorieData: [],
     UI: {
-      currentWeek: 1,
+      currentWeek: 0,
     },
   },
   reducers: {
     setDailyCalorieIntake(state, action) {
-      const calorieIntakeIndex = state.calorieData[0].findIndex(
-        (el) => el.date === action.payload.date
-      );
+      // Create new 7 day block filled with default data
+      const createNewBlock = (calorieData) => {
+        let blockArr = [];
+        let date = new Date(calorieData.date);
+        let newDate = date;
+        blockArr.push(action.payload);
 
-      if (calorieIntakeIndex < 0) {
-        state.calorieData[0].push(action.payload);
-      } else {
-        state.calorieData[0][calorieIntakeIndex].calorieIntake =
-          action.payload.calorieIntake;
+        for (let i = 1; i <= 6; i++) {
+          newDate.setDate(newDate.getDate() + 1);
+          blockArr.push({ date: formatDate(newDate), calorieIntake: 0 });
+        }
+
+        return blockArr;
+      };
+
+      // 1) Data is empty - first caloriedata OR date is new
+      if (state.calorieData.length === 0) {
+        const newBlock = createNewBlock(action.payload);
+        state.calorieData.push(newBlock);
       }
     },
     setCurrentWeek(state, action) {

@@ -1,4 +1,7 @@
-import { useState } from "react";
+import db from "../../../backend/firebase";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+
+import { useState, useEffect } from "react";
 import classes from "./Home.module.css";
 import "react-calendar/dist/Calendar.css";
 import "./customCalendarStyles.css";
@@ -25,6 +28,17 @@ const Home = () => {
     const formattedDateValue = formatDate(value);
     dispatch(setSelectedDate(formattedDateValue));
   };
+
+  useEffect(() => {
+    async function fetchProfileData() {
+      const profileRef = doc(db, "profile", "personal");
+      const profileSnap = await getDoc(profileRef);
+      console.log(profileSnap.data());
+    }
+
+    fetchProfileData();
+  }, []);
+
   return (
     <Grid container spacing={4}>
       <Grid lg={9}>
@@ -38,7 +52,7 @@ const Home = () => {
 
       <Grid lg={3}>
         <div className="calendar-container">
-          <Calendar onChange={handleDateChange} />
+          <Calendar onChange={handleDateChange} minDate={new Date(dietStart)} />
         </div>
       </Grid>
     </Grid>
