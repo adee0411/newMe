@@ -6,9 +6,9 @@ import {
   setDietStartDate,
   setDietLength,
   setCalculatedData,
-} from "../../../store/profileSlice";
+} from "../../../../store/profileSlice";
 
-import { formatDate, calculateDietEnd } from "../../../utils";
+import { formatDate, calculateDietEnd } from "../../../../utils";
 
 const DateSettings = () => {
   const dispatch = useDispatch();

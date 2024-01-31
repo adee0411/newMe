@@ -33,7 +33,6 @@ const Home = () => {
     async function fetchProfileData() {
       const profileRef = doc(db, "profile", "personal");
       const profileSnap = await getDoc(profileRef);
-      console.log(profileSnap.data());
     }
 
     fetchProfileData();

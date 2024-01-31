@@ -12,9 +12,9 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setCalculatedData,
   setPersonalDataInput,
-} from "../../../store/profileSlice";
+} from "../../../../store/profileSlice";
 
-import { PAL, calculateTDEE } from "../../../utils";
+import { PAL, calculateTDEE } from "../../../../utils";
 
 const PALInputWrapper = () => {
   const dispatch = useDispatch();

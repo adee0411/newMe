@@ -6,16 +6,16 @@ const profileSlice = createSlice({
   name: "profile",
   initialState: {
     personalDataInput: {
-      name: null,
-      gender: null,
-      age: null,
-      weight: null,
-      height: null,
+      name: "",
+      gender: "",
+      age: "",
+      weight: "",
+      height: "",
       pal: 1.2,
     },
     personalData: {},
     dietData: {
-      dietStartInput: "2024-01-24",
+      dietStartInput: formatDate(new Date()),
       dietLengthInput: "",
       weightGoalInput: "",
       presetDeficitInput: 1000,

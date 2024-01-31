@@ -14,9 +14,11 @@ const StepperWrapper = () => {
   const dispatch = useDispatch();
 
   const handleFormIndexChange = (e) => {
-    e.preventDefault();
     const buttonValue = +e.target.value;
-    dispatch(setActiveFormIndex(buttonValue));
+    // prevent from unnecessary state update if active button is clicked
+    if (activeFormIndex !== +e.target.value) {
+      dispatch(setActiveFormIndex(buttonValue));
+    }
   };
 
   return (

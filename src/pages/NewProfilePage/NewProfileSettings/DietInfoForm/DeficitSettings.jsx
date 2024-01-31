@@ -14,7 +14,7 @@ import {
   setPresetDeficit,
   setFinetunedDeficit,
   toggleFineTuneDeficitCheck,
-} from "../../../store/profileSlice";
+} from "../../../../store/profileSlice";
 
 /** Property settings for <Slider /> Component */
 const marks = [
@@ -45,10 +45,6 @@ const DeficitSettings = () => {
 
   const { isFineTuneDeficitChecked, isDeficitSettingsDisabled } = useSelector(
     (state) => state.profileData.UI
-  );
-
-  const { calculatedDailyDeficit } = useSelector(
-    (state) => state.profileData.calculatedData
   );
 
   const handleFinetuneDeficitCheck = (e) => {

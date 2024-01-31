@@ -36,13 +36,15 @@ const avatars = {
 };
 
 const ProfileSummary = () => {
-  const dispatch = useDispatch();
   const fetchedPersonalData = useLoaderData();
-  dispatch(setPersonalData(fetchedPersonalData));
-
-  const personalDataState = useSelector(
-    (state) => state.profileData.personalData
-  );
+  const orderedPersonalData = {
+    name: fetchedPersonalData.name,
+    age: fetchedPersonalData.age,
+    gender: fetchedPersonalData.gender,
+    weight: fetchedPersonalData.weight,
+    height: fetchedPersonalData.height,
+    pal: fetchedPersonalData.pal,
+  };
 
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -53,6 +55,7 @@ const ProfileSummary = () => {
   const handleModalOpen = () => {
     setModalOpen(true);
   };
+
   return (
     <Card>
       <header>
@@ -84,13 +87,13 @@ const ProfileSummary = () => {
                     <Input
                       autoFocus
                       required
-                      defaultValue={personalDataState.name}
+                      defaultValue={orderedPersonalData.name}
                       name="name"
                     />
                   </FormControl>
                   <FormControl>
                     <FormLabel>Nem</FormLabel>
-                    <RadioGroup defaultValue={personalDataState.gender}>
+                    <RadioGroup defaultValue={orderedPersonalData.gender}>
                       <Stack direction="row">
                         <Radio
                           value="male"
@@ -114,7 +117,7 @@ const ProfileSummary = () => {
                     <Input
                       type="number"
                       required
-                      defaultValue={personalDataState.age}
+                      defaultValue={orderedPersonalData.age}
                     />
                   </FormControl>
                   <FormControl>
@@ -122,7 +125,7 @@ const ProfileSummary = () => {
                     <Input
                       type="number"
                       required
-                      defaultValue={personalDataState.height}
+                      defaultValue={orderedPersonalData.height}
                     />
                   </FormControl>
                   <FormControl>
@@ -130,12 +133,12 @@ const ProfileSummary = () => {
                     <Input
                       type="number"
                       required
-                      defaultValue={personalDataState.weight}
+                      defaultValue={orderedPersonalData.weight}
                     />
                   </FormControl>
                   <FormControl>
                     <FormLabel>Fizikai aktivitás</FormLabel>
-                    <RadioGroup defaultValue={personalDataState.pal}>
+                    <RadioGroup defaultValue={orderedPersonalData.pal}>
                       {Object.entries(PAL).map((pal) => {
                         return (
                           <Radio
@@ -163,11 +166,11 @@ const ProfileSummary = () => {
         <Avatar
           color="primary"
           variant="soft"
-          src={avatars[personalDataState.gender]}
+          src={avatars[orderedPersonalData.gender]}
           sx={{ width: "5rem", height: "5rem" }}
         />
 
-        <PersonalData data={personalDataState} />
+        <PersonalData data={orderedPersonalData} />
       </CardContent>
     </Card>
   );

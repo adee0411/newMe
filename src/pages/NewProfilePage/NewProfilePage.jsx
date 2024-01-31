@@ -3,137 +3,75 @@ import db from "../../backend/firebase";
 
 import classes from "./NewProfilePage.module.scss";
 
-import { Typography, Grid, Button, Divider } from "@mui/joy";
-
-import StepperWrapper from "./StepperWrapper";
-import PersonalInfoForm from "./PersonalInfoForm/PersonalInfoForm";
-import PALForm from "./PALInfoForm/PALForm";
-import DietInfoForm from "./DietInfoForm/DietInfoForm";
+import NewProfileSettings from "./NewProfileSettings/NewProfileSettings";
 import ProfileSummary from "./ProfileSummary/ProfileSummary";
 
-import { useSelector, useDispatch } from "react-redux";
-import { Form, useNavigate } from "react-router-dom";
-
-import {
-  incrementActiveFormIndex,
-  setCalculatedData,
-  startProfile,
-} from "../../store/profileSlice";
-
-import { calculateBMR, calculateTDEE } from "../../utils";
+import { useSelector } from "react-redux";
+import { redirect } from "react-router-dom";
+import { calculateDailyDeficit } from "../../utils";
 
 const NewProfilePage = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const { activeFormIndex } = useSelector((state) => state.profileData.UI);
-  const { personalDataInput, dietData } = useSelector(
-    (state) => state.profileData
-  );
+  const { dietData } = useSelector((state) => state.profileData);
   const { dietLengthInput, weightGoalInput } = dietData;
 
-  const isPersonalInfoFormFilled = Object.values(personalDataInput).every(
-    (data) => data !== null
-  );
-
-  const isDietFormFilled = dietLengthInput !== "" || weightGoalInput !== "";
-
-  const handlepersonalDataInputSubmit = (e) => {
-    e.preventDefault();
-
-    const bmr = calculateBMR(personalDataInput);
-    const tdee = calculateTDEE(bmr, personalDataInput.pal);
-
-    dispatch(setCalculatedData({ dataName: "bmr", dataValue: bmr }));
-    dispatch(setCalculatedData({ dataName: "tdee", dataValue: tdee }));
-    dispatch(incrementActiveFormIndex());
-    dispatch(startProfile());
-  };
-
-  const handlePALSubmit = (e) => {
-    e.preventDefault();
-    dispatch(incrementActiveFormIndex());
-  };
-
-  const handleCreateProfile = (e) => {
-    e.preventDefault();
-
-    async function setFormData() {
-      await setDoc(doc(db, "profile", "personal"), {
-        name: "Ádám",
-        age: 33,
-        gender: "male",
-        weight: 100,
-        height: 176,
-        pal: 1.2,
-      });
-    }
-
-    setFormData();
-    navigate("/dashboard");
-  };
-
-  const forms = {
-    0: {
-      component: <PersonalInfoForm />,
-      handler: handlepersonalDataInputSubmit,
-    },
-    1: {
-      component: <PALForm />,
-      handler: handlePALSubmit,
-    },
-    2: { component: <DietInfoForm />, handler: handleCreateProfile },
-  };
+  //const isDietFormFilled = dietLengthInput !== "" || weightGoalInput !== "";
 
   return (
     <div className={classes["new-profile-container"]}>
-      <Grid container columns={2} height="100%" gap="6rem">
-        <Grid flex={1} display="flex" justifyContent="center">
-          <div className={classes["new-profile-content"]}>
-            <div className={classes["new-profile-content__header"]}>
-              <Typography level="h1" fontSize={32} mb="1rem" textAlign="center">
-                Készítsd el a profilodat!
-              </Typography>
-              <Typography textAlign="center" fontSize="sm" color="neutral">
-                Néhány egyszerű lépésben add meg adataid, céljaid, hogy a lehető
-                legpontosabb terveket és mérőszámokat készíthessük el neked!
-              </Typography>
-              <Typography textAlign="center" fontSize="sm" color="neutral">
-                Ha azonnal a vezérlőpulthoz ugranál,{" "}
-                <Typography component="span" color="primary">
-                  kattints ide
-                </Typography>
-                ! A beállításaid alapértelmezettek lesznek, amelyeket bármikor
-                módosíthatsz.
-              </Typography>
-              <StepperWrapper />
-            </div>
-            <div className={classes["new-profile-content__body"]}>
-              <Form action="/dashboard">
-                {forms[activeFormIndex].component}
-                <Button
-                  type={activeFormIndex < 2 ? "button" : "submit"}
-                  onClick={forms[activeFormIndex].handler}
-                  size="md"
-                  fullWidth
-                  disabled={
-                    (!isPersonalInfoFormFilled && activeFormIndex === 0) ||
-                    (activeFormIndex === 2 && !isDietFormFilled)
-                  }
-                >
-                  {activeFormIndex === 2 ? "Profil elkészítése" : "Tovább"}
-                </Button>
-              </Form>
-            </div>
-          </div>
-        </Grid>
-        <Divider orientation="vertical" />
-        <Grid flex={1}>
-          <ProfileSummary />
-        </Grid>
-      </Grid>
+      <NewProfileSettings />
     </div>
   );
 };
 
 export default NewProfilePage;
+
+export const createProfileAction = async ({ request }) => {
+  try {
+    const data = await request.formData();
+
+    // Personal Data to send
+    const profileData = {
+      name: data.get("name"),
+      gender: data.get("gender"),
+      age: +data.get("age"),
+      weight: +data.get("weight"),
+      height: +data.get("height"),
+      pal: +data.get("pal"),
+    };
+
+    // Diet variables
+    const dietLength = data.get("dietLength");
+    const weightGoal = data.get("weightGoal");
+    const presetDeficit = data.get("presetDeficitInput");
+    const finetunedDeficit = data.get("finetunedDeficitInput");
+    const totalWeightloss = profileData.weight - weightGoal;
+
+    let deficit;
+
+    // Calculate deficit
+    if (finetunedDeficit === null) {
+      if (presetDeficit === null) {
+        deficit = calculateDailyDeficit(dietLength, totalWeightloss);
+      } else {
+        deficit = presetDeficit;
+      }
+    } else {
+      deficit = finetunedDeficit;
+    }
+
+    // Diet data to send
+    const dietData = {
+      dietStart: data.get("dietStart"),
+      dietLength: +dietLength,
+      weightGoal: +weightGoal,
+      deficit: +deficit,
+    };
+
+    await setDoc(doc(db, "profile", "personal"), profileData);
+    await setDoc(doc(db, "profile", "diet"), dietData);
+  } catch (e) {
+    console.log(e.message);
+  }
+
+  return redirect("/dashboard");
+};

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setCalculatedData,
   toggleDeficitSettings,
-} from "../../../store/profileSlice";
+} from "../../../../store/profileSlice";
 
 import {
   calculateDietEnd,
@@ -12,9 +12,9 @@ import {
   calculateWeightGoal,
   calculateDietLength,
   calculateDailyDeficit,
-} from "../../../utils";
+} from "../../../../utils";
 
-import { Typography } from "@mui/joy";
+import { Typography, Button } from "@mui/joy";
 
 import classes from "./DietInfoForm.module.scss";
 
@@ -43,9 +43,11 @@ const DietInfoForm = () => {
     calculatedWeightGoal,
   } = useSelector((state) => state.profileData.calculatedData);
 
-  const { isFineTuneDeficitChecked, isDeficitSettingsDisabled } = useSelector(
-    (state) => state.profileData.UI
-  );
+  const {
+    isFineTuneDeficitChecked,
+    isDeficitSettingsDisabled,
+    activeFormIndex,
+  } = useSelector((state) => state.profileData.UI);
 
   const dailyDeficit = isDeficitSettingsDisabled
     ? calculateDailyDeficit(dietLengthInput, calculatedWeightloss)
@@ -53,6 +55,7 @@ const DietInfoForm = () => {
     ? finetunedDeficitInput
     : presetDeficitInput;
 
+  /*
   const initialCalculatedData = {
     calculatedDietEndDate: calculatedDietLength
       ? calculateDietEnd(dietStartInput, dietLengthInput)
@@ -87,9 +90,14 @@ const DietInfoForm = () => {
       toggleDeficitSettings(dietLengthInput !== "" && weightGoalInput !== "")
     );
   });
+  */
 
   return (
-    <div className={classes["new-profile-content__diet-info"]}>
+    <div
+      className={`${classes["new-profile-content__diet-info"]} ${
+        activeFormIndex === 2 ? classes["active"] : ""
+      }`}
+    >
       <Typography textAlign="center" level="h3" color="neutral">
         Diéta paraméterek
       </Typography>

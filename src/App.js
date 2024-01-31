@@ -12,6 +12,7 @@ import DashboardRoot from "./UI/DashboardRoot";
 import Home from "./components/Dashboard/Home/Home";
 
 import { personalLoader } from "./UI/DashboardRoot";
+import { createProfileAction } from "./pages/NewProfilePage/NewProfilePage";
 
 const router = createBrowserRouter([
   {
@@ -19,7 +20,11 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       { path: "/", element: <LandingPage /> },
-      { path: "/new-profile", element: <NewProfilePage /> },
+      {
+        path: "/new-profile",
+        element: <NewProfilePage />,
+        action: createProfileAction,
+      },
     ],
   },
   {

@@ -1,18 +1,8 @@
-import {
-  IconButton,
-  FormControl,
-  FormLabel,
-  Input,
-  Stack,
-  Typography,
-  Divider,
-} from "@mui/joy";
+import { FormControl, FormLabel, Input } from "@mui/joy";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { setWeightGoal } from "../../../store/profileSlice";
-
-import { GrPowerReset } from "react-icons/gr";
+import { setWeightGoal } from "../../../../store/profileSlice";
 
 const WeightGoalSettings = () => {
   const dispatch = useDispatch();
@@ -27,11 +17,13 @@ const WeightGoalSettings = () => {
 
   const handleWeightGoalChange = (e) => {
     const weightGoalValue = e.target.value;
+    console.log(weightGoalValue);
+    /*
     if (
       (+weightGoalValue > +weight || +weightGoalValue < 1) &&
       weightGoalValue !== ""
     )
-      return;
+      return;*/
     dispatch(setWeightGoal(weightGoalValue));
   };
 
