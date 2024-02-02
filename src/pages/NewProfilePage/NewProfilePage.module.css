@@ -1,0 +1,17 @@
+.new-profile-container {
+  width: min(100%, 700px);
+  margin-inline: auto;
+  padding-top: 3rem;
+}
+
+.new-profile-content {
+  position: relative;
+  z-index: 1;
+  margin: 0 auto;
+}
+.new-profile-content__header {
+  margin-bottom: 4rem;
+}
+.new-profile-content__body {
+  overflow-x: hidden;
+}/*# sourceMappingURL=NewProfilePage.module.css.map */

@@ -1,24 +1,17 @@
 import { Typography } from "@mui/joy";
 
-import { useSelector } from "react-redux";
-
 import classes from "./ProfileSummary.module.scss";
 
-import EmptyProfile from "./EmptyProfile";
 import ProfileSummaryData from "./ProfileSummaryData";
 
-const ProfileSummary = () => {
-  const { activeFormIndex } = useSelector((state) => state.profileData.UI);
-
-  const profileSummaryContent =
-    activeFormIndex === 0 ? <EmptyProfile /> : <ProfileSummaryData />;
-
+const ProfileSummary = ({ data }) => {
+  console.log(data);
   return (
     <div className={classes["profile-sum-sontainer"]}>
       <Typography level="h1" fontSize={32} mb="1rem" textAlign="center">
         Profil összesítő
       </Typography>
-      {profileSummaryContent}
+      <ProfileSummaryData data={data} />
     </div>
   );
 };

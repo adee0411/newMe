@@ -1,0 +1,19 @@
+.hero-bg {
+  height: 100%;
+  width: 90%;
+  background: url("../../../assets/images/undraw_fitness_tracker_3033.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 85%;
+}
+
+.hero-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4rem;
+}
+.hero-content__description {
+  width: 75%;
+}/*# sourceMappingURL=Hero.module.css.map */

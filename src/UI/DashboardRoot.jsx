@@ -32,7 +32,7 @@ const DashboardRoot = () => {
 
 export default DashboardRoot;
 
-export const personalLoader = async ({ request, params }) => {
+export const personalLoader = async () => {
   const personalRef = doc(db, "profile", "personal");
   const personalSnap = await getDoc(personalRef);
   return personalSnap.data();

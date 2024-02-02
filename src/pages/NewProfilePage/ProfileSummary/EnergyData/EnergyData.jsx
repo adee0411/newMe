@@ -4,7 +4,7 @@ import TDEECard from "./ResultCards/TDEECard";
 
 const EnergyData = () => {
   return (
-    <div style={{ height: "100%" }}>
+    <div>
       <Typography component="h2" color="neutral">
         Energia adatok
       </Typography>

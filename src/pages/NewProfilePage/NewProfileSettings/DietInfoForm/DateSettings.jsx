@@ -6,13 +6,14 @@ import {
   setDietStartDate,
   setDietLength,
   setCalculatedData,
+  toggleDeficitSettings,
 } from "../../../../store/profileSlice";
 
 import { formatDate, calculateDietEnd } from "../../../../utils";
 
 const DateSettings = () => {
   const dispatch = useDispatch();
-  const { dietStartInput, dietLengthInput } = useSelector(
+  const { dietStartInput, dietLengthInput, weightGoalInput } = useSelector(
     (state) => state.profileData.dietData
   );
 
@@ -26,8 +27,16 @@ const DateSettings = () => {
   const handleDietLengthChange = (e) => {
     const lengthValue = e.target.value;
     if (lengthValue < 1 && lengthValue !== "") return;
+
+    if (lengthValue !== "" && weightGoalInput !== "") {
+      dispatch(toggleDeficitSettings(true));
+    } else {
+      dispatch(toggleDeficitSettings(false));
+    }
+
     dispatch(setDietLength(lengthValue));
 
+    /*
     let calculatedDietLength;
     calculatedDietLength = lengthValue;
 
@@ -45,7 +54,7 @@ const DateSettings = () => {
         dataName: "calculatedDietLength",
         dataValue: calculatedDietLength,
       })
-    );
+    );*/
   };
 
   return (

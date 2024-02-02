@@ -12,8 +12,10 @@ import Calendar from "react-calendar";
 
 import CalorieOverview from "./CalorieOverview/CalorieOverview";
 import WeightOverview from "./WeightOverview/WeightOverview";
+import ProfileSummary from "../../../pages/NewProfilePage/ProfileSummary/ProfileSummary";
 
 import { useDispatch, useSelector } from "react-redux";
+import { useLoaderData } from "react-router-dom";
 
 import { setSelectedDate } from "../../../store/profileSlice";
 import { formatDate } from "../../../utils";
@@ -24,29 +26,21 @@ const Home = () => {
     (state) => state.profileData.dietData
   );
 
+  const profileData = useLoaderData();
+
   const handleDateChange = (value) => {
     const formattedDateValue = formatDate(value);
     dispatch(setSelectedDate(formattedDateValue));
   };
 
-  useEffect(() => {
-    async function fetchProfileData() {
-      const profileRef = doc(db, "profile", "personal");
-      const profileSnap = await getDoc(profileRef);
-    }
-
-    fetchProfileData();
-  }, []);
-
-  return (
-    <Grid container spacing={4}>
+  return <ProfileSummary data={profileData} />;
+  {
+    /*     <Grid container spacing={4}>
       <Grid lg={9}>
         <Stack direction="row" spacing={4}>
           <CalorieOverview />
-          <Stack flex={1}>
-            <WeightOverview />
-          </Stack>
-        </Stack>
+  </Stack>
+
       </Grid>
 
       <Grid lg={3}>
@@ -54,8 +48,8 @@ const Home = () => {
           <Calendar onChange={handleDateChange} minDate={new Date(dietStart)} />
         </div>
       </Grid>
-    </Grid>
-  );
+    </Grid>*/
+  }
 };
 
 export default Home;

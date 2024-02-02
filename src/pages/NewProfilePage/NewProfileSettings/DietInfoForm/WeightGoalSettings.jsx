@@ -2,12 +2,15 @@ import { FormControl, FormLabel, Input } from "@mui/joy";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { setWeightGoal } from "../../../../store/profileSlice";
+import {
+  setWeightGoal,
+  toggleDeficitSettings,
+} from "../../../../store/profileSlice";
 
 const WeightGoalSettings = () => {
   const dispatch = useDispatch();
 
-  const { weightGoalInput } = useSelector(
+  const { weightGoalInput, dietLengthInput } = useSelector(
     (state) => state.profileData.dietData
   );
 
@@ -17,13 +20,18 @@ const WeightGoalSettings = () => {
 
   const handleWeightGoalChange = (e) => {
     const weightGoalValue = e.target.value;
-    console.log(weightGoalValue);
     /*
     if (
       (+weightGoalValue > +weight || +weightGoalValue < 1) &&
       weightGoalValue !== ""
     )
       return;*/
+
+    if (weightGoalValue !== "" && dietLengthInput !== "") {
+      dispatch(toggleDeficitSettings(true));
+    } else {
+      dispatch(toggleDeficitSettings(false));
+    }
     dispatch(setWeightGoal(weightGoalValue));
   };
 

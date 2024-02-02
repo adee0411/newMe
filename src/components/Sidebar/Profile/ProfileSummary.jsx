@@ -37,6 +37,7 @@ const avatars = {
 
 const ProfileSummary = () => {
   const fetchedPersonalData = useLoaderData();
+  console.log(fetchedPersonalData);
   const orderedPersonalData = {
     name: fetchedPersonalData.name,
     age: fetchedPersonalData.age,
