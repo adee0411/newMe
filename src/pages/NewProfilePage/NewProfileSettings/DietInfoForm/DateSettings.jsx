@@ -5,16 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setDietStartDate,
   setDietLength,
-  setCalculatedData,
   toggleDeficitSettings,
 } from "../../../../store/profileSlice";
 
-import { formatDate, calculateDietEnd } from "../../../../utils";
+import { formatDate } from "../../../../utils";
 
 const DateSettings = () => {
   const dispatch = useDispatch();
   const { dietStartInput, dietLengthInput, weightGoalInput } = useSelector(
-    (state) => state.profileData.dietData
+    (state) => state.profileData.formInput.dietDataInput
   );
 
   // Handle diet START change

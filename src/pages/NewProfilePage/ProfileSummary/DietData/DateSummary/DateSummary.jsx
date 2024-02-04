@@ -8,9 +8,13 @@ import {
 } from "@mui/joy";
 import { useSelector } from "react-redux";
 
+import { calculateDietEnd } from "../../../../../utils";
+
 const DateSummary = () => {
-  const { dietStartInput } = useSelector((state) => state.profileData.dietData);
-  const { calculatedData } = useSelector((state) => state.profileData);
+  const dietData = useSelector((state) => state.profileData.fetchedData.diet);
+  const { dietStart, dietLength } = dietData;
+  const dietEnd = calculateDietEnd(dietStart, dietLength);
+
   return (
     <List
       variant="outlined"
@@ -26,7 +30,7 @@ const DateSummary = () => {
             level="body-lg"
             fontWeight={800}
             textAlign="center"
-          >{`${dietStartInput.replaceAll("-", ".")}.`}</Typography>
+          >{`${dietStart.replaceAll("-", ".")}.`}</Typography>
         </Stack>
       </ListItem>
       <ListDivider inset="gutter" />
@@ -36,10 +40,7 @@ const DateSummary = () => {
             Diéta hossza
           </Typography>
           <Typography fontWeight={800} textAlign="center">
-            {" "}
-            {calculatedData.calculatedDietLength
-              ? `${calculatedData.calculatedDietLength} hét`
-              : ""}
+            {`${dietLength} hét`}
           </Typography>
         </Stack>
       </ListItem>
@@ -50,10 +51,7 @@ const DateSummary = () => {
             Diéta vége
           </Typography>
           <Typography level="body-lg" fontWeight={800} textAlign="center">
-            {" "}
-            {calculatedData.calculatedDietEndDate
-              ? `${calculatedData.calculatedDietEndDate.replaceAll("-", ".")}.`
-              : ""}
+            {`${dietEnd.replaceAll("-", ".")}.`}
           </Typography>
         </Stack>
       </ListItem>

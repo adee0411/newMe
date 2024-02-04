@@ -2,97 +2,81 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { formatDate } from "../utils";
 
+import { PAL } from "../utils";
+
 const profileSlice = createSlice({
   name: "profile",
   initialState: {
-    personalDataInput: {
-      name: "",
-      gender: "",
-      age: "",
-      weight: "",
-      height: "",
-      pal: 1.2,
+    formInput: {
+      personalDataInput: {
+        name: "",
+        gender: "male",
+        age: "",
+        weight: "",
+        height: "",
+        pal: PAL.Sedentary.multiplier,
+      },
+      dietDataInput: {
+        dietStartInput: formatDate(new Date()),
+        dietLengthInput: "",
+        weightGoalInput: "",
+        presetDeficitInput: 1000,
+        finetunedDeficitInput: 1000,
+      },
+      UI: {
+        activeFormIndex: 0,
+        isProfileEmpty: true,
+        isFineTuneDeficitChecked: false,
+        isDeficitSettingsDisabled: false,
+        isPersonalInfoFormValid: false,
+        isDietInfoFormValid: false,
+      },
     },
-    personalData: {},
-    dietData: {
-      dietStartInput: formatDate(new Date()),
-      dietLengthInput: "",
-      weightGoalInput: "",
-      presetDeficitInput: 1000,
-      finetunedDeficitInput: 1000,
-      selectedDate: formatDate(new Date()),
-    },
-    calculatedData: {
-      bmr: 0,
-      tdee: 0,
-      calculatedDietEndDate: "",
-      calculatedDietLength: 0,
-      calculatedWeightloss: 0,
-      calculatedDailyDeficit: 0,
-      calculatedWeightGoal: 0,
-      calculatedCalorieIntake: 0,
-    },
-    UI: {
-      activeFormIndex: 0,
-      isProfileEmpty: true,
-      isFineTuneDeficitChecked: false,
-      isDeficitSettingsDisabled: false,
-      isPersonalInfoFormValid: false,
-      isDietInfoFormValid: false,
-    },
+    fetchedData: {},
   },
   reducers: {
     setPersonalDataInput(state, action) {
-      state.personalDataInput[action.payload.inputName] =
+      state.formInput.personalDataInput[action.payload.inputName] =
         action.payload.inputValue;
     },
-    setPersonalData(state, action) {
-      state.personalData = action.payload;
-    },
     setDietStartDate(state, action) {
-      state.dietData.dietStartInput = action.payload;
-    },
-    setCalculatedDietEndDate(state, action) {
-      state.calculatedData.calculatedDietEndDate = action.payload;
+      state.formInput.dietDataInput.dietStartInput = action.payload;
     },
     setDietLength(state, action) {
-      state.dietData.dietLengthInput = action.payload;
+      state.formInput.dietDataInput.dietLengthInput = action.payload;
     },
     setWeightGoal(state, action) {
-      state.dietData.weightGoalInput = action.payload;
+      state.formInput.dietDataInput.weightGoalInput = action.payload;
     },
     setPresetDeficit(state, action) {
-      state.dietData.presetDeficitInput = action.payload;
+      state.formInput.dietDataInput.presetDeficitInput = action.payload;
     },
     setFinetunedDeficit(state, action) {
-      state.dietData.finetunedDeficitInput = action.payload;
+      state.formInput.dietDataInput.finetunedDeficitInput = action.payload;
     },
     setActiveFormIndex(state, action) {
-      state.UI.activeFormIndex = action.payload;
+      state.formInput.UI.activeFormIndex = action.payload;
     },
     incrementActiveFormIndex(state) {
-      state.UI.activeFormIndex++;
-    },
-    startProfile(state) {
-      state.UI.isProfileEmpty = false;
+      state.formInput.UI.activeFormIndex++;
     },
     toggleFineTuneDeficitCheck(state) {
-      state.UI.isFineTuneDeficitChecked = !state.UI.isFineTuneDeficitChecked;
+      state.formInput.UI.isFineTuneDeficitChecked =
+        !state.formInput.UI.isFineTuneDeficitChecked;
     },
     toggleDeficitSettings(state, action) {
-      state.UI.isDeficitSettingsDisabled = action.payload;
-    },
-    setCalculatedData(state, action) {
-      state.calculatedData[action.payload.dataName] = action.payload.dataValue;
+      state.formInput.UI.isDeficitSettingsDisabled = action.payload;
     },
     toggleIsPersonalInfoFormValid(state) {
-      state.UI.isPersonalInfoFormValid = !state.UI.isPersonalInfoFormValid;
+      state.formInput.UI.isPersonalInfoFormValid =
+        !state.formInput.UI.isPersonalInfoFormValid;
     },
     toggleIsDietInfoFormValid(state) {
-      state.UI.isDietInfoFormValid = !state.UI.isDietInfoFormValid;
+      state.formInput.UI.isDietInfoFormValid =
+        !state.formInput.UI.isDietInfoFormValid;
     },
-    setSelectedDate(state, action) {
-      state.dietData.selectedDate = action.payload;
+    setPersonalData(state, action) {
+      state.fetchedData = action.payload;
     },
   },
 });
@@ -101,9 +85,7 @@ export default profileSlice.reducer;
 
 export const {
   setPersonalDataInput,
-  setPersonalData,
   setDietStartDate,
-  setDietEndDate,
   setDietLength,
   setWeightGoal,
   setPresetDeficit,
@@ -113,6 +95,7 @@ export const {
   startProfile,
   toggleFineTuneDeficitCheck,
   toggleDeficitSettings,
-  setCalculatedData,
-  setSelectedDate,
+  toggleIsPersonalInfoFormValid,
+  toggleIsDietInfoFormValid,
+  setPersonalData,
 } = profileSlice.actions;

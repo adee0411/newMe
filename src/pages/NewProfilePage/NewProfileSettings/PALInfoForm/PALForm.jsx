@@ -9,7 +9,9 @@ import { incrementActiveFormIndex } from "../../../../store/profileSlice";
 const PALForm = () => {
   const dispatch = useDispatch();
 
-  const { activeFormIndex } = useSelector((state) => state.profileData.UI);
+  const { activeFormIndex } = useSelector(
+    (state) => state.profileData.formInput.UI
+  );
 
   const handleActiveFormChange = () => {
     // Skip to next form component

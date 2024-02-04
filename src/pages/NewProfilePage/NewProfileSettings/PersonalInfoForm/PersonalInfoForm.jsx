@@ -23,22 +23,22 @@ import classes from "./PersonalInfoForm.module.scss";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { debounce } from "lodash";
-
 import {
   setPersonalDataInput,
-  setCalculatedData,
   incrementActiveFormIndex,
-  startProfile,
+  setWeightGoal,
 } from "../../../../store/profileSlice";
-import { calculateBMR, calculateTDEE } from "../../../../utils";
 
 const PersonalInfoForm = () => {
   const dispatch = useDispatch();
 
-  const { personalDataInput } = useSelector((state) => state.profileData);
+  const { personalDataInput } = useSelector(
+    (state) => state.profileData.formInput
+  );
   const { name, age, gender, weight, height } = personalDataInput;
-  const { activeFormIndex } = useSelector((state) => state.profileData.UI);
+  const { activeFormIndex } = useSelector(
+    (state) => state.profileData.formInput.UI
+  );
 
   const handleActiveFormChange = () => {
     dispatch(incrementActiveFormIndex());
@@ -72,6 +72,7 @@ const PersonalInfoForm = () => {
     let inputValue = e.target.value;
     if (+inputValue < 1 && inputValue !== "") return;
     dispatch(setPersonalDataInput({ inputName, inputValue: +inputValue }));
+    dispatch(setWeightGoal(+inputValue));
   };
 
   const handleHeightChange = (e) => {
@@ -84,21 +85,6 @@ const PersonalInfoForm = () => {
   const isPersonalInfoFormFilled = Object.values(personalDataInput).every(
     (data) => data !== ""
   );
-
-  const renderNextForm = () => {
-    // Calculate BMR and TDEE values
-    const bmr = calculateBMR(personalDataInput);
-    const tdee = calculateTDEE(bmr, personalDataInput.pal);
-
-    // Set the calculated BMR and TDEE values to store
-    dispatch(setCalculatedData({ dataName: "bmr", dataValue: bmr }));
-    dispatch(setCalculatedData({ dataName: "tdee", dataValue: tdee }));
-
-    // Skip to next form component
-    dispatch(incrementActiveFormIndex());
-    // Start profile form filling
-    dispatch(startProfile());
-  };
 
   return (
     <div
@@ -213,7 +199,12 @@ const PersonalInfoForm = () => {
             </FormControl>
           </Stack>
         </Stack>
-        <Button type="button" fullWidth onClick={handleActiveFormChange}>
+        <Button
+          type="button"
+          fullWidth
+          onClick={handleActiveFormChange}
+          disabled={!isPersonalInfoFormFilled}
+        >
           Tovább
         </Button>
       </div>

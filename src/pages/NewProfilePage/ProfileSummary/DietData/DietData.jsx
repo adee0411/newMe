@@ -7,7 +7,7 @@ const DietData = () => {
     <div>
       <DateSummary />
       <CalorieSummary />
-      <WeightSummary />
+      {/*<WeightSummary />*/}
     </div>
   );
 };

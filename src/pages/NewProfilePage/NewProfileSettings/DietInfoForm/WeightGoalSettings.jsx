@@ -1,6 +1,7 @@
-import { FormControl, FormLabel, Input } from "@mui/joy";
+import { Alert, FormControl, FormLabel, Input, Grid } from "@mui/joy";
 
 import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 
 import {
   setWeightGoal,
@@ -10,22 +11,24 @@ import {
 const WeightGoalSettings = () => {
   const dispatch = useDispatch();
 
+  const [weightGoalAlert, setWeightGoalAlert] = useState(false);
+
   const { weightGoalInput, dietLengthInput } = useSelector(
-    (state) => state.profileData.dietData
+    (state) => state.profileData.formInput.dietDataInput
   );
 
   const { weight } = useSelector(
-    (state) => state.profileData.personalDataInput
+    (state) => state.profileData.formInput.personalDataInput
   );
 
   const handleWeightGoalChange = (e) => {
     const weightGoalValue = e.target.value;
-    /*
-    if (
-      (+weightGoalValue > +weight || +weightGoalValue < 1) &&
-      weightGoalValue !== ""
-    )
-      return;*/
+
+    if (weightGoalValue > weight) {
+      setWeightGoalAlert(true);
+    } else {
+      setWeightGoalAlert(false);
+    }
 
     if (weightGoalValue !== "" && dietLengthInput !== "") {
       dispatch(toggleDeficitSettings(true));
@@ -36,18 +39,35 @@ const WeightGoalSettings = () => {
   };
 
   return (
-    <div>
-      <FormControl>
-        <FormLabel>Célsúly</FormLabel>
-        <Input
-          type="number"
-          value={weightGoalInput}
-          name="weightGoal"
-          onChange={handleWeightGoalChange}
-          endDecorator="kg"
-        />
-      </FormControl>
-    </div>
+    <FormControl>
+      <FormLabel>Célsúly</FormLabel>
+      <Grid container spacing={2}>
+        <Grid lg={6}>
+          <Input
+            type="number"
+            value={weightGoalInput}
+            name="weightGoal"
+            onChange={handleWeightGoalChange}
+            endDecorator="kg"
+            sx={{ flex: 1 }}
+          />
+        </Grid>
+        <Grid lg={6}>
+          {weightGoalAlert ? (
+            <Alert
+              size="sm"
+              color="warning"
+              variant="plain"
+              sx={{ background: "transparent", width: "100%" }}
+            >
+              A célsúly nem lehet nagyobb, mint a jelenlegi súlyod!
+            </Alert>
+          ) : (
+            ""
+          )}
+        </Grid>
+      </Grid>
+    </FormControl>
   );
 };
 

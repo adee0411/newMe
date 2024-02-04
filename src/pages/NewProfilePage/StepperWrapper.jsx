@@ -8,8 +8,8 @@ import { setActiveFormIndex } from "../../store/profileSlice";
 const steps = ["Személyes adatok", "Fizikai aktivitás", "Diéta adatai"];
 
 const StepperWrapper = () => {
-  const activeFormIndex = useSelector(
-    (state) => state.profileData.UI.activeFormIndex
+  const { activeFormIndex } = useSelector(
+    (state) => state.profileData.formInput.UI
   );
   const dispatch = useDispatch();
 

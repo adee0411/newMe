@@ -4,18 +4,10 @@ import db from "../../backend/firebase";
 import classes from "./NewProfilePage.module.scss";
 
 import NewProfileSettings from "./NewProfileSettings/NewProfileSettings";
-import ProfileSummary from "./ProfileSummary/ProfileSummary";
-
-import { useSelector } from "react-redux";
 import { redirect } from "react-router-dom";
 import { calculateDailyDeficit } from "../../utils";
 
 const NewProfilePage = () => {
-  const { dietData } = useSelector((state) => state.profileData);
-  const { dietLengthInput, weightGoalInput } = dietData;
-
-  //const isDietFormFilled = dietLengthInput !== "" || weightGoalInput !== "";
-
   return (
     <div className={classes["new-profile-container"]}>
       <NewProfileSettings />

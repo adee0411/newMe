@@ -15,20 +15,18 @@ import {
   Button,
   RadioGroup,
   Radio,
-  Grid,
 } from "@mui/joy";
 import MaleAvatar from "../../../assets/images/male_avatar.png";
 import FemaleAvatar from "../../../assets/images/female_avatar.png";
 import { CiSettings } from "react-icons/ci";
 
-import { useDispatch, useSelector } from "react-redux";
-import { useLoaderData, Form } from "react-router-dom";
+import { Form } from "react-router-dom";
 import { useState } from "react";
-import { setPersonalData } from "../../../store/profileSlice";
 
 import { PAL } from "../../../utils";
 
 import PersonalData from "../../../pages/NewProfilePage/ProfileSummary/PersonalData/PersonalData";
+import { useSelector } from "react-redux";
 
 const avatars = {
   male: MaleAvatar,
@@ -36,17 +34,7 @@ const avatars = {
 };
 
 const ProfileSummary = () => {
-  const fetchedPersonalData = useLoaderData();
-  console.log(fetchedPersonalData);
-  const orderedPersonalData = {
-    name: fetchedPersonalData.name,
-    age: fetchedPersonalData.age,
-    gender: fetchedPersonalData.gender,
-    weight: fetchedPersonalData.weight,
-    height: fetchedPersonalData.height,
-    pal: fetchedPersonalData.pal,
-  };
-
+  const { personal } = useSelector((state) => state.profileData.fetchedData);
   const [modalOpen, setModalOpen] = useState(false);
 
   const handleModalClose = () => {
@@ -81,81 +69,72 @@ const ProfileSummary = () => {
           <Modal open={modalOpen} onClose={handleModalClose}>
             <ModalDialog>
               <DialogTitle>Profil szerkesztése</DialogTitle>
-              <Form>
-                <Stack spacing={2}>
-                  <FormControl>
-                    <FormLabel>Név</FormLabel>
-                    <Input
-                      autoFocus
-                      required
-                      defaultValue={orderedPersonalData.name}
-                      name="name"
-                    />
-                  </FormControl>
-                  <FormControl>
-                    <FormLabel>Nem</FormLabel>
-                    <RadioGroup defaultValue={orderedPersonalData.gender}>
-                      <Stack direction="row">
-                        <Radio
-                          value="male"
-                          label="Férfi"
-                          name="gender"
-                          sx={{ flex: 1 }}
-                          size="sm"
-                        />
-                        <Radio
-                          value="female"
-                          label="Nő"
-                          name="gender"
-                          sx={{ flex: 1 }}
-                          size="sm"
-                        />
-                      </Stack>
-                    </RadioGroup>
-                  </FormControl>
-                  <FormControl>
-                    <FormLabel>Kor</FormLabel>
-                    <Input
-                      type="number"
-                      required
-                      defaultValue={orderedPersonalData.age}
-                    />
-                  </FormControl>
-                  <FormControl>
-                    <FormLabel>Magasság</FormLabel>
-                    <Input
-                      type="number"
-                      required
-                      defaultValue={orderedPersonalData.height}
-                    />
-                  </FormControl>
-                  <FormControl>
-                    <FormLabel>Testsúly</FormLabel>
-                    <Input
-                      type="number"
-                      required
-                      defaultValue={orderedPersonalData.weight}
-                    />
-                  </FormControl>
-                  <FormControl>
-                    <FormLabel>Fizikai aktivitás</FormLabel>
-                    <RadioGroup defaultValue={orderedPersonalData.pal}>
-                      {Object.entries(PAL).map((pal) => {
-                        return (
+              <DialogContent>
+                <Form>
+                  <Stack spacing={2}>
+                    <FormControl>
+                      <FormLabel>Név</FormLabel>
+                      <Input
+                        autoFocus
+                        required
+                        name="name"
+                        value={personal.name}
+                      />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel>Nem</FormLabel>
+                      <RadioGroup value={personal.gender}>
+                        <Stack direction="row">
                           <Radio
-                            value={pal[1].multiplier}
-                            label={pal[1].label}
+                            value="male"
+                            label="Férfi"
                             name="gender"
                             sx={{ flex: 1 }}
                             size="sm"
                           />
-                        );
-                      })}
-                    </RadioGroup>
-                  </FormControl>
-                  <Button type="submit">Mentés</Button>
-                </Stack>
-              </Form>
+                          <Radio
+                            value="female"
+                            label="Nő"
+                            name="gender"
+                            sx={{ flex: 1 }}
+                            size="sm"
+                          />
+                        </Stack>
+                      </RadioGroup>
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel>Kor</FormLabel>
+                      <Input type="number" required value={personal.age} />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel>Magasság</FormLabel>
+                      <Input type="number" required value={personal.height} />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel>Testsúly</FormLabel>
+                      <Input type="number" required value={personal.weight} />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel>Fizikai aktivitás</FormLabel>
+                      <RadioGroup value={personal.pal}>
+                        {Object.entries(PAL).map((pal) => {
+                          return (
+                            <Radio
+                              value={pal[1].multiplier}
+                              label={pal[1].label}
+                              name="gender"
+                              sx={{ flex: 1 }}
+                              size="sm"
+                              key={pal[1].label}
+                            />
+                          );
+                        })}
+                      </RadioGroup>
+                    </FormControl>
+                    <Button type="submit">Mentés</Button>
+                  </Stack>
+                </Form>
+              </DialogContent>
             </ModalDialog>
           </Modal>
         </div>
@@ -167,11 +146,11 @@ const ProfileSummary = () => {
         <Avatar
           color="primary"
           variant="soft"
-          src={avatars[orderedPersonalData.gender]}
           sx={{ width: "5rem", height: "5rem" }}
+          src={avatars[personal.gender]}
         />
 
-        <PersonalData data={orderedPersonalData} />
+        <PersonalData variant="plain" data={personal} />
       </CardContent>
     </Card>
   );

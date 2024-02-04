@@ -15,25 +15,17 @@ import WeightOverview from "./WeightOverview/WeightOverview";
 import ProfileSummary from "../../../pages/NewProfilePage/ProfileSummary/ProfileSummary";
 
 import { useDispatch, useSelector } from "react-redux";
-import { useLoaderData } from "react-router-dom";
 
-import { setSelectedDate } from "../../../store/profileSlice";
+//import { setSelectedDate } from "../../../store/profileSlice";
 import { formatDate } from "../../../utils";
 
 const Home = () => {
-  const dispatch = useDispatch();
-  const { dietStartInput: dietStart } = useSelector(
-    (state) => state.profileData.dietData
-  );
-
-  const profileData = useLoaderData();
-
-  const handleDateChange = (value) => {
+  /*const handleDateChange = (value) => {
     const formattedDateValue = formatDate(value);
     dispatch(setSelectedDate(formattedDateValue));
-  };
+  };*/
 
-  return <ProfileSummary data={profileData} />;
+  return <ProfileSummary />;
   {
     /*     <Grid container spacing={4}>
       <Grid lg={9}>

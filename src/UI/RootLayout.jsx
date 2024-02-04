@@ -8,7 +8,7 @@ const RootLayout = () => {
   return (
     <div className={classes["root-layout"]}>
       <Header />
-      <main>
+      <main className={classes["root-layout__main"]}>
         <Outlet />
       </main>
     </div>

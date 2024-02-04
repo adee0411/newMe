@@ -7,7 +7,9 @@ import DietInfoForm from "./DietInfoForm/DietInfoForm";
 import { useSelector } from "react-redux";
 
 const NewProfileSettingsForms = () => {
-  const { activeFormIndex } = useSelector((state) => state.profileData.UI);
+  const { activeFormIndex } = useSelector(
+    (state) => state.profileData.formInput.UI
+  );
   return (
     <div>
       <Form action="/new-profile" method="post">

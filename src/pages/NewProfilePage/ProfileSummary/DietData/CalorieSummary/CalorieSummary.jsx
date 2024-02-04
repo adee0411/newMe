@@ -13,12 +13,10 @@ import {
 import { CiWarning } from "react-icons/ci";
 
 const CalorieSummary = () => {
-  const { calculatedData } = useSelector((state) => state.profileData);
-  const { bmr, calculatedCalorieIntake, calculatedDailyDeficit } =
-    calculatedData;
+  const { diet } = useSelector((state) => state.profileData.fetchedData);
 
-  const dailyCalorieIntakeWarning =
-    calculatedCalorieIntake !== "" && calculatedCalorieIntake < bmr;
+  /*const dailyCalorieIntakeWarning =
+    calculatedCalorieIntake !== "" && calculatedCalorieIntake < bmr;*/
   return (
     <Card sx={{ my: 2 }}>
       <List orientation="horizontal">
@@ -26,26 +24,15 @@ const CalorieSummary = () => {
           <Stack>
             <Typography level="body-sm">Napi kalóriadeficit: </Typography>
             <Typography fontWeight={800} level="body-lg">
-              {calculatedDailyDeficit ? `${calculatedDailyDeficit} kcal` : ""}
+              {`${diet.deficit} kcal`}
             </Typography>
           </Stack>
         </ListItem>
         <ListDivider inset="gutter" />
         <ListItem sx={{ flex: 1 }}>
           <Stack>
-            <Typography
-              color={dailyCalorieIntakeWarning ? "danger" : ""}
-              level="body-sm"
-            >
-              Napi kalóriabevitel:{" "}
-            </Typography>
-            <Typography
-              color={dailyCalorieIntakeWarning ? "danger" : ""}
-              fontWeight={800}
-              level="body-lg"
-            >
-              {calculatedCalorieIntake ? `${calculatedCalorieIntake} kcal` : ""}
-            </Typography>
+            <Typography level="body-sm">Napi kalóriabevitel: </Typography>
+            <Typography fontWeight={800} level="body-lg"></Typography>
           </Stack>
         </ListItem>
       </List>

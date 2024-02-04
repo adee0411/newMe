@@ -40,14 +40,14 @@ const DeficitAlert = () => {
 const DeficitSettings = () => {
   const dispatch = useDispatch();
   const { presetDeficitInput, finetunedDeficitInput } = useSelector(
-    (state) => state.profileData.dietData
+    (state) => state.profileData.formInput.dietDataInput
   );
 
   const { isFineTuneDeficitChecked, isDeficitSettingsDisabled } = useSelector(
-    (state) => state.profileData.UI
+    (state) => state.profileData.formInput.UI
   );
 
-  const handleFinetuneDeficitCheck = (e) => {
+  const handleFinetuneDeficitCheck = () => {
     dispatch(toggleFineTuneDeficitCheck());
   };
 
@@ -64,9 +64,9 @@ const DeficitSettings = () => {
   return (
     <div>
       <FormControl>
-        <FormLabel>Fogyás üteme</FormLabel>
+        <FormLabel>Napi deficit mértéke</FormLabel>
         {isDeficitSettingsDisabled && (
-          <Alert color="warning" variant="soft" size="sm">
+          <Alert color="warning" variant="soft" size="sm" sx={{ my: 2 }}>
             Már megadtad a diéta hosszát és a célsúlyt, így a napi
             kalória-deficit értéke ezekből automatikusan számolódik. Ha
             szeretnéd testreszabni a kalória-deficitet, töröld az egyik adatot!
@@ -75,13 +75,13 @@ const DeficitSettings = () => {
         <RadioGroup
           size="sm"
           orientation="horizontal"
-          sx={{ justifyContent: "space-between" }}
-          value={+presetDeficitInput}
+          sx={{ justifyContent: "space-between", my: 2 }}
+          value={presetDeficitInput}
           name="presetDeficitInput"
           onChange={handlepresetDeficitInputChange}
         >
           <Radio
-            label="Lassú"
+            label="Alacsony (200kcal / nap)"
             name="presetDeficitInput"
             value={200}
             disabled={
@@ -91,7 +91,7 @@ const DeficitSettings = () => {
             }
           />
           <Radio
-            label="Normál"
+            label="Normál (500kcal / nap)"
             name="presetDeficitInput"
             value={500}
             disabled={
@@ -101,7 +101,7 @@ const DeficitSettings = () => {
             }
           />
           <Radio
-            label="Gyors"
+            label="Magas (1000kcal / nap)"
             name="presetDeficitInput"
             value={1000}
             disabled={
@@ -122,7 +122,7 @@ const DeficitSettings = () => {
           disabled={isDeficitSettingsDisabled}
         />
       </FormControl>
-      <FormControl>
+      <FormControl sx={{ my: 2 }}>
         <Slider
           type="range"
           size="sm"

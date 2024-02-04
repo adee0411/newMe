@@ -3,10 +3,10 @@ import DietData from "./DietData/DietData";
 
 const ProfileSummaryData = () => {
   return (
-    <>
-      <EnergyData />
+    <div style={{ width: "50%", marginLeft: "auto" }}>
+      {/*<EnergyData />*/}
       <DietData />
-    </>
+    </div>
   );
 };
 

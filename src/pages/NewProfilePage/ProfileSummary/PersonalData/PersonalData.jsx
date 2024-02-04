@@ -1,6 +1,4 @@
-import { List, ListDivider, ListItem, Stack, Typography } from "@mui/joy";
-
-import { useSelector } from "react-redux";
+import { List, ListItem, Stack, Typography } from "@mui/joy";
 
 import { RxAvatar } from "react-icons/rx";
 import { LiaBirthdayCakeSolid } from "react-icons/lia";
@@ -56,7 +54,7 @@ const PersonalData = ({ variant, data }) => {
                   justifyContent="space-between"
                   width="100%"
                 >
-                  <Stack direction="row" gap={2}>
+                  <Stack direction="row" gap={2} alignItems="center">
                     <Typography level="body-lg">
                       {labels[data[0]].icon}
                     </Typography>
