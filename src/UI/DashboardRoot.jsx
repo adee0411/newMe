@@ -5,17 +5,16 @@ import { useLoaderData } from "react-router-dom";
 
 import { Outlet } from "react-router-dom";
 import { Sheet, Grid, Typography } from "@mui/joy";
-import Sidebar from "../components/Sidebar/Sidebar";
-import Header from "../components/Dashboard/Header/Header";
+import Sidebar from "../pages/DashboardPage/Sidebar/Sidebar";
+import Header from "../pages/DashboardPage/Dashboard/Header/Header";
 
-import classes from "./DashboardRoot.module.css";
+import classes from "./DashboardRoot.module.scss";
 import { useDispatch } from "react-redux";
 import { setPersonalData } from "../store/profileSlice";
 
 const DashboardRoot = () => {
   const dispatch = useDispatch();
   const data = useLoaderData();
-  console.log(data);
 
   dispatch(setPersonalData(data));
 

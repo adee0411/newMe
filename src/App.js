@@ -9,7 +9,7 @@ import LandingPage from "./pages/LandingPage/LandingPage";
 import NewProfilePage from "./pages/NewProfilePage/NewProfilePage";
 
 import DashboardRoot from "./UI/DashboardRoot";
-import Home from "./components/Dashboard/Home/Home";
+import Home from "./pages/DashboardPage/Dashboard/Home/Home";
 
 import { profileCollectionLoader } from "./UI/DashboardRoot";
 import { createProfileAction } from "./pages/NewProfilePage/NewProfilePage";

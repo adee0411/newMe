@@ -1,6 +1,6 @@
 import { Typography, Grid, Divider, Sheet, Stack } from "@mui/joy";
 
-import { formatDate } from "../../../../utils";
+import { formatDate } from "../../../../../utils";
 
 import { useSelector } from "react-redux";
 

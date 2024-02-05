@@ -16,16 +16,16 @@ import {
   RadioGroup,
   Radio,
 } from "@mui/joy";
-import MaleAvatar from "../../../assets/images/male_avatar.png";
-import FemaleAvatar from "../../../assets/images/female_avatar.png";
+import MaleAvatar from "../../../../assets/images/male_avatar.png";
+import FemaleAvatar from "../../../../assets/images/female_avatar.png";
 import { CiSettings } from "react-icons/ci";
 
 import { Form } from "react-router-dom";
 import { useState } from "react";
 
-import { PAL } from "../../../utils";
+import { PAL } from "../../../../utils";
 
-import PersonalData from "../../../pages/NewProfilePage/ProfileSummary/PersonalData/PersonalData";
+import PersonalData from "../../../NewProfilePage/ProfileSummary/PersonalData/PersonalData";
 import { useSelector } from "react-redux";
 
 const avatars = {

@@ -4,9 +4,9 @@ import { FormControl, FormLabel, Input, Button, Divider } from "@mui/joy";
 import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { formatDate } from "../../../../utils";
+import { formatDate } from "../../../../../utils";
 
-import { setDailyCalorieIntake } from "../../../../store/calorieTrackerSlice";
+import { setDailyCalorieIntake } from "../../../../../store/calorieTrackerSlice";
 
 const NewCalorieForm = () => {
   const dispatch = useDispatch();

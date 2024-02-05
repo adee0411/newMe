@@ -1,4 +1,4 @@
-import db from "../../../backend/firebase";
+import db from "../../../../backend/firebase";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 
 import { useState, useEffect } from "react";
@@ -12,12 +12,12 @@ import Calendar from "react-calendar";
 
 import CalorieOverview from "./CalorieOverview/CalorieOverview";
 import WeightOverview from "./WeightOverview/WeightOverview";
-import ProfileSummary from "../../../pages/NewProfilePage/ProfileSummary/ProfileSummary";
+import ProfileSummary from "../../../NewProfilePage/ProfileSummary/ProfileSummary";
 
 import { useDispatch, useSelector } from "react-redux";
 
 //import { setSelectedDate } from "../../../store/profileSlice";
-import { formatDate } from "../../../utils";
+import { formatDate } from "../../../../utils";
 
 const Home = () => {
   /*const handleDateChange = (value) => {
@@ -25,7 +25,7 @@ const Home = () => {
     dispatch(setSelectedDate(formattedDateValue));
   };*/
 
-  return <ProfileSummary />;
+  return;
   {
     /*     <Grid container spacing={4}>
       <Grid lg={9}>

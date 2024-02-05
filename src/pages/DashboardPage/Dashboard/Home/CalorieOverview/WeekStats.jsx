@@ -4,9 +4,9 @@ import { useSelector, useDispatch } from "react-redux";
 
 import DailyProgress from "./DailyProgress";
 
-import { formatDate } from "../../../../utils";
+import { formatDate } from "../../../../../utils";
 
-import { setNewBlock } from "../../../../store/calorieTrackerSlice";
+import { setNewBlock } from "../../../../../store/calorieTrackerSlice";
 import { useEffect } from "react";
 
 const WeekStats = ({ currentWeek }) => {

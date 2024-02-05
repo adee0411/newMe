@@ -3,7 +3,7 @@ import WeekPagination from "./WeekPagination";
 import WeekStats from "./WeekStats";
 import { useSelector } from "react-redux";
 
-import { setCurrentWeek } from "../../../../store/calorieTrackerSlice";
+import { setCurrentWeek } from "../../../../../store/calorieTrackerSlice";
 
 const WeeklyCalorieOverview = () => {
   const { currentWeek } = useSelector((state) => state.calorieTracker.UI);

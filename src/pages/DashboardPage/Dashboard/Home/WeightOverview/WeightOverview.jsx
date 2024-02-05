@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import WeeklyWeightOverview from "./WeeklyWeightOverview";
 
 import { IoCalendarOutline } from "react-icons/io5";
-import Icon from "../../../../assets/images/female-fitness_512.png";
+import Icon from "../../../../../assets/images/female-fitness_512.png";
 
 const WeightOverview = () => {
   const { selectedDate } = useSelector((state) => state.profileData.dietData);
