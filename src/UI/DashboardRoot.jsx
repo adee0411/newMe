@@ -4,8 +4,8 @@ import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 import { useLoaderData } from "react-router-dom";
 
 import { Outlet } from "react-router-dom";
-import { Sheet, Grid, Typography } from "@mui/joy";
-import Sidebar from "../pages/DashboardPage/Sidebar/Sidebar";
+import { Sheet, Grid, Typography, Divider } from "@mui/joy";
+import Side from "../pages/DashboardPage/Side/Side";
 import Header from "../pages/DashboardPage/Dashboard/Header/Header";
 
 import classes from "./DashboardRoot.module.scss";
@@ -19,23 +19,15 @@ const DashboardRoot = () => {
   dispatch(setPersonalData(data));
 
   return (
-    <div className={classes["dashboard-grid"]}>
-      <Sidebar />
-      <main style={{ gridArea: "main" }}>
-        <Header />
-        <Sheet
-          color="primary"
-          variant="plain"
-          sx={{
-            borderRadius: 8,
-            padding: "20px",
-            height: "calc(100vh - 118px)",
-          }}
-        >
+    <Sheet color="primary" variant="soft">
+      <div className={classes["dashboard-grid"]}>
+        <Side />
+        <main style={{ gridArea: "main" }}>
+          <Header />
           <Outlet />
-        </Sheet>
-      </main>
-    </div>
+        </main>
+      </div>
+    </Sheet>
   );
 };
 

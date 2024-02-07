@@ -1,10 +1,11 @@
 import {
   List,
+  Tooltip,
   ListItem,
   ListItemButton,
   ListItemDecorator,
   ListItemContent,
-  Tooltip,
+  Typography,
 } from "@mui/joy";
 import { NavLink } from "react-router-dom";
 
@@ -15,7 +16,7 @@ import { FaRunning } from "react-icons/fa";
 import { GiMeal } from "react-icons/gi";
 
 const menuItems = [
-  { label: "Főoldal", icon: <BiSolidDashboard />, path: "/" },
+  { label: "Főoldal", icon: <BiSolidDashboard />, path: "" },
   { label: "Kalória követő", icon: <LiaBurnSolid />, path: "/calorie-tracker" },
   {
     label: "Testsúly követő",
@@ -26,51 +27,43 @@ const menuItems = [
   { label: "Étrend tervező", icon: <GiMeal />, path: "/meal-planner" },
 ];
 
-const Menu = () => {
+const MenuList = () => {
   return (
     <List
-      size="lg"
+      size="md"
       color="neutral"
       variant="plain"
       sx={{ '& [role="button"]': { borderRadius: "8px" }, my: 8 }}
     >
       {menuItems.map((menuItem) => {
         return (
-          <Tooltip variant="solid" title={menuItem.label} placement="right-end">
+          <Tooltip
+            color="primary"
+            variant="plain"
+            size="sm"
+            title={menuItem.label}
+            placement="right-end"
+            key={menuItem.label}
+          >
             <ListItem sx={{ my: 2 }}>
-              <NavLink
-                style={{
-                  textDecoration: "none",
-                  display: "flex",
-                  justifyContent: "center",
-                  width: "100%",
-                }}
-                to={menuItem.path}
-              >
-                <ListItemButton
+              <ListItemButton>
+                <ListItemContent
                   sx={{
                     display: "flex",
                     justifyContent: "center",
-                    alignItems: "center",
+                    alignItem: "center",
                   }}
                 >
-                  <ListItemDecorator
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      width: "100%",
-                      fontSize: 22,
-                    }}
+                  <NavLink
+                    to={menuItem.path}
+                    style={{ textDecoration: "none" }}
                   >
-                    <span
-                      style={{ position: "relative", left: "-6px", top: "4px" }}
-                    >
+                    <Typography color="primary" component="span" fontSize={22}>
                       {menuItem.icon}
-                    </span>
-                  </ListItemDecorator>
-                </ListItemButton>
-              </NavLink>
+                    </Typography>
+                  </NavLink>
+                </ListItemContent>
+              </ListItemButton>
             </ListItem>
           </Tooltip>
         );
@@ -79,4 +72,4 @@ const Menu = () => {
   );
 };
 
-export default Menu;
+export default MenuList;
