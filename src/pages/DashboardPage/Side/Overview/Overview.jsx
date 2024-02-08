@@ -1,4 +1,4 @@
-import { Card, Stack, Typography } from "@mui/joy";
+import { Sheet, Stack, Typography } from "@mui/joy";
 
 import classes from "./Overview.module.scss";
 
@@ -8,7 +8,7 @@ const Overview = () => {
   const currentDate = new Date();
   const currentHour = currentDate.getHours();
 
-  let greeting =
+  const greeting =
     currentHour >= 18
       ? "Szép estét"
       : currentHour < 10 && currentHour >= 6
@@ -16,12 +16,35 @@ const Overview = () => {
       : "Szép napot";
   return (
     <div className={classes["overview"]}>
-      <div>
-        <Typography level="h2" color="neutral" textAlign="center">
-          {`${greeting}, Ádám!`}
-        </Typography>
+      <header>
+        <Sheet
+          sx={{
+            p: 3,
+            borderRadius: "md",
+            background: "transparent",
+            minHeight: "100px",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+            width="100%"
+          >
+            <Typography level="title-lg" color="neutral">
+              {`${greeting}, Ádám!`}
+            </Typography>
+            <Typography level="title-sm" color="neutral">
+              2024. 02. 08.
+            </Typography>
+          </Stack>
+        </Sheet>
+      </header>
+      <div style={{ padding: "24px" }}>
+        <Goals />
       </div>
-      <Goals />
     </div>
   );
 };

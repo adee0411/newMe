@@ -10,6 +10,7 @@ import NewProfilePage from "./pages/NewProfilePage/NewProfilePage";
 
 import DashboardRoot from "./UI/DashboardRoot";
 import Home from "./pages/DashboardPage/Dashboard/Home/Home";
+import CalorieTracker from "./pages/DashboardPage/Dashboard/CalorieTracker/CalorieTracker";
 
 import { profileCollectionLoader } from "./UI/DashboardRoot";
 import { createProfileAction } from "./pages/NewProfilePage/NewProfilePage";
@@ -30,7 +31,10 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <DashboardRoot />,
-    children: [{ path: "", element: <Home /> }],
+    children: [
+      { index: true, element: <Home /> },
+      { path: "calorie-tracker", element: <CalorieTracker /> },
+    ],
     loader: profileCollectionLoader,
   },
 ]);

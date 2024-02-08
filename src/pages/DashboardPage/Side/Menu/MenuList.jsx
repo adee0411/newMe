@@ -58,7 +58,13 @@ const MenuList = () => {
                     to={menuItem.path}
                     style={{ textDecoration: "none" }}
                   >
-                    <Typography color="primary" component="span" fontSize={22}>
+                    <Typography
+                      color="primary"
+                      component="span"
+                      fontSize={22}
+                      display="flex"
+                      alignItems="center"
+                    >
                       {menuItem.icon}
                     </Typography>
                   </NavLink>

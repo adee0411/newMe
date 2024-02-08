@@ -6,42 +6,26 @@ import classes from "./Home.module.css";
 import "react-calendar/dist/Calendar.css";
 import "./customCalendarStyles.css";
 
-import { Grid, Typography, Stack } from "@mui/joy";
+import { Grid, Stack, Sheet } from "@mui/joy";
 
 import Calendar from "react-calendar";
 
 import CalorieOverview from "./CalorieOverview/CalorieOverview";
-import WeightOverview from "./WeightOverview/WeightOverview";
-import ProfileSummary from "../../../NewProfilePage/ProfileSummary/ProfileSummary";
-
-import { useDispatch, useSelector } from "react-redux";
-
-//import { setSelectedDate } from "../../../store/profileSlice";
-import { formatDate } from "../../../../utils";
 
 const Home = () => {
-  /*const handleDateChange = (value) => {
-    const formattedDateValue = formatDate(value);
-    dispatch(setSelectedDate(formattedDateValue));
-  };*/
-
-  return;
-  {
-    /*     <Grid container spacing={4}>
+  return (
+    <Grid container spacing={4}>
       <Grid lg={9}>
-        <Stack direction="row" spacing={4}>
-          <CalorieOverview />
-  </Stack>
-
+        <Stack direction="row" spacing={4}></Stack>
       </Grid>
 
       <Grid lg={3}>
         <div className="calendar-container">
-          <Calendar onChange={handleDateChange} minDate={new Date(dietStart)} />
+          <Calendar />
         </div>
       </Grid>
-    </Grid>*/
-  }
+    </Grid>
+  );
 };
 
 export default Home;

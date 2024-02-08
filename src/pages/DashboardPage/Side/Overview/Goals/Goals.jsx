@@ -9,26 +9,25 @@ import {
 
 import AvatarMe from "../../../../../assets/images/Avatar_me.jpg";
 
-import { RxAvatar } from "react-icons/rx";
 import { LiaBirthdayCakeSolid } from "react-icons/lia";
-import { LiaWeightSolid } from "react-icons/lia";
 import { GiBodyHeight } from "react-icons/gi";
 import { BsGenderAmbiguous } from "react-icons/bs";
 import { IoFitnessOutline } from "react-icons/io5";
+import { IoScaleOutline } from "react-icons/io5";
+import { LiaBurnSolid } from "react-icons/lia";
 
 const Goals = () => {
   return (
-    <Card variant="plain" sx={{ boxShadow: "lg", marginTop: "128px" }}>
+    <Card variant="plain" sx={{ boxShadow: "lg", marginTop: "16px" }}>
       <Avatar
         src={AvatarMe}
-        size="lg"
         sx={{
           position: "absolute",
           top: "-40px",
           left: "50%",
           transform: "translateX(-50%)",
-          "--Avatar-size": "80px",
-          border: "5px solid #fff",
+          "--Avatar-size": "100px",
+          border: "10px solid #FBFCFE",
         }}
       />
       <CardContent sx={{ marginTop: "48px" }}>
@@ -88,33 +87,48 @@ const Goals = () => {
           </Typography>
         </Stack>
         <Divider orientation="horizontal" inset="gutter" />
-        <Stack direction="row" p={2}>
-          <Stack flex={1} spacing={1}>
-            <Stack direction="row" justifyContent="space-around">
-              <Typography textAlign="center" fontSize={12}>
-                100 KG
+        <Stack p={2}>
+          <Typography textAlign="center" mb={2} fontSize={18} color="neutral">
+            CÉLOK
+          </Typography>
+          <Stack direction="row">
+            <Stack flex={1} spacing={1}>
+              <Typography textAlign="center" fontSize={26}>
+                <IoScaleOutline />
               </Typography>
-              <Typography textAlign="center" fontSize={12}>
-                15 KG
+              <Stack direction="row" justifyContent="space-around">
+                <Stack textAlign="center">
+                  <Typography fontSize={10}>KEZDŐ SÚLY</Typography>
+                  <Typography fontSize={10}>100 KG</Typography>
+                </Stack>
+                <Stack textAlign="center">
+                  <Typography fontSize={10}>SÚLYLEADÁS</Typography>
+                  <Typography fontSize={10}>15 KG</Typography>
+                </Stack>
+              </Stack>
+              <Typography textAlign="center" fontSize={24} fontWeight={800}>
+                85 KG
               </Typography>
             </Stack>
-            <Typography textAlign="center" fontSize={24} fontWeight={800}>
-              85 KG
-            </Typography>
-          </Stack>
-          <Divider orientation="vertical" inset="gutter" />
-          <Stack flex={1} spacing={1}>
-            <Stack direction="row" justifyContent="space-around">
-              <Typography textAlign="center" fontSize={12}>
-                2800 CAL
+            <Divider orientation="vertical" inset="gutter" />
+            <Stack flex={1} spacing={1}>
+              <Typography textAlign="center" fontSize={26}>
+                <LiaBurnSolid />
               </Typography>
-              <Typography textAlign="center" fontSize={12}>
-                500 CAL
+              <Stack direction="row" justifyContent="space-around">
+                <Stack textAlign="center">
+                  <Typography fontSize={10}>TDEE</Typography>
+                  <Typography fontSize={10}>2800 CAL</Typography>
+                </Stack>
+                <Stack textAlign="center">
+                  <Typography fontSize={10}>DEFICIT</Typography>
+                  <Typography fontSize={10}>500 CAL</Typography>
+                </Stack>
+              </Stack>
+              <Typography textAlign="center" fontSize={24} fontWeight={800}>
+                2300 CAL
               </Typography>
             </Stack>
-            <Typography textAlign="center" fontSize={24} fontWeight={800}>
-              2300 CAL
-            </Typography>
           </Stack>
         </Stack>
       </CardContent>
