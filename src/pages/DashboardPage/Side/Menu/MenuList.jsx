@@ -7,7 +7,7 @@ import {
   ListItemContent,
   Typography,
 } from "@mui/joy";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 import { BiSolidDashboard } from "react-icons/bi";
 import { LiaBurnSolid } from "react-icons/lia";
@@ -16,18 +16,29 @@ import { FaRunning } from "react-icons/fa";
 import { GiMeal } from "react-icons/gi";
 
 const menuItems = [
-  { label: "Főoldal", icon: <BiSolidDashboard />, path: "" },
-  { label: "Kalória követő", icon: <LiaBurnSolid />, path: "/calorie-tracker" },
+  { label: "Főoldal", icon: <BiSolidDashboard />, path: "/dashboard" },
+  {
+    label: "Kalória követő",
+    icon: <LiaBurnSolid />,
+    path: "/dashboard/calorie-tracker",
+  },
   {
     label: "Testsúly követő",
     icon: <IoScaleOutline />,
-    path: "/weight-tracker",
+    path: "/dashboard/weight-tracker",
   },
-  { label: "Aktivitás követő", icon: <FaRunning />, path: "/activity-tracker" },
-  { label: "Étrend tervező", icon: <GiMeal />, path: "/meal-planner" },
+  { label: "Aktivitás követő", icon: <FaRunning />, path: "activity-tracker" },
+  {
+    label: "Étrend tervező",
+    icon: <GiMeal />,
+    path: "/dashboard/meal-planner",
+  },
 ];
 
 const MenuList = () => {
+  const currentLocation = useLocation();
+  const currentPath = currentLocation.pathname;
+
   return (
     <List
       size="md"
@@ -46,7 +57,7 @@ const MenuList = () => {
             key={menuItem.label}
           >
             <ListItem sx={{ my: 2 }}>
-              <ListItemButton>
+              <ListItemButton selected={menuItem.path === currentPath}>
                 <ListItemContent
                   sx={{
                     display: "flex",
@@ -56,7 +67,12 @@ const MenuList = () => {
                 >
                   <NavLink
                     to={menuItem.path}
-                    style={{ textDecoration: "none" }}
+                    style={{
+                      textDecoration: "none",
+                      display: "block",
+                      width: "inherit",
+                      height: "inherit",
+                    }}
                   >
                     <Typography
                       color="primary"

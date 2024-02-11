@@ -12,12 +12,7 @@ const WeeklyCalorieOverview = () => {
   const numOfWeeks = calorieData.length;
 
   return (
-    <Card
-      variant="plain"
-      sx={{
-        boxShadow: "md",
-      }}
-    >
+    <>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Typography color="neutral" component="h2" level="title-lg">
           Heti kalória-összesítő
@@ -39,7 +34,7 @@ const WeeklyCalorieOverview = () => {
           <WeekStats currentWeek={currentWeek} />
         )}
       </CardContent>
-    </Card>
+    </>
   );
 };
 

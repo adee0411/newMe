@@ -24,9 +24,8 @@ const DashboardRoot = () => {
         <Side />
         <main style={{ gridArea: "main" }}>
           <Header />
-          <div style={{ padding: "24px", marginTop: "16px" }}>
-            <Outlet />
-          </div>
+
+          <Outlet />
         </main>
       </div>
     </Sheet>

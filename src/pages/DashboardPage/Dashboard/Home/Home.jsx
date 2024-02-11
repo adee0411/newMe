@@ -6,25 +6,29 @@ import classes from "./Home.module.css";
 import "react-calendar/dist/Calendar.css";
 import "./customCalendarStyles.css";
 
-import { Grid, Stack, Sheet } from "@mui/joy";
+import { Grid, Stack, Sheet, Typography } from "@mui/joy";
 
 import Calendar from "react-calendar";
 
+import DashboardWrapper from "./DashboardWrapper";
 import CalorieOverview from "./CalorieOverview/CalorieOverview";
 
 const Home = () => {
   return (
-    <Grid container spacing={4}>
-      <Grid lg={9}>
-        <Stack direction="row" spacing={4}></Stack>
+    <DashboardWrapper title="Összesítés">
+      <Grid container spacing={2}>
+        <Grid lg={8}>
+          {" "}
+          <CalorieOverview />
+        </Grid>
+        <Grid lg={4}>
+          {" "}
+          <div className="calendar-container">
+            <Calendar />
+          </div>
+        </Grid>
       </Grid>
-
-      <Grid lg={3}>
-        <div className="calendar-container">
-          <Calendar />
-        </div>
-      </Grid>
-    </Grid>
+    </DashboardWrapper>
   );
 };
 

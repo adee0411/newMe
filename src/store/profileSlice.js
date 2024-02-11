@@ -33,6 +33,7 @@ const profileSlice = createSlice({
       },
     },
     fetchedData: {},
+    selectedDate: formatDate(new Date()),
   },
   reducers: {
     setPersonalDataInput(state, action) {

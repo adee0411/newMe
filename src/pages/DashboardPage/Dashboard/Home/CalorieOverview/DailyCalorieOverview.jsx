@@ -10,7 +10,7 @@ import { IoCalendarOutline } from "react-icons/io5";
 
 const DailyCalorieOverview = () => {
   const currentDate = new Date();
-  const { selectedDate } = useSelector((state) => state.profileData.dietData);
+  const { selectedDate } = useSelector((state) => state.profileData);
 
   const isSelectedDateBiggerThanCurrentDate =
     new Date(selectedDate).getTime() > currentDate.getTime();
@@ -28,22 +28,12 @@ const DailyCalorieOverview = () => {
 
   const calorieIntake = +selectedDateData?.calorieIntake || 0;
   return (
-    <Card
-      variant="plain"
-      sx={{
-        boxShadow: "md",
-      }}
-    >
-      <Stack direction="row" justifyContent="space-between" mb={2}>
-        <Typography color="neutral" component="h2" level="title-lg">
-          Napi kalória-összesítő
-        </Typography>
+    <div style={{ padding: "12px" }}>
+      <header>
         <Typography
-          color="neutral"
-          component="span"
           display="flex"
           alignItems="center"
-          justifyContent="center"
+          justifyContent="flex-end"
           gap={1}
         >
           <IoCalendarOutline />
@@ -52,8 +42,7 @@ const DailyCalorieOverview = () => {
             .filter((_, i) => i !== 0)
             .join(".") + "."}
         </Typography>
-      </Stack>
-
+      </header>
       <CardContent>
         {!isSelectedDateBiggerThanCurrentDate && <NewCalorieForm />}
         <Grid container spacing={8}>
@@ -78,7 +67,7 @@ const DailyCalorieOverview = () => {
           </Grid>
         </Grid>
       </CardContent>
-    </Card>
+    </div>
   );
 };
 
