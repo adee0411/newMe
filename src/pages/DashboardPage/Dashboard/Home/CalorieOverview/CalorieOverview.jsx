@@ -1,35 +1,31 @@
-import {
-  Typography,
-  Grid,
-  Divider,
-  Sheet,
-  Stack,
-  Card,
-  CardContent,
-} from "@mui/joy";
+import { Sheet, Stack, Card, CardContent } from "@mui/joy";
 
-import { formatDate } from "../../../../../utils";
-
-import { useSelector } from "react-redux";
-
-import NewCalorieForm from "./NewCalorieForm";
 import DailyCalorieOverview from "./DailyCalorieOverview";
 import WeeklyCalorieOverview from "./WeeklyCalorieOverview";
 
 const CalorieOverview = () => {
   return (
-    <Card sx={{ borderRadius: "lg", p: "none", overflow: "hidden" }}>
+    <Card
+      sx={{
+        borderRadius: "lg",
+        p: "none",
+        overflow: "hidden",
+        boxShadow: "lg",
+        mb: 2,
+      }}
+      variant="plain"
+    >
       <CardContent>
         <Stack direction="row" sx={{ width: "100%" }}>
           <Sheet
             color="primary"
             variant="solid"
             invertedColors
-            sx={{ width: "250px" }}
+            sx={{ width: "350px", padding: "12px" }}
           >
             <DailyCalorieOverview />
           </Sheet>
-          <Sheet>
+          <Sheet sx={{ flex: 1, padding: "4px 12px" }}>
             <WeeklyCalorieOverview />
           </Sheet>
         </Stack>

@@ -14,6 +14,7 @@ import CalorieTracker from "./pages/DashboardPage/Dashboard/CalorieTracker/Calor
 import WeightTracker from "./pages/DashboardPage/Dashboard/WeightTracker/WeightTracker";
 import ActivityTracker from "./pages/DashboardPage/Dashboard/ActivityTracker/ActivityTracker";
 import MealPlanner from "./pages/DashboardPage/Dashboard/MealPlanner/MealPlanner";
+import DailyOverview from "./pages/DashboardPage/Dashboard/DailyOverview/DailyOverview";
 
 import { profileCollectionLoader } from "./UI/DashboardRoot";
 import { createProfileAction } from "./pages/NewProfilePage/NewProfilePage";
@@ -40,6 +41,7 @@ const router = createBrowserRouter([
       { path: "weight-tracker", element: <WeightTracker /> },
       { path: "activity-tracker", element: <ActivityTracker /> },
       { path: "meal-planner", element: <MealPlanner /> },
+      { path: ":date", element: <DailyOverview /> },
     ],
     loader: profileCollectionLoader,
   },

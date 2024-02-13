@@ -7,7 +7,7 @@ const calorieTrackerSlice = createSlice({
   initialState: {
     calorieData: [],
     UI: {
-      currentWeek: 0,
+      currentWeek: 1,
     },
   },
   reducers: {

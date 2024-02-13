@@ -1,38 +1,72 @@
-import { Typography, Card, CardContent, Stack } from "@mui/joy";
-import WeekPagination from "./WeekPagination";
+import { Typography, Card, CardContent, Stack, Divider } from "@mui/joy";
+import WeekPagination from "../../../../../components/WeekPagination";
 import WeekStats from "./WeekStats";
 import { useSelector } from "react-redux";
 
 import { setCurrentWeek } from "../../../../../store/calorieTrackerSlice";
 
+import { LiaBurnSolid } from "react-icons/lia";
+
+const dateCollection = [
+  "2024-02-11",
+  "2024-02-12",
+  "2024-02-13",
+  "2024-02-14",
+  "2024-02-15",
+  "2024-02-16",
+  "2024-02-17",
+  "2024-02-18",
+  "2024-02-19",
+  "2024-02-20",
+  "2024-02-21",
+  "2024-02-22",
+  "2024-02-23",
+  "2024-02-24",
+  "2024-02-25",
+  "2024-02-26",
+  "2024-02-27",
+  "2024-02-28",
+  "2024-02-29",
+  "2024-02-30",
+  "2024-02-31",
+  "2024-03-01",
+  "2024-03-02",
+  "2024-03-03",
+];
+
 const WeeklyCalorieOverview = () => {
   const { currentWeek } = useSelector((state) => state.calorieTracker.UI);
-  const { calorieData } = useSelector((state) => state.calorieTracker);
-
-  const numOfWeeks = calorieData.length;
 
   return (
     <>
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Typography color="neutral" component="h2" level="title-lg">
-          Heti kalória-összesítő
-        </Typography>
-        {calorieData.length === 0 ? (
-          ""
-        ) : (
-          <WeekPagination
-            currentWeek={currentWeek}
-            numOfWeeks={numOfWeeks}
-            onSetCurrentWeek={setCurrentWeek}
-          />
-        )}
+      <Stack
+        direction="row"
+        sx={{ width: "100%" }}
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <Typography
+            color="neutral"
+            level="title-sm"
+            display="flex"
+            alignItems="center"
+          >
+            <LiaBurnSolid />
+          </Typography>
+          <Typography color="neutral" level="title-sm">
+            Heti kalória-összesítő
+          </Typography>
+        </Stack>
+
+        <WeekPagination
+          onSetCurrentWeek={setCurrentWeek}
+          dateCollection={dateCollection}
+          currentWeek={currentWeek}
+        />
       </Stack>
-      <CardContent>
-        {calorieData.length === 0 ? (
-          "Nincs még rögzített adat"
-        ) : (
-          <WeekStats currentWeek={currentWeek} />
-        )}
+      <CardContent sx={{ my: 6 }}>
+        <WeekStats currentWeek={3} />
       </CardContent>
     </>
   );

@@ -9,65 +9,76 @@ import NewCalorieForm from "./NewCalorieForm";
 import { IoCalendarOutline } from "react-icons/io5";
 
 const DailyCalorieOverview = () => {
-  const currentDate = new Date();
   const { selectedDate } = useSelector((state) => state.profileData);
 
-  const isSelectedDateBiggerThanCurrentDate =
-    new Date(selectedDate).getTime() > currentDate.getTime();
-
-  const { calculatedCalorieIntake, tdee } = useSelector(
-    (state) => state.profileData.calculatedData
-  );
-  const { calorieData, cumulatedCalorieDeficit } = useSelector(
-    (state) => state.calorieTracker
-  );
-
-  const selectedDateData = calorieData.find(
-    (data) => data.date === selectedDate
-  );
-
-  const calorieIntake = +selectedDateData?.calorieIntake || 0;
   return (
-    <div style={{ padding: "12px" }}>
+    <>
       <header>
-        <Typography
-          display="flex"
-          alignItems="center"
-          justifyContent="flex-end"
-          gap={1}
-        >
-          <IoCalendarOutline />
-          {selectedDate
-            .split("-")
-            .filter((_, i) => i !== 0)
-            .join(".") + "."}
-        </Typography>
+        <Stack direction="row" justifyContent="space-between">
+          <Typography
+            display="flex"
+            alignItems="center"
+            gap={1}
+            level="title-sm"
+          >
+            <IoCalendarOutline />
+            Választott dátum:
+          </Typography>
+          <Typography level="title-sm">
+            {selectedDate
+              .split("-")
+              .filter((_, i) => i !== 0)
+              .join(".") + "."}
+          </Typography>
+        </Stack>
       </header>
       <CardContent>
-        {!isSelectedDateBiggerThanCurrentDate && <NewCalorieForm />}
-        <Grid container spacing={8}>
-          <Grid lg={4} minWidth="180px">
-            <DailyProgress
-              calorieIntake={calorieIntake}
-              calculatedCalorieIntake={calculatedCalorieIntake}
-              tdee={tdee}
-              date={selectedDate}
-              progressSize="100px"
-              thickness={6}
-              displayIntakeRatio={true}
-            />
-          </Grid>
+        <NewCalorieForm />
+        <Stack direction="row" sx={{ width: "100%" }}>
+          <Stack
+            textAlign="center"
+            sx={{ flex: 1 }}
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Typography level="body-sm">CÉL</Typography>
+            <Typography level="body-lg" fontWeight={800}>
+              2300
+            </Typography>
+          </Stack>
+          <DailyProgress
+            calorieIntake={2000}
+            calculatedCalorieIntake={2300}
+            tdee={2800}
+            date={selectedDate}
+            progressSize="100px"
+            thickness={6}
+            displayIntakeRatio={true}
+          />
+          <Stack
+            textAlign="center"
+            sx={{ flex: 1 }}
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Typography level="body-sm">MARADT</Typography>
+            <Typography level="body-lg" fontWeight={800}>
+              200
+            </Typography>
+          </Stack>
+        </Stack>
+
+        {/**
           <Grid lg={8}>
             <DailyStats
-              calorieIntake={calorieIntake}
-              calculatedCalorieIntake={calculatedCalorieIntake}
-              tdee={tdee}
-              cumulatedCalorieDeficit={cumulatedCalorieDeficit}
+              calorieIntake={0}
+              calculatedCalorieIntake={2300}
+              tdee={2800}
+              cumulatedCalorieDeficit={0}
             />
-          </Grid>
-        </Grid>
+          </Grid> */}
       </CardContent>
-    </div>
+    </>
   );
 };
 

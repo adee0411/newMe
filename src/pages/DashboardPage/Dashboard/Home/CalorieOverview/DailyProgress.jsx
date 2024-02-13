@@ -49,7 +49,7 @@ const DailyProgress = ({
       >
         {displayIntakeRatio && (
           <Stack textAlign="center">
-            <Typography fontWeight={800} fontSize={20} color="neutral">
+            <Typography fontWeight={800} fontSize="120%" color="neutral">
               {calorieProgressRatio}%
             </Typography>
           </Stack>

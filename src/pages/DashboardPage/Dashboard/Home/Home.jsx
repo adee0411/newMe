@@ -12,16 +12,23 @@ import Calendar from "react-calendar";
 
 import DashboardWrapper from "./DashboardWrapper";
 import CalorieOverview from "./CalorieOverview/CalorieOverview";
+import WeightOverview from "./WeightOverview/WeightOverview";
 
 const Home = () => {
   return (
     <DashboardWrapper title="Összesítés">
-      <Grid container spacing={2}>
-        <Grid lg={8}>
+      <Grid
+        container
+        spacing={2}
+        justifyContent="space-between"
+        flexWrap="nowrap"
+      >
+        <Grid lg={9}>
           {" "}
           <CalorieOverview />
+          <WeightOverview />
         </Grid>
-        <Grid lg={4}>
+        <Grid width="350px">
           {" "}
           <div className="calendar-container">
             <Calendar />

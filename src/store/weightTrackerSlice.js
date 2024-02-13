@@ -53,7 +53,13 @@ const weightTrackerSlice = createSlice({
       currentWeek: 1,
     },
   },
-  reducers: {},
+  reducers: {
+    setCurrentWeek(state, action) {
+      state.UI.currentWeek += action.payload;
+    },
+  },
 });
 
 export default weightTrackerSlice.reducer;
+
+export const { setCurrentWeek } = weightTrackerSlice.actions;
