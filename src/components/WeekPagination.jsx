@@ -7,7 +7,13 @@ import { useDispatch } from "react-redux";
 const WeekPagination = ({ currentWeek, dateCollection, onSetCurrentWeek }) => {
   const dispatch = useDispatch();
 
-  const numOfWeeks = parseInt(dateCollection.length / 7);
+  const numOfWeeks = Math.ceil(dateCollection.length / 7);
+
+  const startDate = dateCollection[(currentWeek - 1) * 7];
+  const endDate = dateCollection[currentWeek * 7 - 1];
+
+  const formattedStartDate = startDate.replaceAll("-", ".") + ".";
+  const formattedEndDate = endDate.replaceAll("-", ".") + ".";
 
   const increaseWeek = () => {
     dispatch(onSetCurrentWeek(1));
@@ -39,7 +45,7 @@ const WeekPagination = ({ currentWeek, dateCollection, onSetCurrentWeek }) => {
         </IconButton>
       </Stack>
       <Typography fontSize={12} textAlign="center" color="neutral">
-        2014.02.11. - 2014.02.18.
+        {formattedStartDate} - {formattedEndDate}
       </Typography>
     </Stack>
   );

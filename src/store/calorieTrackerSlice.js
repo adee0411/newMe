@@ -36,10 +36,14 @@ const calorieTrackerSlice = createSlice({
     setCurrentWeek(state, action) {
       state.UI.currentWeek += action.payload;
     },
+
+    setCalorieData(state, action) {
+      state.calorieData = action.payload;
+    },
   },
 });
 
 export default calorieTrackerSlice.reducer;
 
-export const { setDailyCalorieIntake, setCurrentWeek } =
+export const { setDailyCalorieIntake, setCalorieData, setCurrentWeek } =
   calorieTrackerSlice.actions;

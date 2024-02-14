@@ -19,7 +19,7 @@ const NewWeightForm = () => {
   return (
     <Form onSubmit={submitDailyCalorie}>
       <FormControl sx={{ gap: 2, my: 2 }}>
-        <FormLabel>Napi súly</FormLabel>
+        <FormLabel sx={{ display: "none" }}>Napi súly</FormLabel>
         <Stack direction="row" spacing={2}>
           <Input
             type="number"

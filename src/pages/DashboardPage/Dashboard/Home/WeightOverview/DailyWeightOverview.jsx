@@ -21,9 +21,17 @@ const DailyWeightOverview = () => {
             alignItems: "center",
           }}
         >
-          <img src={WeightImg} style={{ width: "30%" }} />
+          <img src={WeightImg} style={{ width: "20%" }} />
         </div>
         <NewWeightForm />
+        <Stack>
+          <Typography textAlign="center" level="title-sm">
+            NAPI SÚLY:
+          </Typography>
+          <Typography textAlign="center" fontSize={32} fontWeight={800}>
+            99.8 KG
+          </Typography>
+        </Stack>
       </CardContent>
     </div>
   );

@@ -79,6 +79,9 @@ const profileSlice = createSlice({
     setPersonalData(state, action) {
       state.fetchedData = action.payload;
     },
+    setSelectedDate(state, action) {
+      state.selectedDate = action.payload;
+    },
   },
 });
 
@@ -99,4 +102,5 @@ export const {
   toggleIsPersonalInfoFormValid,
   toggleIsDietInfoFormValid,
   setPersonalData,
+  setSelectedDate,
 } = profileSlice.actions;

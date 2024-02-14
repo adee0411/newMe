@@ -19,6 +19,8 @@ import DailyOverview from "./pages/DashboardPage/Dashboard/DailyOverview/DailyOv
 import { profileCollectionLoader } from "./UI/DashboardRoot";
 import { createProfileAction } from "./pages/NewProfilePage/NewProfilePage";
 
+import { calorieIntakeLoader } from "./pages/DashboardPage/Dashboard/CalorieTracker/CalorieTracker";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -36,8 +38,11 @@ const router = createBrowserRouter([
     path: "/dashboard",
     element: <DashboardRoot />,
     children: [
-      { index: true, element: <Home /> },
-      { path: "calorie-tracker", element: <CalorieTracker /> },
+      { index: true, element: <Home />, loader: calorieIntakeLoader },
+      {
+        path: "calorie-tracker",
+        element: <CalorieTracker />,
+      },
       { path: "weight-tracker", element: <WeightTracker /> },
       { path: "activity-tracker", element: <ActivityTracker /> },
       { path: "meal-planner", element: <MealPlanner /> },
