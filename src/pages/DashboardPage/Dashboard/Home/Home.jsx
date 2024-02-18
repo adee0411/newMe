@@ -1,8 +1,9 @@
 import db from "../../../../backend/firebase";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { redirect } from "react-router-dom";
 import classes from "./Home.module.css";
 import "react-calendar/dist/Calendar.css";
 import "./customCalendarStyles.css";
@@ -16,15 +17,26 @@ import CalorieOverview from "./CalorieOverview/CalorieOverview";
 import WeightOverview from "./WeightOverview/WeightOverview";
 
 import { setSelectedDate } from "../../../../store/profileSlice";
-import { setCalorieData } from "../../../../store/calorieTrackerSlice";
+import {
+  setCalorieData,
+  setCurrentWeek,
+} from "../../../../store/calorieTrackerSlice";
 import { formatDate } from "../../../../utils";
 import { useLoaderData } from "react-router-dom";
 
 const Home = () => {
   const dispatch = useDispatch();
 
+  const { dietStart } = useSelector(
+    (state) => state.profileData.fetchedData.diet
+  );
+
   // Fetch data from Firebase
-  const calorieIntakeData = useLoaderData()[0];
+  const calorieIntakeData = useLoaderData();
+
+  const numOfWeeks = Math.ceil(calorieIntakeData.length / 7);
+
+  dispatch(setCurrentWeek(numOfWeeks));
 
   dispatch(setCalorieData(calorieIntakeData));
 
@@ -43,12 +55,15 @@ const Home = () => {
         <Grid lg={9}>
           {" "}
           <CalorieOverview />
-          <WeightOverview />
+          {/*<WeightOverview />*/}
         </Grid>
         <Grid width="350px">
           {" "}
           <div className="calendar-container">
-            <Calendar onChange={handleCalendarChange} />
+            <Calendar
+              onChange={handleCalendarChange}
+              minDate={new Date(dietStart)}
+            />
           </div>
         </Grid>
       </Grid>
@@ -57,3 +72,36 @@ const Home = () => {
 };
 
 export default Home;
+
+// LOADERS AND ACTIONS
+export const newCalorieAction = async ({ request }) => {
+  try {
+    const formData = await request.formData();
+
+    const newCalorieData = {
+      data: {
+        date: formData.get("date"),
+        calorieIntake: +formData.get("dailyCalorie"),
+      },
+      id: formData.get("date"),
+    };
+
+    const calorieRef = doc(db, "calorie", newCalorieData.id);
+    await setDoc(calorieRef, newCalorieData);
+  } catch (e) {
+    console.error(e);
+  }
+  return redirect("/dashboard");
+};
+
+export const calorieIntakeLoader = async () => {
+  let calorieData = [];
+  const calorieIntakeRef = collection(db, "calorie");
+  const calorieIntakeSnap = await getDocs(calorieIntakeRef);
+
+  calorieIntakeSnap.forEach((dataValue) => {
+    const currentCalorieData = { ...dataValue.data(), id: dataValue.id };
+    calorieData.push(currentCalorieData);
+  });
+  return calorieData;
+};

@@ -2,8 +2,11 @@ import { Sheet, Stack, Card, CardContent } from "@mui/joy";
 
 import DailyCalorieOverview from "./DailyCalorieOverview";
 import WeeklyCalorieOverview from "./WeeklyCalorieOverview";
+import NoData from "./NoData";
+import { useSelector } from "react-redux";
 
 const CalorieOverview = () => {
+  const { calorieData } = useSelector((state) => state.calorieTracker);
   return (
     <Card
       sx={{
@@ -26,7 +29,7 @@ const CalorieOverview = () => {
             <DailyCalorieOverview />
           </Sheet>
           <Sheet sx={{ flex: 1, padding: "4px 12px" }}>
-            <WeeklyCalorieOverview />
+            {calorieData.length === 0 ? <NoData /> : <WeeklyCalorieOverview />}
           </Sheet>
         </Stack>
       </CardContent>

@@ -17,6 +17,7 @@
 .calendar-container .react-calendar__navigation button {
   text-transform: uppercase;
   border-radius: 8px;
+  position: relative;
 }
 
 .calendar-container .react-calendar__navigation button:disabled {

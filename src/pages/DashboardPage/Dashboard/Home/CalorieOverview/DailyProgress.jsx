@@ -5,17 +5,15 @@ import { useCountUp } from "use-count-up";
 const DailyProgress = ({
   calorieIntake,
   tdee,
-  calculatedCalorieIntake,
-  date,
+  calorieGoal,
   progressSize,
   thickness,
   displayIntakeRatio,
 }) => {
   // Ratio of daily allowed calories and calories taken
-  const calorieProgressRatio = +(
-    (calorieIntake / calculatedCalorieIntake) *
-    100
-  ).toFixed(0);
+  const calorieProgressRatio = +((calorieIntake / calorieGoal) * 100).toFixed(
+    0
+  );
 
   const { value, reset } = useCountUp({
     isCounting: true,
@@ -28,7 +26,7 @@ const DailyProgress = ({
   const progressColor =
     calorieIntake > tdee
       ? "danger"
-      : calorieIntake > calculatedCalorieIntake
+      : calorieIntake > calorieGoal
       ? "warning"
       : "primary";
 

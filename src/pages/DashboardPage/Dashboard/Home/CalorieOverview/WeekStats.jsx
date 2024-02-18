@@ -1,35 +1,18 @@
-import { Stack, Typography, Grid, Button } from "@mui/joy";
+import { Stack, Typography, Grid } from "@mui/joy";
 
-import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 import DailyProgress from "./DailyProgress";
 
 import classes from "./WeekStats.module.scss";
+import { useSelector } from "react-redux";
 
-import { formatDate } from "../../../../../utils";
+const WeekStats = ({ calorieData }) => {
+  const { TDEE, dailyCalorieGoal } = useSelector(
+    (state) => state.calorieTracker.calculatedData
+  );
 
-import { setNewBlock } from "../../../../../store/calorieTrackerSlice";
-import { useEffect } from "react";
-
-const WeekStats = ({ currentWeek }) => {
-  const dispatch = useDispatch();
-
-  const todayDate = new Date();
-  const formattedTodayDate = formatDate(new Date());
-  const { dietStart } = useSelector((state) => state.profileData.fetchedData);
-  const calorieData = [
-    { date: "2024-02-10", calorieIntake: 2100 },
-    { date: "2024-02-10", calorieIntake: 2400 },
-    { date: "2024-02-10", calorieIntake: 3000 },
-    { date: "2024-02-10", calorieIntake: 2100 },
-    { date: "2024-02-10", calorieIntake: 2100 },
-    { date: "2024-02-10", calorieIntake: 2100 },
-    { date: "2024-02-10", calorieIntake: 2100 },
-  ];
-
-  const handleDateClick = (e) => {};
-
+  const { selectedDate } = useSelector((state) => state.profileData);
   return (
     <Grid columns={7} container width="100%">
       {calorieData.map((data) => {
@@ -39,19 +22,27 @@ const WeekStats = ({ currentWeek }) => {
             display="flex"
             justifyContent="center"
             alignItems="center"
+            key={data.id}
           >
-            <Link to={data.date} className={classes["weekstat-link"]}>
+            <Link
+              to={data.data.date}
+              className={`${classes["weekstat-link"]} ${
+                selectedDate === data.data.date
+                  ? classes["weekstat-link--selected"]
+                  : ""
+              }`}
+            >
               <Stack>
-                <Typography fontSize={12} textAlign="center">
-                  {data.date
+                <Typography fontSize={12} textAlign="center" color="neutral">
+                  {data.data.date
                     .split("-")
                     .filter((_, i) => i !== 0)
                     .join(".") + "."}
                 </Typography>
                 <DailyProgress
-                  calorieIntake={data.calorieIntake}
-                  tdee={2800}
-                  calculatedCalorieIntake={2300}
+                  calorieIntake={data.data.calorieIntake}
+                  tdee={TDEE}
+                  calorieGoal={dailyCalorieGoal}
                   date={data.date}
                   progressSize="42px"
                   thickness={2}
@@ -59,8 +50,8 @@ const WeekStats = ({ currentWeek }) => {
                   key={data.date}
                   displayIntakeRatio={true}
                 />
-                <Typography level="body-sm" textAlign="center">
-                  {data.calorieIntake}
+                <Typography level="title-lg" textAlign="center" color="neutral">
+                  {data.data.calorieIntake}
                 </Typography>
               </Stack>
             </Link>

@@ -1,9 +1,5 @@
 import { Sheet, Typography } from "@mui/joy";
 
-// Firestore imports
-import db from "../../../../backend/firebase";
-import { doc, getDoc } from "firebase/firestore";
-
 const CalorieTracker = () => {
   return (
     <div>
@@ -15,10 +11,3 @@ const CalorieTracker = () => {
 };
 
 export default CalorieTracker;
-
-export const calorieIntakeLoader = async () => {
-  const calorieIntakeRef = doc(db, "calorie", "data");
-  const calorieIntakeSnap = await getDoc(calorieIntakeRef);
-
-  return calorieIntakeSnap.data();
-};

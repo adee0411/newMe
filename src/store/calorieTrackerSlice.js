@@ -6,6 +6,12 @@ const calorieTrackerSlice = createSlice({
   name: "calorieTracker",
   initialState: {
     calorieData: [],
+    calculatedData: {
+      TDEE: 0,
+      BMR: 0,
+      dailyCalorieGoal: 0,
+      caloriesLeft: 0,
+    },
     UI: {
       currentWeek: 1,
     },
@@ -34,16 +40,33 @@ const calorieTrackerSlice = createSlice({
       }
     },
     setCurrentWeek(state, action) {
-      state.UI.currentWeek += action.payload;
+      state.UI.currentWeek = action.payload;
+    },
+
+    increaseCurrentWeek(state) {
+      state.UI.currentWeek += 1;
+    },
+
+    decreaseCurrentWeek(state) {
+      state.UI.currentWeek -= 1;
     },
 
     setCalorieData(state, action) {
       state.calorieData = action.payload;
+    },
+    setCalculatedData(state, action) {
+      state.calculatedData = action.payload;
     },
   },
 });
 
 export default calorieTrackerSlice.reducer;
 
-export const { setDailyCalorieIntake, setCalorieData, setCurrentWeek } =
-  calorieTrackerSlice.actions;
+export const {
+  setDailyCalorieIntake,
+  setCalorieData,
+  setCurrentWeek,
+  increaseCurrentWeek,
+  decreaseCurrentWeek,
+  setCalculatedData,
+} = calorieTrackerSlice.actions;

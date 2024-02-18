@@ -1,16 +1,23 @@
 import { Typography, Stack, CardContent } from "@mui/joy";
 
 import { useMemo } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
 
 import DailyProgress from "./DailyProgress";
 import NewCalorieForm from "./NewCalorieForm";
 
 import { IoCalendarOutline } from "react-icons/io5";
 import { calculateBMR, calculateTDEE } from "../../../../../utils";
+
+import { setCalculatedData } from "../../../../../store/calorieTrackerSlice";
+
 const DailyCalorieOverview = () => {
+  const dispatch = useDispatch();
   const { selectedDate } = useSelector((state) => state.profileData);
-  const { calorieData } = useSelector((state) => state.calorieTracker);
+  const { calorieData, calculatedData } = useSelector(
+    (state) => state.calorieTracker
+  );
 
   const { personal } = useSelector((state) => state.profileData.fetchedData);
   const { deficit } = useSelector(
@@ -22,14 +29,29 @@ const DailyCalorieOverview = () => {
     () => calculateTDEE(BMR, personal.pal),
     [BMR, personal.pal]
   );
-  const calculatedCalorieIntake = useMemo(
-    () => TDEE - deficit,
-    [TDEE, deficit]
+  const dailyCalorieGoal = useMemo(() => TDEE - deficit, [TDEE, deficit]);
+
+  const dailyCalorieIntakeData = calorieData.find(
+    (el) => el.data.date === selectedDate
   );
 
-  const dailyCalorieIntake =
-    calorieData.find((el) => el.date === selectedDate)?.calorieIntake || 0;
-  const caloriesLeft = calculatedCalorieIntake - dailyCalorieIntake;
+  const dailyCalorieIntake = dailyCalorieIntakeData
+    ? dailyCalorieIntakeData.data.calorieIntake
+    : 0;
+
+  const caloriesLeft = dailyCalorieGoal - dailyCalorieIntake;
+
+  const calculatedDataMap = {
+    BMR: +BMR,
+    TDEE: +TDEE,
+    dailyCalorieGoal,
+    caloriesLeft,
+  };
+
+  // Set calculated data and re-render component only ONCE
+  useEffect(() => {
+    dispatch(setCalculatedData(calculatedDataMap));
+  }, [caloriesLeft]);
 
   return (
     <>
@@ -63,13 +85,14 @@ const DailyCalorieOverview = () => {
           >
             <Typography level="body-sm">CÉL</Typography>
             <Typography level="body-lg" fontWeight={800}>
-              {calculatedCalorieIntake} KCAL
+              {calculatedData.dailyCalorieGoal}{" "}
+              <Typography level="body-sm">KCAL</Typography>
             </Typography>
           </Stack>
           <DailyProgress
             calorieIntake={dailyCalorieIntake}
-            calculatedCalorieIntake={calculatedCalorieIntake}
-            tdee={TDEE}
+            calorieGoal={calculatedData.dailyCalorieGoal}
+            tdee={calculatedData.TDEE}
             date={selectedDate}
             progressSize="100px"
             thickness={6}
@@ -84,7 +107,8 @@ const DailyCalorieOverview = () => {
           >
             <Typography level="body-sm">MARADT</Typography>
             <Typography level="body-lg" fontWeight={800}>
-              {caloriesLeft} KCAL
+              {calculatedData.caloriesLeft}{" "}
+              <Typography level="body-sm">KCAL</Typography>
             </Typography>
           </Stack>
         </Stack>
@@ -93,7 +117,7 @@ const DailyCalorieOverview = () => {
             MAI NAPON BEVITT:
           </Typography>
           <Typography textAlign="center" fontSize={32} fontWeight={800}>
-            {dailyCalorieIntake} KCAL
+            {dailyCalorieIntake} <Typography level="body-sm">KCAL</Typography>
           </Typography>
         </Stack>
 
@@ -101,7 +125,7 @@ const DailyCalorieOverview = () => {
           <Grid lg={8}>
             <DailyStats
               calorieIntake={0}
-              calculatedCalorieIntake={2300}
+              dailyCalorieGoal={2300}
               tdee={2800}
               cumulatedCalorieDeficit={0}
             />

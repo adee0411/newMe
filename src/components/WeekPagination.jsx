@@ -1,26 +1,35 @@
 import { IconButton, Stack, Typography } from "@mui/joy";
+import { endAt } from "firebase/firestore";
 
 import { RiArrowLeftSLine } from "react-icons/ri";
 import { RiArrowRightSLine } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 
-const WeekPagination = ({ currentWeek, dateCollection, onSetCurrentWeek }) => {
+const WeekPagination = ({
+  currentWeek,
+  dateCollection,
+  onIncreaseCurrentWeek,
+  onDecreaseCurrentWeek,
+}) => {
   const dispatch = useDispatch();
 
   const numOfWeeks = Math.ceil(dateCollection.length / 7);
 
   const startDate = dateCollection[(currentWeek - 1) * 7];
-  const endDate = dateCollection[currentWeek * 7 - 1];
 
+  const endDate =
+    dateCollection.length % 7 === 0
+      ? dateCollection[currentWeek * 7 - 1]
+      : dateCollection[(currentWeek - 1) * 7 + (dateCollection.length % 7) - 1];
   const formattedStartDate = startDate.replaceAll("-", ".") + ".";
   const formattedEndDate = endDate.replaceAll("-", ".") + ".";
 
   const increaseWeek = () => {
-    dispatch(onSetCurrentWeek(1));
+    dispatch(onIncreaseCurrentWeek());
   };
 
   const decreaseWeek = () => {
-    dispatch(onSetCurrentWeek(-1));
+    dispatch(onDecreaseCurrentWeek());
   };
 
   return (

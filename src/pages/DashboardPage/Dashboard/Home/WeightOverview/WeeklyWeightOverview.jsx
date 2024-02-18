@@ -20,32 +20,12 @@ const weightData = [
   { date: "2024-02-16", weight: 99.0 },
 ];
 
-const dateCollection = [
-  "2024-02-11",
-  "2024-02-12",
-  "2024-02-13",
-  "2024-02-14",
-  "2024-02-15",
-  "2024-02-16",
-  "2024-02-17",
-  "2024-02-18",
-  "2024-02-19",
-  "2024-02-20",
-  "2024-02-21",
-  "2024-02-22",
-  "2024-02-23",
-  "2024-02-24",
-  "2024-02-25",
-  "2024-02-26",
-  "2024-02-27",
-  "2024-02-28",
-  "2024-02-29",
-  "2024-02-30",
-  "2024-02-31",
-];
-
 const WeeklyWeightOverview = () => {
   const { currentWeek } = useSelector((state) => state.weightTracker.UI);
+
+  const { calorieData } = useSelector((state) => state.calorieTracker);
+
+  const dateCollection = calorieData.map((data) => data.date);
 
   return (
     <>
