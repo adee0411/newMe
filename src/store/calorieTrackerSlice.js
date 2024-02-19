@@ -14,6 +14,7 @@ const calorieTrackerSlice = createSlice({
     },
     UI: {
       currentWeek: 1,
+      isFormSubmitting: false,
     },
   },
   reducers: {
@@ -57,6 +58,9 @@ const calorieTrackerSlice = createSlice({
     setCalculatedData(state, action) {
       state.calculatedData = action.payload;
     },
+    setIsFormSubmitting(state, action) {
+      state.UI.isFormSubmitting = action.payload;
+    },
   },
 });
 
@@ -69,4 +73,5 @@ export const {
   increaseCurrentWeek,
   decreaseCurrentWeek,
   setCalculatedData,
+  setIsFormSubmitting,
 } = calorieTrackerSlice.actions;

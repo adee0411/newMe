@@ -1,14 +1,26 @@
-import { Form } from "react-router-dom";
+import { Form, useNavigation } from "react-router-dom";
 import { FormControl, Input, Button, Stack } from "@mui/joy";
 
 import { useRef } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+
+import { setIsFormSubmitting } from "../../../../../store/calorieTrackerSlice";
 
 const NewCalorieForm = () => {
   const calorieIntakeRef = useRef(null);
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const { isFormSubmitting } = useSelector((state) => state.calorieTracker.UI);
 
   const { selectedDate } = useSelector((state) => state.profileData);
   const formattedDate = selectedDate;
+
+  if (navigation.state === "submitting") {
+    dispatch(setIsFormSubmitting(true));
+  } else {
+    dispatch(setIsFormSubmitting(false));
+  }
 
   return (
     <Form method="post" action="/dashboard">
@@ -31,7 +43,9 @@ const NewCalorieForm = () => {
           {" "}
           <Input name="date" value={formattedDate} readOnly />
         </FormControl>
-        <Button type="submit">Naplóz</Button>
+        <Button type="submit" loading={isFormSubmitting}>
+          Naplóz
+        </Button>
       </Stack>
     </Form>
   );

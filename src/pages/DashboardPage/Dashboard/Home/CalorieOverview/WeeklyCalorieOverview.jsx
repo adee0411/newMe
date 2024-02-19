@@ -37,6 +37,7 @@ const WeeklyCalorieOverview = () => {
         sx={{ width: "100%" }}
         justifyContent="space-between"
         alignItems="center"
+        mb={4}
       >
         <Stack direction="row" alignItems="center" spacing={1}>
           <Typography
@@ -66,13 +67,13 @@ const WeeklyCalorieOverview = () => {
             variant="soft"
             sx={{ height: 24 }}
           >
-            {new Array(numOfWeeks).fill("", 0).map((el, i) => {
+            {new Array(numOfWeeks).fill(null, 0).map((el, i) => {
               return <Option value={i + 1}>{i + 1}</Option>;
             })}
           </Select>
         </Stack>
       </Stack>
-      <CardContent sx={{ my: 6 }}>
+      <CardContent>
         <WeekStats currentWeek={currentWeek} calorieData={calorieDataSlice} />
       </CardContent>
     </>

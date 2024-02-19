@@ -6,6 +6,7 @@ import DailyProgress from "./DailyProgress";
 
 import classes from "./WeekStats.module.scss";
 import { useSelector } from "react-redux";
+import { useMemo } from "react";
 
 const WeekStats = ({ calorieData }) => {
   const { TDEE, dailyCalorieGoal } = useSelector(
@@ -13,52 +14,76 @@ const WeekStats = ({ calorieData }) => {
   );
 
   const { selectedDate } = useSelector((state) => state.profileData);
+
+  const numOfNotEmptyData = calorieData.filter(
+    (data) => data.data.calorieIntake > 0
+  ).length;
+
+  const averageCalorieIntake = useMemo(() => {
+    return (
+      calorieData.reduce((acc, el) => {
+        return (acc += el.data.calorieIntake);
+      }, 0) / numOfNotEmptyData
+    );
+  }, calorieData);
+
+  const flooredAverageCalorieIntake = Math.floor(averageCalorieIntake);
+
   return (
-    <Grid columns={7} container width="100%">
-      {calorieData.map((data) => {
-        return (
-          <Grid
-            lg={1}
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            key={data.id}
-          >
-            <Link
-              to={data.data.date}
-              className={`${classes["weekstat-link"]} ${
-                selectedDate === data.data.date
-                  ? classes["weekstat-link--selected"]
-                  : ""
-              }`}
+    <>
+      <Grid columns={7} container width="100%">
+        {calorieData.map((data) => {
+          return (
+            <Grid
+              lg={1}
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              key={data.id}
             >
-              <Stack>
-                <Typography fontSize={12} textAlign="center" color="neutral">
-                  {data.data.date
-                    .split("-")
-                    .filter((_, i) => i !== 0)
-                    .join(".") + "."}
-                </Typography>
-                <DailyProgress
-                  calorieIntake={data.data.calorieIntake}
-                  tdee={TDEE}
-                  calorieGoal={dailyCalorieGoal}
-                  date={data.date}
-                  progressSize="42px"
-                  thickness={2}
-                  displayCaloriesLeft={false}
-                  key={data.date}
-                  displayIntakeRatio={true}
-                />
-                <Typography level="title-lg" textAlign="center" color="neutral">
-                  {data.data.calorieIntake}
-                </Typography>
-              </Stack>
-            </Link>
-          </Grid>
-        );
-      })}
-    </Grid>
+              <Link
+                to={data.data.date}
+                className={`${classes["weekstat-link"]} ${
+                  selectedDate === data.data.date
+                    ? classes["weekstat-link--selected"]
+                    : ""
+                }`}
+              >
+                <Stack>
+                  <Typography fontSize={12} textAlign="center" color="neutral">
+                    {data.data.date
+                      .split("-")
+                      .filter((_, i) => i !== 0)
+                      .join(".") + "."}
+                  </Typography>
+                  <DailyProgress
+                    calorieIntake={data.data.calorieIntake}
+                    tdee={TDEE}
+                    calorieGoal={dailyCalorieGoal}
+                    date={data.date}
+                    progressSize="42px"
+                    thickness={2}
+                    displayCaloriesLeft={false}
+                    key={data.date}
+                    displayIntakeRatio={true}
+                  />
+                  <Typography
+                    level="title-lg"
+                    textAlign="center"
+                    color="neutral"
+                  >
+                    {data.data.calorieIntake}
+                  </Typography>
+                </Stack>
+              </Link>
+            </Grid>
+          );
+        })}
+      </Grid>
+      <Stack>
+        <Typography>Heti átlag: {flooredAverageCalorieIntake}</Typography>
+      </Stack>
+    </>
   );
 };
 
