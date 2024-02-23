@@ -74,63 +74,51 @@ const DailyCalorieOverview = () => {
           </Typography>
         </Stack>
       </header>
-      <CardContent>
-        <NewCalorieForm />
-        <Stack direction="row" sx={{ width: "100%" }}>
-          <Stack
-            textAlign="center"
-            sx={{ flex: 1 }}
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Typography level="body-sm">CÉL</Typography>
-            <Typography level="body-lg" fontWeight={800}>
-              {calculatedData.dailyCalorieGoal}{" "}
-              <Typography level="body-sm">KCAL</Typography>
-            </Typography>
-          </Stack>
-          <DailyProgress
-            calorieIntake={dailyCalorieIntake}
-            calorieGoal={calculatedData.dailyCalorieGoal}
-            tdee={calculatedData.TDEE}
-            date={selectedDate}
-            progressSize="100px"
-            thickness={6}
-            displayIntakeRatio={true}
-            key={selectedDate}
-          />
-          <Stack
-            textAlign="center"
-            sx={{ flex: 1 }}
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Typography level="body-sm">MARADT</Typography>
-            <Typography level="body-lg" fontWeight={800}>
-              {calculatedData.caloriesLeft}{" "}
-              <Typography level="body-sm">KCAL</Typography>
-            </Typography>
-          </Stack>
-        </Stack>
-        <Stack>
-          <Typography textAlign="center" level="title-sm">
-            MAI NAPON BEVITT:
-          </Typography>
-          <Typography textAlign="center" fontSize={32} fontWeight={800}>
-            {dailyCalorieIntake} <Typography level="body-sm">KCAL</Typography>
+      <NewCalorieForm />
+      <Stack direction="row" sx={{ width: "100%" }}>
+        <Stack
+          textAlign="center"
+          sx={{ flex: 1 }}
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Typography level="body-sm">CÉL</Typography>
+          <Typography level="body-lg" fontWeight={800}>
+            {calculatedData.dailyCalorieGoal}{" "}
+            <Typography level="body-sm">KCAL</Typography>
           </Typography>
         </Stack>
-
-        {/**
-          <Grid lg={8}>
-            <DailyStats
-              calorieIntake={0}
-              dailyCalorieGoal={2300}
-              tdee={2800}
-              cumulatedCalorieDeficit={0}
-            />
-          </Grid> */}
-      </CardContent>
+        <DailyProgress
+          calorieIntake={dailyCalorieIntake}
+          calorieGoal={calculatedData.dailyCalorieGoal}
+          tdee={calculatedData.TDEE}
+          date={selectedDate}
+          progressSize="100px"
+          thickness={6}
+          displayIntakeRatio={true}
+          key={selectedDate}
+        />
+        <Stack
+          textAlign="center"
+          sx={{ flex: 1 }}
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Typography level="body-sm">MARADT</Typography>
+          <Typography level="body-lg" fontWeight={800}>
+            {calculatedData.caloriesLeft}{" "}
+            <Typography level="body-sm">KCAL</Typography>
+          </Typography>
+        </Stack>
+      </Stack>
+      <Stack>
+        <Typography textAlign="center" level="title-sm">
+          MAI NAPON BEVITT:
+        </Typography>
+        <Typography textAlign="center" fontSize={32} fontWeight={800}>
+          {dailyCalorieIntake} <Typography level="body-sm">KCAL</Typography>
+        </Typography>
+      </Stack>
     </>
   );
 };

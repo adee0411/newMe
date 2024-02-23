@@ -1,35 +1,55 @@
-import { Form } from "react-router-dom";
+import { Form, useNavigation } from "react-router-dom";
 import { FormControl, Input, Button, FormLabel, Stack } from "@mui/joy";
-
-import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { formatDate } from "../../../../../utils";
+import { setIsFormSubmitting } from "../../../../../store/weightTrackerSlice";
 
 const NewWeightForm = () => {
+  const navigation = useNavigation();
   const dispatch = useDispatch();
-  const weightRef = useRef(null);
+
+  const { isFormSubmitting } = useSelector((state) => state.weightTracker.UI);
 
   const { selectedDate } = useSelector((state) => state.profileData);
-  const formattedDate = selectedDate;
 
-  const submitDailyCalorie = (e) => {
-    e.preventDefault();
-  };
+  if (navigation.state === "submitting") {
+    dispatch(setIsFormSubmitting(true));
+  } else {
+    dispatch(setIsFormSubmitting(false));
+  }
   return (
-    <Form onSubmit={submitDailyCalorie}>
-      <FormControl sx={{ gap: 2, my: 2 }}>
-        <FormLabel sx={{ display: "none" }}>Napi súly</FormLabel>
-        <Stack direction="row" spacing={2}>
+    <Form method="post" action="/dashboard" id="weight-form">
+      <Stack direction="row" spacing={2} my={2}>
+        <FormControl sx={{ flex: 1 }}>
+          <FormLabel sx={{ display: "none" }}>Napi súly</FormLabel>
+
           <Input
             type="number"
             placeholder="Súly"
-            slotProps={{ input: { ref: weightRef, step: 0.1 } }}
+            slotProps={{
+              input: {
+                style: { width: "100%" },
+                step: "0.1",
+              },
+            }}
             endDecorator="kg"
+            name="weight"
           />
-          <Button type="submit">Naplóz</Button>
-        </Stack>
-      </FormControl>
+        </FormControl>
+        <FormControl sx={{ display: "none" }}>
+          {" "}
+          <Input name="date" value={selectedDate} readOnly />
+        </FormControl>
+
+        <Button
+          type="submit"
+          name="logType"
+          value="logWeight"
+          loading={isFormSubmitting}
+        >
+          Naplóz
+        </Button>
+      </Stack>
     </Form>
   );
 };

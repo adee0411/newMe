@@ -1,35 +1,66 @@
-import { Typography, Card, CardContent, Stack, Grid } from "@mui/joy";
-import { Link } from "react-router-dom";
+import { Typography, CardContent, Stack, Select, Option } from "@mui/joy";
 import WeekPagination from "../../../../../components/WeekPagination";
-import WeekStats from "../CalorieOverview/WeekStats";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useMemo } from "react";
 
-import classes from "../CalorieOverview/WeekStats.module.scss";
+import WeekStats from "./WeekStats";
 
-import { setCurrentWeek } from "../../../../../store/weightTrackerSlice";
+import {
+  setCurrentWeek,
+  increaseCurrentWeek,
+  decreaseCurrentWeek,
+} from "../../../../../store/weightTrackerSlice";
 
 import { IoScaleOutline } from "react-icons/io5";
 
-const weightData = [
-  { date: "2024-02-10", weight: 99.6 },
-  { date: "2024-02-11", weight: 99.5 },
-  { date: "2024-02-12", weight: 99.4 },
-  { date: "2024-02-13", weight: 99.3 },
-  { date: "2024-02-14", weight: 99.2 },
-  { date: "2024-02-15", weight: 99.1 },
-  { date: "2024-02-16", weight: 99.0 },
-];
-
-const WeeklyWeightOverview = () => {
+const WeeklyCalorieOverview = () => {
+  const dispatch = useDispatch();
   const { currentWeek } = useSelector((state) => state.weightTracker.UI);
 
-  const { calorieData } = useSelector((state) => state.calorieTracker);
+  const { weightData } = useSelector((state) => state.weightTracker);
 
-  const dateCollection = calorieData.map((data) => data.date);
+  const numOfWeeks = Math.ceil(weightData.length / 7);
+  const start = (currentWeek - 1) * 7;
+  const end = currentWeek * 7;
+
+  const weightDataWithChanges = useMemo(() => {
+    return weightData.map((data, index) => {
+      let weightChange;
+      if (index === 0) {
+        weightChange = 0;
+      } else {
+        const lastWeightDataIndex = weightData
+          .slice(0, index)
+          .findLastIndex((el) => el.data.weight > 0);
+        weightChange =
+          data.data.weight === 0
+            ? "-"
+            : data.data.weight - weightData[lastWeightDataIndex].data.weight;
+      }
+
+      return { ...data, weightChange };
+    });
+  }, [weightData]);
+
+  console.log(weightDataWithChanges);
+
+  const weightDataSlice = weightDataWithChanges.slice(start, end);
+
+  const dateCollection = weightDataWithChanges.map((data) => data.data.date);
+
+  const handleCurrentWeekChange = (event, newValue) => {
+    dispatch(setCurrentWeek(newValue));
+  };
 
   return (
     <>
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
+      <Stack
+        direction="row"
+        sx={{ width: "100%" }}
+        justifyContent="space-between"
+        alignItems="center"
+        mb={4}
+      >
         <Stack direction="row" alignItems="center" spacing={1}>
           <Typography
             color="neutral"
@@ -43,41 +74,35 @@ const WeeklyWeightOverview = () => {
             Heti súly-összesítő
           </Typography>
         </Stack>
-        <WeekPagination
-          currentWeek={currentWeek}
-          dateCollection={dateCollection}
-          onSetCurrentWeek={setCurrentWeek}
-        />
-      </Stack>
-      <Grid columns={7} container width="100%" mt={6}>
-        {weightData.map((data) => {
-          return (
-            <Grid
-              lg={1}
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <Link to={data.date} className={classes["weekstat-link"]}>
-                <Stack spacing={1}>
-                  <Typography fontSize={12} textAlign="center">
-                    {data.date
-                      .split("-")
-                      .filter((_, i) => i !== 0)
-                      .join(".") + "."}
-                  </Typography>
 
-                  <Typography level="title-md" textAlign="center">
-                    {data.weight} kg
-                  </Typography>
-                </Stack>
-              </Link>
-            </Grid>
-          );
-        })}
-      </Grid>
+        <Stack direction="row" alignItems="center" spacing={4}>
+          <WeekPagination
+            onIncreaseCurrentWeek={increaseCurrentWeek}
+            onDecreaseCurrentWeek={decreaseCurrentWeek}
+            dateCollection={dateCollection}
+            currentWeek={currentWeek}
+          />
+          <Select
+            value={currentWeek}
+            onChange={handleCurrentWeekChange}
+            size="sm"
+            variant="soft"
+            sx={{ height: 24 }}
+          >
+            {new Array(numOfWeeks).fill(null, 0).map((el, i) => {
+              return <Option value={i + 1}>{i + 1}</Option>;
+            })}
+          </Select>
+        </Stack>
+      </Stack>
+      <CardContent>
+        <WeekStats
+          currentWeek={currentWeek}
+          weightDataSlice={weightDataSlice}
+        />
+      </CardContent>
     </>
   );
 };
 
-export default WeeklyWeightOverview;
+export default WeeklyCalorieOverview;

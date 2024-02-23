@@ -8,7 +8,7 @@ import classes from "./Home.module.css";
 import "react-calendar/dist/Calendar.css";
 import "./customCalendarStyles.css";
 
-import { Grid, Stack, Sheet, Typography } from "@mui/joy";
+import { Grid } from "@mui/joy";
 
 import Calendar from "react-calendar";
 
@@ -19,8 +19,12 @@ import WeightOverview from "./WeightOverview/WeightOverview";
 import { setSelectedDate } from "../../../../store/profileSlice";
 import {
   setCalorieData,
-  setCurrentWeek,
+  setCurrentWeek as setCalorieCurrentWeek,
 } from "../../../../store/calorieTrackerSlice";
+import {
+  setWeightData,
+  setCurrentWeek as setWeightCurrentWeek,
+} from "../../../../store/weightTrackerSlice";
 import { formatDate } from "../../../../utils";
 import { useLoaderData } from "react-router-dom";
 
@@ -32,13 +36,17 @@ const Home = () => {
   );
 
   // Fetch data from Firebase
-  const calorieIntakeData = useLoaderData();
+  const dietData = useLoaderData();
+  const { calorieIntakeData, weightData } = dietData;
 
-  const numOfWeeks = Math.ceil(calorieIntakeData.length / 7);
+  const calorieNumOfWeeks = Math.ceil(calorieIntakeData.length / 7);
+  const weightNumOfWeeks = Math.ceil(weightData.length / 7);
 
-  dispatch(setCurrentWeek(numOfWeeks));
-
+  dispatch(setCalorieCurrentWeek(calorieNumOfWeeks));
   dispatch(setCalorieData(calorieIntakeData));
+
+  dispatch(setWeightCurrentWeek(weightNumOfWeeks));
+  dispatch(setWeightData(weightData));
 
   const handleCalendarChange = (value, event) => {
     const formattedDate = formatDate(new Date(value));
@@ -55,7 +63,7 @@ const Home = () => {
         <Grid lg={9}>
           {" "}
           <CalorieOverview />
-          {/*<WeightOverview />*/}
+          <WeightOverview />
         </Grid>
         <Grid width="350px">
           {" "}
@@ -74,6 +82,8 @@ const Home = () => {
 export default Home;
 
 // LOADERS AND ACTIONS
+
+/*
 export const newCalorieAction = async ({ request }) => {
   try {
     const formData = await request.formData();
@@ -94,14 +104,84 @@ export const newCalorieAction = async ({ request }) => {
   return redirect("/dashboard");
 };
 
-export const calorieIntakeLoader = async () => {
-  let calorieData = [];
+
+
+export const newWeightAction = async ({ request }) => {
+  try {
+    const formData = await request.formData();
+
+    const newWeightData = {
+      data: {
+        date: formData.get("date"),
+        weight: +formData.get("weight"),
+      },
+      id: formData.get("date"),
+    };
+
+    const weightRef = doc(db, "weight", newWeightData.id);
+    await setDoc(weightRef, newWeightData);
+  } catch (e) {
+    console.error(e);
+  }
+  return redirect("/dashboard");
+};*/
+
+export const logNewDataAction = async ({ request }) => {
+  try {
+    const formData = await request.formData();
+    const logType = formData.get("logType");
+
+    // In case "new calorie form" us submitted
+    if (logType === "logCalorie") {
+      const newCalorieData = {
+        data: {
+          date: formData.get("date"),
+          calorieIntake: +formData.get("dailyCalorie"),
+        },
+        id: formData.get("date"),
+      };
+
+      const calorieRef = doc(db, "calorie", newCalorieData.id);
+      await setDoc(calorieRef, newCalorieData);
+    } else if (logType === "logWeight") {
+      const newWeightData = {
+        data: {
+          date: formData.get("date"),
+          weight: +formData.get("weight"),
+        },
+        id: formData.get("date"),
+      };
+
+      const weightRef = doc(db, "weight", newWeightData.id);
+      await setDoc(weightRef, newWeightData);
+    }
+  } catch (e) {
+    console.error(e);
+  }
+
+  return redirect("/dashboard");
+};
+
+export const dietDataLoader = async () => {
+  const dietData = {
+    calorieIntakeData: [],
+    weightData: [],
+  };
+
   const calorieIntakeRef = collection(db, "calorie");
   const calorieIntakeSnap = await getDocs(calorieIntakeRef);
 
+  const weightRef = collection(db, "weight");
+  const weightSnap = await getDocs(weightRef);
+
   calorieIntakeSnap.forEach((dataValue) => {
     const currentCalorieData = { ...dataValue.data(), id: dataValue.id };
-    calorieData.push(currentCalorieData);
+    dietData.calorieIntakeData.push(currentCalorieData);
   });
-  return calorieData;
+
+  weightSnap.forEach((dataValue) => {
+    const currentWeightData = { ...dataValue.data(), id: dataValue.id };
+    dietData.weightData.push(currentWeightData);
+  });
+  return dietData;
 };

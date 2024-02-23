@@ -18,8 +18,8 @@ import DailyOverview from "./pages/DashboardPage/Dashboard/DailyOverview/DailyOv
 
 import { profileCollectionLoader } from "./UI/DashboardRoot";
 import { createProfileAction } from "./pages/NewProfilePage/NewProfilePage";
-import { newCalorieAction } from "./pages/DashboardPage/Dashboard/Home/Home";
-import { calorieIntakeLoader } from "./pages/DashboardPage/Dashboard/Home/Home";
+import { dietDataLoader } from "./pages/DashboardPage/Dashboard/Home/Home";
+import { logNewDataAction } from "./pages/DashboardPage/Dashboard/Home/Home";
 
 const router = createBrowserRouter([
   {
@@ -37,12 +37,12 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <DashboardRoot />,
-    action: newCalorieAction,
+    action: logNewDataAction,
     children: [
       {
         index: true,
         element: <Home />,
-        loader: calorieIntakeLoader,
+        loader: dietDataLoader,
       },
       {
         path: "calorie-tracker",

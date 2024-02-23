@@ -3,63 +3,40 @@ import { createSlice } from "@reduxjs/toolkit";
 const weightTrackerSlice = createSlice({
   name: "weightTracker",
   initialState: {
-    weightData: [
-      {
-        date: "2024-01-08",
-        weight: 99.2,
-      },
-      {
-        date: "2024-01-09",
-        weight: 99.4,
-      },
-      {
-        date: "2024-01-10",
-        weight: 99.1,
-      },
-      {
-        date: "2024-01-11",
-        weight: 99.3,
-      },
-      {
-        date: "2024-01-12",
-        weight: 99.4,
-      },
-      {
-        date: "2024-01-13",
-        weight: 99.1,
-      },
-      {
-        date: "2024-01-14",
-        weight: 99.1,
-      },
-      {
-        date: "2024-01-15",
-        weight: 99.2,
-      },
-      {
-        date: "2024-01-16",
-        weight: 99,
-      },
-      {
-        date: "2024-01-17",
-        weight: 99.1,
-      },
-      {
-        date: "2024-01-18",
-        weight: 98.9,
-      },
-    ],
+    weightData: [],
     UI: {
       currentWeek: 1,
+      isFormSubmitting: false,
     },
   },
   reducers: {
     setCurrentWeek(state, action) {
-      state.UI.currentWeek += action.payload;
+      state.UI.currentWeek = action.payload;
+    },
+
+    increaseCurrentWeek(state) {
+      state.UI.currentWeek += 1;
+    },
+
+    decreaseCurrentWeek(state) {
+      state.UI.currentWeek -= 1;
+    },
+
+    setWeightData(state, action) {
+      state.weightData = action.payload;
+    },
+    setIsFormSubmitting(state, action) {
+      state.UI.isFormSubmitting = action.payload;
     },
   },
 });
 
 export default weightTrackerSlice.reducer;
 
-export const { setCurrentWeek } = weightTrackerSlice.actions;
+export const {
+  setWeightData,
+  setCurrentWeek,
+  increaseCurrentWeek,
+  decreaseCurrentWeek,
+  setIsFormSubmitting,
+} = weightTrackerSlice.actions;
