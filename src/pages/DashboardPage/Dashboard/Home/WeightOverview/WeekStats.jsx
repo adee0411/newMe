@@ -51,14 +51,14 @@ const WeekStats = ({ weightDataSlice }) => {
                     textAlign="center"
                     level="body-sm"
                     color={
-                      data.weightChange === "-"
+                      data.weightChange === 0
                         ? "neutral"
                         : data.weightChange > 0
                         ? "danger"
                         : "success"
                     }
                   >
-                    {data.weightChange === "-" ? (
+                    {data.weightChange === 0 ? (
                       ""
                     ) : data.weightChange > 0 ? (
                       <IoIosArrowUp />

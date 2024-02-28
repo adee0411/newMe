@@ -17,15 +17,9 @@ import CalorieOverview from "./CalorieOverview/CalorieOverview";
 import WeightOverview from "./WeightOverview/WeightOverview";
 
 import { setSelectedDate } from "../../../../store/profileSlice";
-import {
-  setCalorieData,
-  setCurrentWeek as setCalorieCurrentWeek,
-} from "../../../../store/calorieTrackerSlice";
-import {
-  setWeightData,
-  setCurrentWeek as setWeightCurrentWeek,
-} from "../../../../store/weightTrackerSlice";
-import { formatDate } from "../../../../utils";
+import { setCalorieData } from "../../../../store/calorieTrackerSlice";
+import { setWeightData } from "../../../../store/weightTrackerSlice";
+import { formatDate, fillFetchedData } from "../../../../utils";
 import { useLoaderData } from "react-router-dom";
 
 const Home = () => {
@@ -39,14 +33,32 @@ const Home = () => {
   const dietData = useLoaderData();
   const { calorieIntakeData, weightData } = dietData;
 
-  const calorieNumOfWeeks = Math.ceil(calorieIntakeData.length / 7);
-  const weightNumOfWeeks = Math.ceil(weightData.length / 7);
+  // Calculate the number of blocks from diet start to current date
+  const numOfWeeks = Math.ceil(
+    (new Date().getTime() - new Date(dietStart).getTime()) /
+      (24 * 60 * 60 * 1000) /
+      7
+  );
 
-  dispatch(setCalorieCurrentWeek(calorieNumOfWeeks));
-  dispatch(setCalorieData(calorieIntakeData));
+  // Create new calorieData from fetched data
+  const filledCalorieData = fillFetchedData(
+    dietStart,
+    numOfWeeks,
+    calorieIntakeData,
+    "calorieIntake"
+  );
 
-  dispatch(setWeightCurrentWeek(weightNumOfWeeks));
-  dispatch(setWeightData(weightData));
+  // Create new weightData from fetche data
+  const filledWeightData = fillFetchedData(
+    dietStart,
+    numOfWeeks,
+    weightData,
+    "weight"
+  );
+
+  dispatch(setCalorieData(filledCalorieData));
+
+  dispatch(setWeightData(filledWeightData));
 
   const handleCalendarChange = (value, event) => {
     const formattedDate = formatDate(new Date(value));
@@ -71,6 +83,7 @@ const Home = () => {
             <Calendar
               onChange={handleCalendarChange}
               minDate={new Date(dietStart)}
+              maxDate={new Date()}
             />
           </div>
         </Grid>

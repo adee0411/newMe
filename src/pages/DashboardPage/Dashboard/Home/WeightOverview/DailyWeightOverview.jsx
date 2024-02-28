@@ -46,7 +46,7 @@ const DailyWeightOverview = () => {
           fontWeight={800}
           color="neutral"
         >
-          {dailyWeightData ? dailyWeightData.data.weight : "nincs adat"}
+          {dailyWeightData ? `${dailyWeightData.data.weight} KG` : "nincs adat"}
         </Typography>
       </Stack>
     </>

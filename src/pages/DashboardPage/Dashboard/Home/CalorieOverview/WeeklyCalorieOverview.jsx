@@ -1,5 +1,6 @@
-import { Typography, CardContent, Stack, Select, Option } from "@mui/joy";
+import { Typography, CardContent, Stack } from "@mui/joy";
 import WeekPagination from "../../../../../components/WeekPagination";
+import WeekSelect from "../../../../../components/WeekSelect";
 import WeekStats from "./WeekStats";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -17,16 +18,12 @@ const WeeklyCalorieOverview = () => {
 
   const { calorieData } = useSelector((state) => state.calorieTracker);
 
-  const numOfWeeks = Math.ceil(calorieData.length / 7);
+  const calorieDataSlice = calorieData.slice(
+    (currentWeek - 1) * 7,
+    (currentWeek - 1) * 7 + 7
+  );
 
-  const start = (currentWeek - 1) * 7;
-  const end = currentWeek * 7;
-
-  const calorieDataSlice = calorieData.slice(start, end);
-
-  const dateCollection = calorieData.map((data) => data.data.date);
-
-  const handleCurrentWeekChange = (event, newValue) => {
+  const selectCurrentWeek = (event, newValue) => {
     dispatch(setCurrentWeek(newValue));
   };
 
@@ -57,20 +54,14 @@ const WeeklyCalorieOverview = () => {
           <WeekPagination
             onIncreaseCurrentWeek={increaseCurrentWeek}
             onDecreaseCurrentWeek={decreaseCurrentWeek}
-            dateCollection={dateCollection}
+            data={calorieData}
             currentWeek={currentWeek}
           />
-          <Select
-            value={currentWeek}
-            onChange={handleCurrentWeekChange}
-            size="sm"
-            variant="soft"
-            sx={{ height: 24 }}
-          >
-            {new Array(numOfWeeks).fill(null, 0).map((el, i) => {
-              return <Option value={i + 1}>{i + 1}</Option>;
-            })}
-          </Select>
+          <WeekSelect
+            currentWeek={currentWeek}
+            onCurrentWeekSelect={selectCurrentWeek}
+            data={calorieData}
+          />
         </Stack>
       </Stack>
       <CardContent>

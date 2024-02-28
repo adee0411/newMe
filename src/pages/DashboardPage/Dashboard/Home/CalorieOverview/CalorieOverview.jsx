@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 
 const CalorieOverview = () => {
   const { calorieData } = useSelector((state) => state.calorieTracker);
+
   return (
     <Card
       sx={{
@@ -24,11 +25,11 @@ const CalorieOverview = () => {
             color="primary"
             variant="solid"
             invertedColors
-            sx={{ width: "350px", padding: "12px" }}
+            sx={{ width: "350px", padding: "24px" }}
           >
             <DailyCalorieOverview />
           </Sheet>
-          <Sheet sx={{ flex: 1, padding: "4px 12px" }}>
+          <Sheet sx={{ flex: 1, padding: "24px" }}>
             {calorieData.length === 0 ? <NoData /> : <WeeklyCalorieOverview />}
           </Sheet>
         </Stack>

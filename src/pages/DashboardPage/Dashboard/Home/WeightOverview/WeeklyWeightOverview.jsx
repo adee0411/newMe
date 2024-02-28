@@ -12,43 +12,40 @@ import {
 } from "../../../../../store/weightTrackerSlice";
 
 import { IoScaleOutline } from "react-icons/io5";
+import WeekSelect from "../../../../../components/WeekSelect";
 
 const WeeklyCalorieOverview = () => {
   const dispatch = useDispatch();
+
   const { currentWeek } = useSelector((state) => state.weightTracker.UI);
 
   const { weightData } = useSelector((state) => state.weightTracker);
 
-  const numOfWeeks = Math.ceil(weightData.length / 7);
-  const start = (currentWeek - 1) * 7;
-  const end = currentWeek * 7;
-
-  const weightDataWithChanges = useMemo(() => {
-    return weightData.map((data, index) => {
-      let weightChange;
-      if (index === 0) {
+  const weightDataWithChanges = weightData.map((weightDataObj, index) => {
+    let weightChange;
+    if (index === 0) {
+      weightChange = 0;
+    } else {
+      const prevElements = weightData.slice(0, index);
+      const lastWeightData = prevElements.findLast((data) => {
+        return data.data.weight > 0;
+      });
+      if (!lastWeightData || weightDataObj.data.weight === 0) {
         weightChange = 0;
       } else {
-        const lastWeightDataIndex = weightData
-          .slice(0, index)
-          .findLastIndex((el) => el.data.weight > 0);
-        weightChange =
-          data.data.weight === 0
-            ? "-"
-            : data.data.weight - weightData[lastWeightDataIndex].data.weight;
+        weightChange = weightDataObj.data.weight - lastWeightData.data.weight;
       }
+    }
 
-      return { ...data, weightChange };
-    });
-  }, [weightData]);
+    return { ...weightDataObj, weightChange: weightChange };
+  });
 
-  console.log(weightDataWithChanges);
+  const weightDataSlice = weightDataWithChanges.slice(
+    (currentWeek - 1) * 7,
+    (currentWeek - 1) * 7 + 7
+  );
 
-  const weightDataSlice = weightDataWithChanges.slice(start, end);
-
-  const dateCollection = weightDataWithChanges.map((data) => data.data.date);
-
-  const handleCurrentWeekChange = (event, newValue) => {
+  const selectCurrentWeek = (event, newValue) => {
     dispatch(setCurrentWeek(newValue));
   };
 
@@ -79,20 +76,14 @@ const WeeklyCalorieOverview = () => {
           <WeekPagination
             onIncreaseCurrentWeek={increaseCurrentWeek}
             onDecreaseCurrentWeek={decreaseCurrentWeek}
-            dateCollection={dateCollection}
+            data={weightData}
             currentWeek={currentWeek}
           />
-          <Select
-            value={currentWeek}
-            onChange={handleCurrentWeekChange}
-            size="sm"
-            variant="soft"
-            sx={{ height: 24 }}
-          >
-            {new Array(numOfWeeks).fill(null, 0).map((el, i) => {
-              return <Option value={i + 1}>{i + 1}</Option>;
-            })}
-          </Select>
+          <WeekSelect
+            data={weightData}
+            currentWeek={currentWeek}
+            onCurrentWeekSelect={selectCurrentWeek}
+          />
         </Stack>
       </Stack>
       <CardContent>

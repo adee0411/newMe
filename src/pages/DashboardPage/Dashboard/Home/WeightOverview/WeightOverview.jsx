@@ -26,11 +26,11 @@ const WeightOverview = () => {
           <Sheet
             color="primary"
             variant="soft"
-            sx={{ width: "350px", padding: "12px" }}
+            sx={{ width: "350px", padding: "24px" }}
           >
             <DailyWeightOverview />
           </Sheet>
-          <Sheet sx={{ flex: 1, padding: "4px 12px" }}>
+          <Sheet sx={{ flex: 1, padding: "24px" }}>
             {weightData.length === 0 ? <NoData /> : <WeeklyWeightOverview />}
           </Sheet>
         </Stack>

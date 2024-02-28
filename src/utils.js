@@ -178,3 +178,37 @@ export const PAL = {
     description: "Hivatásos sportoló, atléta",
   },
 };
+
+export const fillFetchedData = (
+  startDate,
+  numOfWeeks,
+  fetchedData,
+  dataType
+) => {
+  const newData = [];
+  const dietStartInMs = new Date(startDate).getTime();
+  const oneDayInMs = 24 * 60 * 60 * 1000;
+
+  // Fill new array with empty data
+  for (let i = 0; i < numOfWeeks * 7; i++) {
+    let date = formatDate(new Date(dietStartInMs + i * oneDayInMs));
+    const emptyDataMap = {
+      data: {
+        date: date,
+        [dataType]: 0,
+      },
+      id: date,
+    };
+    newData.push(emptyDataMap);
+  }
+
+  // Assign fetched data to empty data, where needed
+  fetchedData.forEach((fetchedData) => {
+    const fetchedDataIndex = newData.findIndex((el) => {
+      return el.id === fetchedData.id;
+    });
+    newData[fetchedDataIndex].data[dataType] = fetchedData.data[dataType];
+  });
+
+  return newData;
+};

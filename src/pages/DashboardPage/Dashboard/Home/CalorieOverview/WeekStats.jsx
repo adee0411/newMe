@@ -80,9 +80,6 @@ const WeekStats = ({ calorieData }) => {
           );
         })}
       </Grid>
-      <Stack>
-        <Typography>Heti átlag: {flooredAverageCalorieIntake}</Typography>
-      </Stack>
     </>
   );
 };
